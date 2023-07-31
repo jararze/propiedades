@@ -44,9 +44,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/userProfile/image', [ProfileController::class, 'imageUpdatePage'])->name('userProfile.editImage');
     Route::patch('/profile/image', [ProfileController::class, 'imageUpdate'])->name('profile.imageupdate');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 
 // Vistas usuario solo admin
@@ -83,6 +81,15 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::get('/admin/users/edit/{id}', [UsersController::class, 'EditView'])->name('admin.users.edit');
     Route::post('/admin/users/edit', [UsersController::class, 'Edit'])->name('admin.users.edit.info');
     Route::get('/admin/users/delete', [UsersController::class, 'destroy'])->name('admin.users.delete');
+
+});
+
+Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function () {
+
+    Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::patch('admin/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
+    Route::patch('admin/profile/image', [ProfileController::class, 'imageUpdate'])->name('admin.profile.imageUpdate');
+    Route::delete('admin/profile', [ProfileController::class, 'destroy'])->name('admin.profile.destroy');
 
 });
 
