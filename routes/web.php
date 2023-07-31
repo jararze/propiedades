@@ -1,0 +1,89 @@
+<?php
+
+use App\Http\Controllers\AmenitiesController;
+use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropertyTypeController;
+use App\Http\Controllers\UsersController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::get('/', [FrontendController::class, 'index'])->name('index');
+
+// Vistas usuario sin loguearse
+
+Route::middleware('guest')->group(function () {
+
+    Route::get('/user/signin', [FrontendController::class, 'userSignin'])->name('user.signin');
+
+});
+
+// Vistas usuario admin y agente
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified', 'CheckRoles:admin,agent'])->name('dashboard');
+
+// Vistas usuario cualquier rol
+
+Route::middleware(['auth','verified'])->group(function () {
+
+    Route::get('/userProfile', [ProfileController::class, 'userEdit'])->name('userProfile.edit');
+    Route::get('/userProfile/password', [ProfileController::class, 'userEditPassword'])->name('userProfile.editPassword');
+    Route::get('/userProfile/image', [ProfileController::class, 'imageUpdatePage'])->name('userProfile.editImage');
+    Route::patch('/profile/image', [ProfileController::class, 'imageUpdate'])->name('profile.imageupdate');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Vistas usuario solo admin
+
+Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
+
+    Route::get('/admin/TypesProperties/all', [PropertyTypeController::class, 'index'])->name('admin.TypesProperties.index');
+    Route::get('/admin/TypesProperties/register', [PropertyTypeController::class, 'create'])->name('admin.TypesProperties.register');
+    Route::post('/admin/TypesProperties/register', [PropertyTypeController::class, 'store']);
+    Route::get('/admin/TypesProperties/edit/{id}', [PropertyTypeController::class, 'EditView'])->name('admin.TypesProperties.edit');
+    Route::post('/admin/TypesProperties/edit', [PropertyTypeController::class, 'Edit'])->name('admin.TypesProperties.edit.info');
+    Route::get('/admin/TypesProperties/delete', [PropertyTypeController::class, 'destroy'])->name('admin.TypesProperties.delete');
+
+
+    Route::get('/admin/Amenities/all', [AmenitiesController::class, 'index'])->name('admin.Amenities.index');
+    Route::get('/admin/Amenities/register', [AmenitiesController::class, 'create'])->name('admin.Amenities.register');
+    Route::post('/admin/Amenities/register', [AmenitiesController::class, 'store']);
+    Route::get('/admin/Amenities/edit/{id}', [AmenitiesController::class, 'EditView'])->name('admin.Amenities.edit');
+    Route::post('/admin/Amenities/edit', [AmenitiesController::class, 'Edit'])->name('admin.Amenities.edit.info');
+    Route::get('/admin/Amenities/delete', [AmenitiesController::class, 'destroy'])->name('admin.Amenities.delete');
+
+
+    Route::get('/admin/Facilities/all', [FacilityController::class, 'index'])->name('admin.Facilities.index');
+    Route::get('/admin/Facilities/register', [FacilityController::class, 'create'])->name('admin.Facilities.register');
+    Route::post('/admin/Facilities/register', [FacilityController::class, 'store']);
+    Route::get('/admin/Facilities/edit/{id}', [FacilityController::class, 'EditView'])->name('admin.Facilities.edit');
+    Route::post('/admin/Facilities/edit', [FacilityController::class, 'Edit'])->name('admin.Facilities.edit.info');
+    Route::get('/admin/Facilities/delete', [FacilityController::class, 'destroy'])->name('admin.Facilities.delete');
+
+
+    Route::get('/admin/users/all', [UsersController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/users/register', [UsersController::class, 'create'])->name('admin.users.register');
+    Route::post('/admin/users/register', [UsersController::class, 'store']);
+    Route::get('/admin/users/edit/{id}', [UsersController::class, 'EditView'])->name('admin.users.edit');
+    Route::post('/admin/users/edit', [UsersController::class, 'Edit'])->name('admin.users.edit.info');
+    Route::get('/admin/users/delete', [UsersController::class, 'destroy'])->name('admin.users.delete');
+
+});
+
+require __DIR__.'/auth.php';
