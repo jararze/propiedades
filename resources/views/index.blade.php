@@ -3,7 +3,7 @@
 
     @include('frontend.components.category')
 
-{{--    @include('frontend.components.feature')--}}
+    @include('frontend.components.feature')
 
     @include('frontend.components.video')
 

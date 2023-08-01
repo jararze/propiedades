@@ -6255,31 +6255,31 @@ div#mCSB_1_container{
   transition: all 500ms ease;
 }
 
-.form-group input[type='text']{
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 50px;
-    border: 1px solid #e5e7ec;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #93959e;
-    padding: 10px 20px;
-    transition: all 500ms ease;
-}
+/*.form-group input[type='text']{*/
+/*    position: relative;*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*    height: 50px;*/
+/*    border: 1px solid #e5e7ec;*/
+/*    border-radius: 5px;*/
+/*    font-size: 14px;*/
+/*    color: #93959e;*/
+/*    padding: 10px 20px;*/
+/*    transition: all 500ms ease;*/
+/*}*/
 
-.form-group input[type='email']{
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 50px;
-    border: 1px solid #e5e7ec;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #93959e;
-    padding: 10px 20px;
-    transition: all 500ms ease;
-}
+/*.form-group input[type='email']{*/
+/*    position: relative;*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*    height: 50px;*/
+/*    border: 1px solid #e5e7ec;*/
+/*    border-radius: 5px;*/
+/*    font-size: 14px;*/
+/*    color: #93959e;*/
+/*    padding: 10px 20px;*/
+/*    transition: all 500ms ease;*/
+/*}*/
 
 .default-sidebar .agents-search .form-group .nice-select{
   text-transform: none;

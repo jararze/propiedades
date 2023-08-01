@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('property_status')->nullable();
             $table->string('lowest_price');
             $table->string('max_price');
+            $table->enum('currency', ['Bs', '$us'])->nullable();
             $table->string('thumbnail')->nullable();
             $table->text('short_description');
             $table->text('long_description');

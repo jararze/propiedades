@@ -27,9 +27,9 @@
                                         </figure>
                                         <h6>{{ $hotProperty['agent']['name'] }} {{ $hotProperty['agent']['lastname'] }}</h6>
                                     </div>
-                                    <div class="buy-btn pull-right"><a href="{{ route('properties.inner', $hotProperty->id) }}">{{ $hotProperty->property_status }}</a></div>
+                                    <div class="buy-btn pull-right"><a href="{{ route('front.properties.inner', $hotProperty->id) }}">{{ $hotProperty->property_status }}</a></div>
                                 </div>
-                                <div class="title-text"><h4><a href="{{ route('properties.inner', $hotProperty->id) }}">{{ $hotProperty->name }}</a>
+                                <div class="title-text"><h4><a href="{{ route('front.properties.inner', $hotProperty->id) }}">{{ $hotProperty->name }}</a>
                                     </h4></div>
                                 <div class="price-box clearfix">
                                     <div class="price-info pull-left">
@@ -47,7 +47,7 @@
                                     <li><i class="icon-15"></i>{{ $hotProperty->bathrooms }} Baños</li>
                                     <li><i class="icon-16"></i>{{ $hotProperty->size }} Mt2</li>
                                 </ul>
-                                <div class="btn-box"><a class="theme-btn btn-two" href="{{ route('properties.inner', $hotProperty->id) }}">Ver mas</a></div>
+                                <div class="btn-box"><a class="theme-btn btn-two" href="{{ route('front.properties.inner', $hotProperty->id) }}">Ver mas</a></div>
                             </div>
                         </div>
                     </div>

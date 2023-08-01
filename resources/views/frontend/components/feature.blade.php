@@ -28,9 +28,9 @@
                                         </figure>
                                         <h6>{{ $featured_propery['agent']['name'] }} {{ $featured_propery['agent']['lastname'] }}</h6>
                                     </div>
-                                    <div class="buy-btn pull-right"><a href="{{ route('properties.inner', $featured_propery->id) }}">{{ $featured_propery->property_status }}</a></div>
+                                    <div class="buy-btn pull-right"><a href="{{ route('front.properties.inner', $featured_propery->id) }}">{{ $featured_propery->property_status }}</a></div>
                                 </div>
-                                <div class="title-text"><h4><a href="{{ route('properties.inner', $featured_propery->id) }}">{{ $featured_propery->name }}</a>
+                                <div class="title-text"><h4><a href="{{ route('front.properties.inner', $featured_propery->id) }}">{{ $featured_propery->name }}</a>
                                     </h4></div>
                                 <div class="price-box clearfix">
                                     <div class="price-info pull-left">
@@ -48,7 +48,7 @@
                                     <li><i class="icon-15"></i>{{ $featured_propery->bathrooms }} Baños</li>
                                     <li><i class="icon-16"></i>{{ $featured_propery->size }} Mt2</li>
                                 </ul>
-                                <div class="btn-box"><a class="theme-btn btn-two" href="{{ route('properties.inner', $featured_propery->id) }}">Ver mas</a></div>
+                                <div class="btn-box"><a class="theme-btn btn-two" href="{{ route('front.properties.inner', $featured_propery->id) }}">Ver mas</a></div>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
 
 
 
-        <div class="more-btn centred"><a class="theme-btn btn-one" href="{{ route('properties.index') }}">Mostrar todas las propiedades</a>
+        <div class="more-btn centred"><a class="theme-btn btn-one" href="{{ route('front.properties.index', 'featuredProperties') }}">Mostrar todas las propiedades</a>
         </div>
     </div>
 </section>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AmenitiesController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -19,13 +20,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [FrontendController::class, 'index'])->name('index');
+
 
 // Vistas usuario sin loguearse
 
-Route::middleware('guest')->group(function () {
+Route::controller(FrontendController::class)->group(function () {
 
-    Route::get('/user/signin', [FrontendController::class, 'userSignin'])->name('user.signin');
+    Route::get('/', 'index')->name('index');
+
+    Route::get('/user/signin', 'userSignin')->name('user.signin');
+
+});
+
+Route::controller(PropertyController::class)->group(function () {
+
+    Route::get('/properties/all/{filter}', 'propertiesFilter')->name('front.properties.index');
+    Route::get('/properties/inner/{id}', 'inner')->name('front.properties.inner');
 
 });
 
@@ -91,6 +101,22 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function
     Route::patch('admin/profile/image', [ProfileController::class, 'imageUpdate'])->name('admin.profile.imageUpdate');
     Route::delete('admin/profile', [ProfileController::class, 'destroy'])->name('admin.profile.destroy');
 
+
+    Route::get('/admin/properties/all', [PropertyController::class, 'index'])->name('admin.properties.index');
+    Route::get('/admin/properties/register', [PropertyController::class, 'create'])->name('admin.properties.register');
+    Route::post('/admin/properties/register', [PropertyController::class, 'store']);
+    Route::get('/admin/properties/edit/{id}', [PropertyController::class, 'EditView'])->name('admin.properties.edit');
+    Route::post('/admin/properties/edit', [PropertyController::class, 'Edit'])->name('admin.properties.edit.info');
+    Route::post('/admin/properties/edit/principalImage', [PropertyController::class, 'EditPrincipalImage'])->name('admin.properties.edit.principalImage');
+    Route::post('/admin/properties/delete/image', [PropertyController::class, 'deleteImage'])->name('admin.properties.delete.image');
+    Route::post('/admin/properties/add/images', [PropertyController::class, 'addImages'])->name('admin.properties.add.images');
+    Route::post('/admin/properties/add/facility', [PropertyController::class, 'addFacility'])->name('admin.properties.add.facility');
+    Route::post('/admin/properties/delete/facility', [PropertyController::class, 'deleteFacility'])->name('admin.properties.delete.facility');
+    Route::post('/admin/properties/edit/amenities', [PropertyController::class, 'editAmenities'])->name('admin.properties.edit.amenities');
+    Route::get('/admin/properties/delete', [PropertyController::class, 'destroy'])->name('admin.properties.delete');
+
 });
+
+
 
 require __DIR__.'/auth.php';

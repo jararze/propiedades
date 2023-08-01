@@ -52,8 +52,8 @@
             <div class="menu-title">Usuarios</div>
         </a>
         <ul>
-            <li><a href="{{ route('admin.users.index') }}"><i class="bi bi-circle"></i>Listado usuarios</a></li>
-            <li><a href="{{ route('admin.users.register') }}"><i class="bi bi-circle"></i>Agregar usuario</a></li>
+            <li><a href="{{ route('admin.users.index') }}"><i class="bi bi-circle"></i>Listado </a></li>
+            <li><a href="{{ route('admin.users.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
         </ul>
     </li>
 
@@ -67,8 +67,8 @@
                 <div class="menu-title">Propiedades</div>
             </a>
             <ul>
-{{--                <li><a href="{{ route('admin.allProperties') }}"><i class="bi bi-circle"></i>Listado propiedades</a></li>--}}
-{{--                <li><a href="{{ route('admin.registerProperties') }}"><i class="bi bi-circle"></i>Agregar propiedad</a></li>--}}
+                <li><a href="{{ route('admin.properties.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
+                <li><a href="{{ route('admin.properties.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
             </ul>
         </li>
 
