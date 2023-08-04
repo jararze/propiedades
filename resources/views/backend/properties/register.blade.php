@@ -7,6 +7,15 @@
             // alert(this.value);
             $(".currency_icon").text(this.value);
         });
+        $(document).on("change", "#is_project", function (event) {
+            if (this.value == 0) {
+                $("#project_id").attr("disabled", true);
+                $("#units").attr("disabled", true);
+            } else {
+                $("#project_id").removeAttr("disabled");
+                $("#units").removeAttr("disabled");
+            }
+        });
     </script>
 @endpush
 <x-app-layout>
@@ -24,23 +33,9 @@
                     </ol>
                 </nav>
             </div>
-            <div class="ms-auto">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Settings</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-                            data-bs-toggle="dropdown"><span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"><a class="dropdown-item"
-                                                                                           href="javascript:;">Action</a>
-                        <a class="dropdown-item" href="javascript:;">Another action</a>
-                        <a class="dropdown-item" href="javascript:;">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:;">Separated link</a>
-                    </div>
-                </div>
-            </div>
         </div>
         <!--end breadcrumb-->
+
 
         <div class="row">
             <form method="post" action="{{ route('admin.properties.register') }}" enctype="multipart/form-data">
@@ -57,6 +52,63 @@
                             </div>
                         </div>
                         <div class="card-body">
+
+                            <div class="row g-3">
+                                <div class="col-12 col-lg-12">
+                                    <div class="card shadow-none bg-light border">
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col-2">
+                                                    @if(count($projects) == 0)
+                                                        <h4 class="align-middle"
+                                                            style="font-size: 15px; margin-top: 37px">
+                                                            No hay proyectos registrados agregue uno <a href="">aquí</a>
+                                                        </h4>
+                                                    @else
+                                                        <label for="is_project" class="form-label">¿Es un
+                                                            proyecto?</label>
+                                                        <select class="form-select" id="is_project"
+                                                                name="is_project">
+                                                            <option value="0">No</option>
+                                                            <option value="1">Si</option>
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('is_project')"
+                                                                       class="mt-2"/>
+                                                    @endif
+                                                </div>
+                                                @if(count($projects) != 0)
+                                                    <div class="col-4">
+                                                        <label for="units" class="form-label">Unidades</label>
+                                                        <input value="{{ old('units') }}" id="units" name="units" type="text"
+                                                               class="form-control"
+                                                               placeholder="Unidades" disabled>
+                                                        <x-input-error :messages="$errors->get('units')" class="mt-2"/>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="project_id" class="form-label">Selecciona el
+                                                            proyecto asociado</label>
+                                                        <select class="form-select" id="project_id"
+                                                                name="project_id" disabled>
+                                                            @foreach($projects as $project)
+                                                                <option
+                                                                    value="{{ $project->id }}">{{ $project->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('project_id')"
+                                                                       class="mt-2"/>
+                                                    </div>
+                                                @endif
+                                                <div class="col-12">
+                                                    <h4 class="align-middle"
+                                                        sstyle="font-size: 15px; margin-top: 37px">¿No
+                                                        encuetras tu proyecto? Crealo <a href="">aquí</a></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row g-3">
                                 <div class="col-12 col-lg-8">
                                     <div class="card shadow-none bg-light border">
@@ -225,7 +277,7 @@
                                                                     <option value="NH">Servicio</option>
                                                                     @foreach($facilities as $facility)
                                                                         <option
-                                                                            value="{{ $facility->id }}" >{{ $facility->name }}
+                                                                            value="{{ $facility->id }}">{{ $facility->name }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -401,7 +453,7 @@
                                                             <option value="NH">Servicio</option>
                                                             @foreach($facilities as $facility)
                                                                 <option
-                                                                    value="{{ $facility->id }}" >{{ $facility->name }}
+                                                                    value="{{ $facility->id }}">{{ $facility->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

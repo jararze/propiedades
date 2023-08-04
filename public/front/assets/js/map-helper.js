@@ -4,7 +4,7 @@
 function gMap () {
     if ($('.google-map').length) {
         $('.google-map').each(function () {
-            // getting options from html 
+            // getting options from html
             var mapName = $(this).attr('id');
             var mapLat = $(this).data('map-lat');
             var mapLng = $(this).data('map-lng');
@@ -23,78 +23,78 @@ function gMap () {
                             }
                         ]
                     },
-                    {
-                        "featureType": "landscape",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "color": "#000"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "poi",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "visibility": "off"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "saturation": -100
-                            },
-                            {
-                                "lightness": 45
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.highway",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "visibility": "simplified"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.arterial",
-                        "elementType": "labels.icon",
-                        "stylers": [
-                            {
-                                "visibility": "off"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "transit",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "visibility": "off"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "water",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "color": "#f1f1f1"
-                            },
-                            {
-                                "visibility": "on"
-                            }
-                        ]
-                    }
+                    // {
+                    //     "featureType": "landscape",
+                    //     "elementType": "all",
+                    //     "stylers": [
+                    //         {
+                    //             "color": "#c4c4c4"
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     "featureType": "poi",
+                    //     "elementType": "all",
+                    //     "stylers": [
+                    //         {
+                    //             "visibility": "off"
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     "featureType": "road",
+                    //     "elementType": "all",
+                    //     "stylers": [
+                    //         {
+                    //             "saturation": -100
+                    //         },
+                    //         {
+                    //             "lightness": 45
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     "featureType": "road.highway",
+                    //     "elementType": "all",
+                    //     "stylers": [
+                    //         {
+                    //             "visibility": "simplified"
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     "featureType": "road.arterial",
+                    //     "elementType": "labels.icon",
+                    //     "stylers": [
+                    //         {
+                    //             "visibility": "off"
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     "featureType": "transit",
+                    //     "elementType": "all",
+                    //     "stylers": [
+                    //         {
+                    //             "visibility": "off"
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     "featureType": "water",
+                    //     "elementType": "all",
+                    //     "stylers": [
+                    //         {
+                    //             "color": "#f1f1f1"
+                    //         },
+                    //         {
+                    //             "visibility": "on"
+                    //         }
+                    //     ]
+                    // }
                 ];
 
-            
+
             // if zoom not defined the zoom value will be 15;
             if (!mapZoom) {
                 var mapZoom = 11;
@@ -105,7 +105,7 @@ function gMap () {
                 div: '#'+mapName,
                 scrollwheel: false,
                 lat: mapLat,
-                lng: mapLng,                
+                lng: mapLng,
                 styles: styles,
                 zoom: mapZoom
             });
@@ -119,18 +119,18 @@ function gMap () {
                 });
                 map.addMarker({
                     icon: iconPath,
-                    lat: 40.700843,         //you can
-                    lng: 40.700843,
-                    title: "New York"
+                    lat: -16.49113902156423,
+                    lng: -68.1202946350607,
+                    title: "La Paz"
                 });
             }
-        });  
+        });
     };
 }
 
 
 
-// instance of fuction while Document ready event   
+// instance of fuction while Document ready event
 jQuery(document).on('ready', function () {
     (function ($) {
         gMap();

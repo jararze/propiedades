@@ -67,9 +67,10 @@
                         <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                             <ul class="navigation clearfix">
                                 <li class="current"><a href="{{ route('index') }}"><span>Inicio</span></a></li>
-                                <li><a href="{{ route('index') }}"><span>Quienes Somos</span></a></li>
+                                <li><a href="{{ route('index') }}"><span>Nosotros</span></a></li>
                                 <li><a href=""><span>Agentes</span></a></li>
-                                <li class="dropdown"><a href=""><span>Propiedades</span></a>
+                                <li><a href="{{ route("front.project.index") }}"><span>Proyectos</span></a></li>
+                                <li class="dropdown"><a href="{{ route("front.properties.index", 'allProperties') }}"><span>Propiedades</span></a>
                                     <ul>
                                         <li><a href="">Venta</a></li>
                                         <li><a href="">Alquiler</a></li>

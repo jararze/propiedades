@@ -4,6 +4,7 @@ use App\Http\Controllers\AmenitiesController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\UsersController;
@@ -19,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+//Route::get('/prueba', function () {
+//    return view('project.index');
+//});
 
 
 // Vistas usuario sin loguearse
@@ -36,6 +39,13 @@ Route::controller(PropertyController::class)->group(function () {
 
     Route::get('/properties/all/{filter}', 'propertiesFilter')->name('front.properties.index');
     Route::get('/properties/inner/{id}', 'inner')->name('front.properties.inner');
+
+});
+
+Route::controller(ProjectController::class)->group(function () {
+
+    Route::get('/projects/all/', 'propertiesFilter')->name('front.project.index');
+    Route::get('/projects/inner/{id}', 'inner')->name('front.project.inner');
 
 });
 
@@ -114,6 +124,21 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function
     Route::post('/admin/properties/delete/facility', [PropertyController::class, 'deleteFacility'])->name('admin.properties.delete.facility');
     Route::post('/admin/properties/edit/amenities', [PropertyController::class, 'editAmenities'])->name('admin.properties.edit.amenities');
     Route::get('/admin/properties/delete', [PropertyController::class, 'destroy'])->name('admin.properties.delete');
+
+
+
+    Route::get('/admin/project/all', [ProjectController::class, 'index'])->name('admin.project.index');
+    Route::get('/admin/project/register', [ProjectController::class, 'create'])->name('admin.project.register');
+    Route::post('/admin/project/register', [ProjectController::class, 'store']);
+    Route::get('/admin/project/edit/{id}', [ProjectController::class, 'EditView'])->name('admin.project.edit');
+    Route::post('/admin/project/edit', [ProjectController::class, 'Edit'])->name('admin.project.edit.info');
+    Route::post('/admin/project/edit/principalImage', [ProjectController::class, 'EditPrincipalImage'])->name('admin.project.edit.principalImage');
+    Route::post('/admin/project/delete/image', [ProjectController::class, 'deleteImage'])->name('admin.project.delete.image');
+    Route::post('/admin/project/add/images', [ProjectController::class, 'addImages'])->name('admin.project.add.images');
+    Route::post('/admin/project/add/facility', [ProjectController::class, 'addFacility'])->name('admin.project.add.facility');
+    Route::post('/admin/project/delete/facility', [ProjectController::class, 'deleteFacility'])->name('admin.project.delete.facility');
+    Route::post('/admin/project/edit/amenities', [ProjectController::class, 'editAmenities'])->name('admin.project.edit.amenities');
+    Route::get('/admin/project/delete', [ProjectController::class, 'destroy'])->name('admin.project.delete');
 
 });
 

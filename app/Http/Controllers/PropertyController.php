@@ -26,7 +26,7 @@ class PropertyController extends Controller
      */
     public function index(): view
     {
-        $values = Property::latest()->get();
+        $values = Property::where('is_project', "0")->get();
         return view('backend.properties.index', [
             'values' => $values,
         ]);
@@ -42,11 +42,13 @@ class PropertyController extends Controller
         $amenities = Amenities::where('status', 1)->orderBy('name', 'asc')->get();
         $facilities = Facility::orderBy('name', 'asc')->get();
         $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('name', 'asc')->get();
+        $projects = Property::where('is_project', "1")->where('status', 1)->get();
         return view('backend.properties.register', [
             'propertyTypes' => $propertyType,
             'amenities' => $amenities,
             'agents' => $agents,
             'facilities' => $facilities,
+            'projects' => $projects,
         ]);
     }
 
@@ -101,6 +103,9 @@ class PropertyController extends Controller
             'code' => $code,
             'neighborhood' => $request->neighborhood,
             'city' => $request->city,
+            'is_project' => "0",
+            'project_id' => $request->project_id,
+            'units' => $request->units,
             'country' => $request->country,
             'propertytype_id' => $request->propertytype_id,
             'property_status' => $request->property_status,

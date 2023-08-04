@@ -7,6 +7,20 @@
         </a>
     </li>
     <li class="menu-label">Propiedades</li>
+
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class="bi bi-building-add"></i>
+            </div>
+            <div class="menu-title">Proyectos</div>
+        </a>
+        <ul>
+            <li><a href="{{ route('admin.properties.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
+            <li><a href="{{ route('admin.properties.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
+        </ul>
+    </li>
+
+
     <li>
         <a href="javascript:;" class="has-arrow">
             <div class="parent-icon"><i class="bi bi-building-add"></i>

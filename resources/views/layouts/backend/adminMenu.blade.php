@@ -15,7 +15,8 @@
         </a>
         <ul>
             <li><a href="{{ route('admin.TypesProperties.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
-            <li><a href="{{ route('admin.TypesProperties.register') }}"><i class="bi bi-circle"></i>Agregar Tipo</a></li>
+            <li><a href="{{ route('admin.TypesProperties.register') }}"><i class="bi bi-circle"></i>Agregar Tipo</a>
+            </li>
         </ul>
     </li>
 
@@ -60,28 +61,29 @@
     <li class="menu-label">Propiedades</li>
 
 
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bi bi-building-add"></i>
-                </div>
-                <div class="menu-title">Propiedades</div>
-            </a>
-            <ul>
-                <li><a href="{{ route('admin.properties.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
-                <li><a href="{{ route('admin.properties.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
-            </ul>
-        </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class="bi bi-building-add"></i>
+            </div>
+            <div class="menu-title">Proyectos</div>
+        </a>
+        <ul>
+            <li><a href="{{ route('admin.project.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
+            <li><a href="{{ route('admin.project.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
+        </ul>
+    </li>
 
-
-
-
-
-
-
-
-
-
-
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class="bi bi-building-add"></i>
+            </div>
+            <div class="menu-title">Propiedades</div>
+        </a>
+        <ul>
+            <li><a href="{{ route('admin.properties.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
+            <li><a href="{{ route('admin.properties.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
+        </ul>
+    </li>
 
 
     {{--        <li>--}}

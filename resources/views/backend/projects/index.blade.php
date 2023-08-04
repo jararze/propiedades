@@ -1,0 +1,166 @@
+@push('styles')
+
+@endpush
+@push('script')
+
+@endpush
+<x-app-layout>
+    <!--start content-->
+    <main class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Proyectos</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Proyectos</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary">Acciones</button>
+                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Menu</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
+                        <a class="dropdown-item" href="{{ route('admin.project.register') }}">Añadir</a>
+                        <a class="dropdown-item" href="{{ route('admin.project.index') }}">Listar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end breadcrumb-->
+
+        <div class="row">
+            <div class="col-12 col-lg-12 d-flex">
+                <div class="card w-100">
+                    <div class="card-header py-3">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <div class="ms-auto position-relative">
+                                    <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i
+                                            class="bi bi-search"></i></div>
+                                    <input class="form-control ps-5" type="text" placeholder="Buscar Proyectos">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6 col-md-3">
+                                <select class="form-select">
+                                    <option>Estatus</option>
+                                    <option>Activas</option>
+                                    <option>No Activas</option>
+                                    <option>Mostrar Todos</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-6 col-md-3">
+                                <select class="form-select">
+                                    <option>Mostrar 10</option>
+                                    <option>Mostrar 30</option>
+                                    <option>Mostrar 50</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            @if(!$values->isEmpty())
+                                <table class="table align-middle">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                        <th>Tipo de estado</th>
+                                        <th>Ciudad</th>
+                                        <th>Creador</th>
+                                        <th>Estatus</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($values as $key => $item)
+                                        <tr>
+                                            <td>#{{ $item->code }}</td>
+                                            <td><img src="{{ (!empty($item->thumbnail)) ? url('upload/properties/'.$item->code.'/'.$item->thumbnail) : url('upload/No_Image_Available.jpg') }}" class="product-img-2" alt="product img"></td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item['type']['type_name'] }}</td>
+                                            <td>{{ $item->property_status }}</td>
+                                            <td>{{ $item->city }}</td>
+                                            <td>{{ $item['createdBy']['name'] }} {{ $item['createdBy']['lastname'] }}</td>
+                                            <td>
+                                                @if($item->status == 1)
+                                                    <span class="badge bg-light-success text-success w-100">Activo</span>
+                                                @else
+                                                    <span class="badge bg-light-danger text-danger w-100">Inactivo</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-3 fs-6">
+                                                    <a href="{{ route('admin.project.edit',['id' => $item->id]) }}" class="text-warning" data-bs-toggle="tooltip"
+                                                       data-bs-placement="bottom" title="" data-bs-original-title="Edit info"
+                                                       aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
+                                                    <a href="" class="text-danger" data-bs-toggle="modal" data-bs-target="#exampleDangerModal{{ $item->id }}"><i class="bi bi-trash-fill"></i></a>
+                                                </div>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleDangerModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                        <div class="modal-content bg-danger">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title text-white">¿Eliminar {{ $item->name }}?</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body text-white">
+                                                                <p>¿Esta seguro que desea eliminar la propiedad?</p>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                                                <a href="{{ route('admin.project.delete',['id' => $item->id]) }}" class="btn btn-dark" >Si, eliminar</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                @if (session('status') === 'eliminated')
+                                    <div class="alert border-0 bg-light-success alert-dismissible fade show py-2"
+                                         style="margin-top: 10px">
+                                        <div class="d-flex align-items-center">
+                                            <div class="fs-3 text-success"><i class="bi bi-check-circle-fill"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <div class="text-success">Propiedad eliminada.</div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                    </div>
+                                @endif
+                            @else
+                                <h2>No hay proyectos para mostrar.</h2>
+                                <h4 style="margin-top: 20px"><a href="{{ route("admin.project.register") }}">Agrega un proyecto ahora</a></h4>
+                            @endif
+
+                        </div>
+                        {{--                        <nav class="float-end" aria-label="Page navigation">--}}
+                        {{--                            <ul class="pagination">--}}
+                        {{--                                <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>--}}
+                        {{--                                <li class="page-item active"><a class="page-link" href="#">1</a></li>--}}
+                        {{--                                <li class="page-item"><a class="page-link" href="#">2</a></li>--}}
+                        {{--                                <li class="page-item"><a class="page-link" href="#">3</a></li>--}}
+                        {{--                                <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>--}}
+                        {{--                            </ul>--}}
+                        {{--                        </nav>--}}
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+
+    </main>
+    <!--end page main-->
+</x-app-layout>

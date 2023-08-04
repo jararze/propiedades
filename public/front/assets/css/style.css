@@ -821,7 +821,7 @@ img {
   font-weight:500;
   opacity:1;
   color: #2d2929;
-  padding: 0px 30px;
+  padding: 0px 25px;
   border-right: 1px solid #e5e7ec;
   z-index:1;
   -webkit-transition:all 500ms ease;
@@ -4713,7 +4713,7 @@ div#mCSB_1_container{
 
 .location-section .location-inner .single-location-box:last-child{
   top: 200px;
-  right: 15px;
+  right: 115px;
 }
 
 .location-section .feature-block-one{
