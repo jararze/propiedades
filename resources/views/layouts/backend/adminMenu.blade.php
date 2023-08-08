@@ -58,6 +58,23 @@
         </ul>
     </li>
 
+
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class="bi bi-cart-check-fill"></i>
+            </div>
+            <div class="menu-title">Paquetes</div>
+        </a>
+        <ul>
+            <li><a href="{{ route('admin.packages.index') }}"><i class="bi bi-circle"></i>Listado </a></li>
+            <li><a href="{{ route('admin.packages.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
+            <li><a href="{{ route('admin.packages.users.approval') }}"><i class="bi bi-circle"></i>Aprobaciones</a></li>
+        </ul>
+    </li>
+
+
+
+
     <li class="menu-label">Propiedades</li>
 
 

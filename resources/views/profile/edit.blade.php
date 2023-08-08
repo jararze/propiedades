@@ -91,7 +91,8 @@
                                     <div class="col-12">
                                         <label for="aboutme" class="form-label">Sobre mi</label>
                                         <textarea id="aboutme" name="aboutme" class="form-control" rows="4" cols="4"
-                                                  placeholder="Describe yourself..." value="{{ Auth::user()->aboutme }}" required>{{ Auth::user()->aboutme }}</textarea>
+                                                  placeholder="Describe yourself..." value="{{ Auth::user()->aboutme }}"
+                                                  required>{{ Auth::user()->aboutme }}</textarea>
                                     </div>
                                     <div class="text-start">
                                         <button type="submit" class="btn btn-primary px-4">Guardar cambios</button>
@@ -113,6 +114,62 @@
                                 @endif
                             </div>
                         </div>
+
+
+
+                        @if(Auth::user()->role == 'agent')
+                            <div class="card shadow-none border">
+                                <div class="card-header">
+                                    <h6 class="mb-0">PLAN CONTRATADO</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form class="row g-3" method="post" action="{{ route('password.update') }}">
+                                        @csrf
+                                        @method('put')
+                                        <div class="col-12">
+                                            <label for="current_password" class="form-label">Actual contraseña</label>
+                                            <input id="current_password" name="current_password" type="password"
+                                                   class="form-control" value="" required>
+                                            <x-input-error :messages="$errors->updatePassword->get('current_password')"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="password" class="form-label">Nueva contraseña</label>
+                                            <input id="password" name="password" type="password" class="form-control"
+                                                   value="" required>
+                                            <x-input-error :messages="$errors->updatePassword->get('password')"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="password_confirmation" class="form-label">Confirme
+                                                contraseña</label>
+                                            <input id="password_confirmation" name="password_confirmation" type="password"
+                                                   class="form-control" value="" required>
+                                            <x-input-error
+                                                :messages="$errors->updatePassword->get('password_confirmation')"/>
+                                        </div>
+                                        <div class="text-start">
+                                            <button type="submit" class="btn btn-primary px-4">Guardar cambios</button>
+                                        </div>
+                                    </form>
+                                    @if (session('status') === 'password-updated')
+                                        <div class="alert border-0 bg-light-success alert-dismissible fade show py-2"
+                                             style="margin-top: 10px">
+                                            <div class="d-flex align-items-center">
+                                                <div class="fs-3 text-success"><i class="bi bi-check-circle-fill"></i>
+                                                </div>
+                                                <div class="ms-3">
+                                                    <div class="text-success">Contraseña actualizada.</div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+
+
+
                         <div class="card shadow-none border">
                             <div class="card-header">
                                 <h6 class="mb-0">CONTRASEÑA</h6>
@@ -162,12 +219,15 @@
                             </div>
                         </div>
 
+
+
                         <div class="card shadow-none border">
                             <div class="card-header">
                                 <h6 class="mb-0">Cambio de imagen</h6>
                             </div>
                             <div class="card-body">
-                                <form class="row g-3" method="post" action="{{ route('admin.profile.imageUpdate') }}" enctype="multipart/form-data">
+                                <form class="row g-3" method="post" action="{{ route('admin.profile.imageUpdate') }}"
+                                      enctype="multipart/form-data">
                                     @csrf
                                     @method('patch')
                                     <div class="col-12">
@@ -210,14 +270,15 @@
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                 data-bs-target="#exampleDangerModal">Borrar cuenta
                                         </button>
-                                        <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+                                        <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2"/>
                                     </div>
                                 </form>
 
                                 <div class="modal fade" id="exampleDangerModal" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-lg modal-dialog-centered">
                                         <div class="modal-content bg-danger">
-                                            <form method="post" action="{{ route('admin.profile.destroy') }}" class="p-6">
+                                            <form method="post" action="{{ route('admin.profile.destroy') }}"
+                                                  class="p-6">
                                                 @csrf
                                                 @method('delete')
                                                 <div class="modal-header">
@@ -233,9 +294,11 @@
                                                         descargue cualquier dato o información que desee conservar.</p>
                                                     <div class="col-5">
                                                         <label for="password" class="form-label">Contraseña</label>
-                                                        <input id="password" name="password" type="password" class="form-control"
+                                                        <input id="password" name="password" type="password"
+                                                               class="form-control"
                                                                value="">
-                                                        <x-input-error :messages="$errors->updatePassword->get('password')"/>
+                                                        <x-input-error
+                                                            :messages="$errors->updatePassword->get('password')"/>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -257,8 +320,9 @@
                 <div class="card shadow-sm border-0 overflow-hidden">
                     <div class="card-body">
                         <div class="profile-avatar text-center">
-                            <img src="{{ (!empty(Auth::user()->photo)) ? url('upload/profiles/'.Auth::user()->photo) : url('upload/No_Image_Available.jpg') }}"
-                                 class="rounded-circle shadow" width="120" height="120" alt="">
+                            <img
+                                src="{{ (!empty(Auth::user()->photo)) ? url('upload/profiles/'.Auth::user()->photo) : url('upload/No_Image_Available.jpg') }}"
+                                class="rounded-circle shadow" width="120" height="120" alt="">
                         </div>
                         <div class="text-center mt-4">
                             <h4 class="mb-1">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</h4>

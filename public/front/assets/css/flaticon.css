@@ -148,3 +148,7 @@
 .icon-42:before {
   content: "\e928";
 }
+
+.icon-heart-broken:before {
+    content: "\e9db";
+}

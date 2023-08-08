@@ -19,6 +19,7 @@
     </script>
 @endpush
 <x-app-layout>
+{{--    {{ dd($propertyXagent) }}--}}
     <!--start content-->
     <main class="page-content">
         <!--breadcrumb-->

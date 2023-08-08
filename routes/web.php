@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\AmenitiesController;
+use App\Http\Controllers\CompareController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\PackagePlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,9 +63,18 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth','verified'])->group(function () {
 
     Route::get('/userProfile', [ProfileController::class, 'userEdit'])->name('userProfile.edit');
+    Route::patch('/userProfile/update', [ProfileController::class, 'update'])->name('userProfile.update');
     Route::get('/userProfile/password', [ProfileController::class, 'userEditPassword'])->name('userProfile.editPassword');
     Route::get('/userProfile/image', [ProfileController::class, 'imageUpdatePage'])->name('userProfile.editImage');
     Route::patch('/profile/image', [ProfileController::class, 'imageUpdate'])->name('profile.imageupdate');
+    Route::get('/userProfile/wishlist/index', [WishlistController::class, 'index'])->name('userProfile.wishlist.index');
+    Route::delete('/userProfile/wishlist/delete/{id}', [WishlistController::class, 'delete'])->name('userProfile.wishlist.delete');
+    Route::get('/userProfile/compare/index', [CompareController::class, 'index'])->name('userProfile.compare.index');
+    Route::delete('/userProfile/compare/delete/{id}', [CompareController::class, 'delete'])->name('userProfile.compare.delete');
+
+
+    Route::post('/user/wishlist/add', [WishlistController::class, 'store'])->name('user.wishlist.add');
+    Route::post('/user/compare/add', [CompareController::class, 'store'])->name('user.compare.add');
 
 
 });
@@ -102,6 +114,17 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::post('/admin/users/edit', [UsersController::class, 'Edit'])->name('admin.users.edit.info');
     Route::get('/admin/users/delete', [UsersController::class, 'destroy'])->name('admin.users.delete');
 
+    Route::get('/admin/packages/all', [PackagePlanController::class, 'index'])->name('admin.packages.index');
+    Route::get('/admin/packages/register', [PackagePlanController::class, 'create'])->name('admin.packages.register');
+    Route::post('/admin/packages/register', [PackagePlanController::class, 'store']);
+    Route::get('/admin/packages/edit/{id}', [PackagePlanController::class, 'EditView'])->name('admin.packages.edit');
+    Route::post('/admin/packages/edit', [PackagePlanController::class, 'Edit'])->name('admin.packages.edit.info');
+    Route::get('/admin/packages/delete', [PackagePlanController::class, 'destroy'])->name('admin.packages.delete');
+    Route::get('/admin/packages/users/approval', [PackagePlanController::class, 'indexApproval'])->name('admin.packages.users.approval');
+    Route::get('/admin/packages/users/activate/{id}', [PackagePlanController::class, 'activate'])->name('admin.packages.activate');
+    Route::get('/admin/packages/users/edit/{id}', [PackagePlanController::class, 'EditPackageView'])->name('admin.packages.users.edit');
+    Route::post('/admin/packages/users/edit/info', [PackagePlanController::class, 'EditPackage'])->name('admin.packages.users.edit.info');
+
 });
 
 Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function () {
@@ -127,6 +150,7 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function
 
 
 
+
     Route::get('/admin/project/all', [ProjectController::class, 'index'])->name('admin.project.index');
     Route::get('/admin/project/register', [ProjectController::class, 'create'])->name('admin.project.register');
     Route::post('/admin/project/register', [ProjectController::class, 'store']);
@@ -139,6 +163,20 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function
     Route::post('/admin/project/delete/facility', [ProjectController::class, 'deleteFacility'])->name('admin.project.delete.facility');
     Route::post('/admin/project/edit/amenities', [ProjectController::class, 'editAmenities'])->name('admin.project.edit.amenities');
     Route::get('/admin/project/delete', [ProjectController::class, 'destroy'])->name('admin.project.delete');
+
+
+
+
+
+
+});
+
+
+Route::middleware(['auth','verified', 'CheckRoles:agent'])->group(function () {
+
+    Route::get('/admin/packages/select', [PackagePlanController::class, 'choose'])->name('admin.packages.select');
+    Route::post('/admin/packages/user/add', [PackagePlanController::class, 'addUser'])->name('admin.packages.user.add');
+
 
 });
 

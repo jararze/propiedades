@@ -38,4 +38,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function package_list()
+    {
+        return $this->belongsTo(PackagePlan::class, 'package_id', 'id');
+    }
 }

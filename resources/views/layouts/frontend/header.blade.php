@@ -84,7 +84,7 @@
                     </nav>
                 </div>
                 <div class="btn-box">
-                    <a class="theme-btn btn-one" href="index.html"><span>+</span>Add Listing</a>
+                    <a class="theme-btn btn-one" href="{{ route("admin.properties.register") }}"><span>+</span>Agregar propiedad</a>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
                     </nav>
                 </div>
                 <div class="btn-box">
-                    <a class="theme-btn btn-one" href="index.html"><span>+</span>Add Listing</a>
+                    <a class="theme-btn btn-one" href="{{ route("admin.properties.register") }}"><span>+</span>Agregar propiedad</a>
                 </div>
             </div>
         </div>

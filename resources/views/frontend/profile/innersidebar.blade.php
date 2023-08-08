@@ -26,15 +26,15 @@
             {{--                                    <li><a href="blog-details.html"><i class="fa fa-cog" aria-hidden="true"></i> Configuracion</a></li>--}}
             {{--                                    <li><a href="blog-details.html"><i class="fa fa-credit-card" aria-hidden="true"></i> Buy credits<span class="badge badge-info">( 10 credits)</span></a></li>--}}
             <li class="
-            @if($currenturl === 'properties')
+            @if($currenturl === 'userProfile/wishlist/index')
                 {{ 'current' }}
             @endif
-            "><a href=""><i class="fa fa-list-alt" aria-hidden="true"></i></i> Propiedades </a></li>
+            "><a href="{{ route("userProfile.wishlist.index") }}"><i class="fa fa-list-alt" aria-hidden="true"></i></i> Propiedades deseadas </a></li>
             <li class="
-            @if($currenturl === 'addProperties')
+            @if($currenturl === 'userProfile.compare.index')
                 {{ 'current' }}
             @endif
-            "><a href=""><i class="fa fa-indent" aria-hidden="true"></i> Añadir Propiedades </a></li>
+            "><a href="{{ route("userProfile.compare.index") }}"><i class="fa fa-indent" aria-hidden="true"></i> Comparar Propiedades </a></li>
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

@@ -26,8 +26,11 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->text('aboutme')->nullable();
+            $table->unsignedBigInteger('package_id')->nullable()->default(1);
+            $table->enum('package_status', ['active', 'inactive'])->default('active');
             $table->enum('role', ['admin', 'agent', 'user'])->default('user');
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->foreign('package_id')->references('id')->on('package_plans')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

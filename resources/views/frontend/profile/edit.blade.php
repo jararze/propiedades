@@ -5,7 +5,7 @@
             <div class="content-box clearfix">
                 <h1>Perfil de usuario </h1>
                 <ul class="bread-crumb clearfix">
-                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="">Inicio</a></li>
                     <li>Perfil Usuario</li>
                 </ul>
             </div>
@@ -92,7 +92,7 @@
                                     <h3>Perfil</h3>
                                     <hr>
                                     <form id="inspiry-edit-user" class="submit-form default-form" method="post"
-                                          action="{{ route('profile.update') }}">
+                                          action="{{ route('userProfile.update') }}">
                                         @csrf
                                         @method('patch')
                                         <div class="form-group">

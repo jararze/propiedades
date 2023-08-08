@@ -7,6 +7,7 @@ use App\Models\Amenities;
 use App\Models\Facility;
 use App\Models\FacilityProperty;
 use App\Models\MultiImage;
+use App\Models\PackagePlan;
 use App\Models\Property;
 use App\Models\PropertyType;
 use App\Models\User;
@@ -26,7 +27,12 @@ class PropertyController extends Controller
      */
     public function index(): view
     {
-        $values = Property::where('is_project', "0")->get();
+        if(Auth::user()->role == 'admin'){
+            $values = Property::where('is_project', "0")->get();
+        }else{
+            $values = Property::where('is_project', "0")->where('agent_id', Auth::user()->id)->get();
+        }
+
         return view('backend.properties.index', [
             'values' => $values,
         ]);
@@ -38,17 +44,71 @@ class PropertyController extends Controller
      */
     public function create(): view
     {
-        $propertyType = PropertyType::where('status', 1)->orderBy('type_name', 'asc')->get();
-        $amenities = Amenities::where('status', 1)->orderBy('name', 'asc')->get();
-        $facilities = Facility::orderBy('name', 'asc')->get();
-        $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('name', 'asc')->get();
-        $projects = Property::where('is_project', "1")->where('status', 1)->get();
-        return view('backend.properties.register', [
-            'propertyTypes' => $propertyType,
-            'amenities' => $amenities,
-            'agents' => $agents,
-            'facilities' => $facilities,
-            'projects' => $projects,
+        $propertyXagent = Property::where('agent_id', Auth::user()->id)->get();
+        $propertyXagent = $propertyXagent->count();
+
+
+        if(Auth::user()->package_status == 'active'){
+            $package = PackagePlan::join('users', 'users.package_id', '=', 'package_plans.id')
+                ->where('users.id', Auth::user()->id)
+                ->select('package_plans.name', 'package_plans.credits', 'package_plans.amount')
+                ->first();
+
+
+            if ($package) {
+                $name = $package->name;
+                $credits = $package->credits;
+                $amount = $package->amount;
+                if($propertyXagent < $credits){
+                    $propertyType = PropertyType::where('status', 1)->orderBy('type_name', 'asc')->get();
+                    $amenities = Amenities::where('status', 1)->orderBy('name', 'asc')->get();
+                    $facilities = Facility::orderBy('name', 'asc')->get();
+                    $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('name', 'asc')->get();
+                    $projects = Property::where('is_project', "1")->where('status', 1)->get();
+                    return view('backend.properties.register', [
+                        'propertyTypes' => $propertyType,
+                        'amenities' => $amenities,
+                        'agents' => $agents,
+                        'facilities' => $facilities,
+                        'projects' => $projects,
+                        'propertyXagent' => $propertyXagent,
+                    ]);
+                }else{
+                    $values = PackagePlan::orderBy('id', 'asc')->get();
+                    return view('backend.properties.more.credits', [
+                        'package_name' => $name,
+                        'package_credits' => $credits,
+                        'package_amount' => $amount,
+                        'values' => $values,
+                        'propertyXagent' => $propertyXagent,
+                    ]);
+                }
+            } else {
+                abort(403, "Acción no permitida, tienes más propiedades que creditos. Por favor compra mas creditos.");
+            }
+        }else{
+            abort(403, "Acción no permitida, el paquete no está activo.");
+        }
+
+
+
+    }
+
+
+
+    /**
+     * Display all properties in admin page.
+     */
+    public function more(): view
+    {
+        if(Auth::user()->role == 'admin'){
+            $values = Property::where('is_project', "0")->get();
+        }else{
+            $values = Property::where('is_project', "0")->where('agent_id', Auth::user()->id)->get();
+        }
+
+        return view('backend.properties.index', [
+            'values' => $values,
         ]);
     }
 

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('package_plans', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('credits')->nullable();
+            $table->string('amount')->nullable();
+            $table->enum('status',[0, 1])->nullable();
             $table->timestamps();
         });
     }
