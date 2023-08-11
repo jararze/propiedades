@@ -11,7 +11,7 @@ $(function() {
             lengthChange: false,
             buttons: [ 'copy', 'excel', 'pdf', 'print']
         } );
-     
+
         table.buttons().container()
             .appendTo( '#example2_wrapper .col-md-6:eq(0)' );
     } );

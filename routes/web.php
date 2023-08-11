@@ -1,13 +1,17 @@
 <?php
 
 use App\Http\Controllers\AmenitiesController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\CompareController;
+use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\PackagePlanController;
+use App\Http\Controllers\PotencialBuyerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PropertyMessageController;
 use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WishlistController;
@@ -41,6 +45,7 @@ Route::controller(FrontendController::class)->group(function () {
 Route::controller(PropertyController::class)->group(function () {
 
     Route::get('/properties/all/{filter}', 'propertiesFilter')->name('front.properties.index');
+    Route::get('/properties/filter/', 'propertiesSearchFilter')->name('front.properties.filter');
     Route::get('/properties/inner/{id}', 'inner')->name('front.properties.inner');
 
 });
@@ -51,6 +56,16 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/projects/inner/{id}', 'inner')->name('front.project.inner');
 
 });
+
+
+Route::controller(PropertyMessageController::class)->group(function () {
+
+    Route::post('/properties/message/send', 'send_message')->name('front.properties.message');
+    Route::post('/user/validate/phone/show', [PropertyMessageController::class, 'validatePhone'])->name('user.validate.phone.show');
+
+});
+
+
 
 // Vistas usuario admin y agente
 
@@ -82,6 +97,18 @@ Route::middleware(['auth','verified'])->group(function () {
 // Vistas usuario solo admin
 
 Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
+
+
+    Route::get('admin/configuration/index', [ConfigurationController::class, 'index'])->name('admin.configuration.index');
+    Route::post('admin/configuration/update', [ConfigurationController::class, 'update'])->name('admin.configuration.update');
+
+    Route::get('/admin/cities/all', [CityController::class, 'index'])->name('admin.cities.index');
+    Route::get('/admin/cities/register', [CityController::class, 'create'])->name('admin.cities.register');
+    Route::post('/admin/cities/register', [CityController::class, 'store']);
+    Route::get('/admin/cities/edit/{id}', [CityController::class, 'edit'])->name('admin.cities.edit');
+    Route::post('/admin/cities/edit', [CityController::class, 'update'])->name('admin.cities.edit.info');
+    Route::get('/admin/cities/delete', [CityController::class, 'destroy'])->name('admin.cities.delete');
+
 
     Route::get('/admin/TypesProperties/all', [PropertyTypeController::class, 'index'])->name('admin.TypesProperties.index');
     Route::get('/admin/TypesProperties/register', [PropertyTypeController::class, 'create'])->name('admin.TypesProperties.register');
@@ -124,6 +151,8 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::get('/admin/packages/users/activate/{id}', [PackagePlanController::class, 'activate'])->name('admin.packages.activate');
     Route::get('/admin/packages/users/edit/{id}', [PackagePlanController::class, 'EditPackageView'])->name('admin.packages.users.edit');
     Route::post('/admin/packages/users/edit/info', [PackagePlanController::class, 'EditPackage'])->name('admin.packages.users.edit.info');
+
+    Route::get('admin/posible/users/index', [PotencialBuyerController::class, 'index'])->name('admin.possible.users.index');
 
 });
 

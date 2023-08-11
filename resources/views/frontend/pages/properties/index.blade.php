@@ -23,21 +23,9 @@
                     <div class="property-content-side">
                         <div class="item-shorting clearfix">
                             <div class="left-column pull-left">
-                                <h5>Total: <span>Mostrando 1-5 de {{ $featuredProperties->count() }} propiedades</span>
-                                </h5>
+                                <h5>Total: <span> {{ $featuredProperties->count() }} propiedades</span></h5>
                             </div>
                             <div class="right-column pull-right clearfix">
-                                <div class="short-box clearfix">
-                                    <div class="select-box">
-                                        <select class="wide">
-                                            <option data-display="Ordenar por: Nuevo">Ordenar por: Nuevo</option>
-                                            <option value="1">Nuevo</option>
-                                            <option value="2">Mas Buscado</option>
-                                            <option value="3">Precio bajo</option>
-                                            <option value="4">Precio alto</option>
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="short-menu clearfix">
                                     <button class="list-view on"><i class="icon-35"></i></button>
                                     <button class="grid-view"><i class="icon-36"></i></button>
@@ -189,14 +177,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pagination-wrapper">
-                            <ul class="pagination clearfix">
-                                <li><a href="property-list.html" class="current">1</a></li>
-                                <li><a href="property-list.html">2</a></li>
-                                <li><a href="property-list.html">3</a></li>
-                                <li><a href="property-list.html"><i class="fas fa-angle-right"></i></a></li>
-                            </ul>
-                        </div>
+
+                        {{ $featuredProperties->links('vendor.pagination.bootstrap-5') }}
+{{--                        <div class="pagination-wrapper">--}}
+{{--                            <ul class="pagination clearfix">--}}
+{{--                                <li><a href="property-list.html" class="current">1</a></li>--}}
+{{--                                <li><a href="property-list.html">2</a></li>--}}
+{{--                                <li><a href="property-list.html">3</a></li>--}}
+{{--                                <li><a href="property-list.html"><i class="fas fa-angle-right"></i></a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
             </div>

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PropertyRequest;
 use App\Models\Amenities;
+use App\Models\City;
 use App\Models\Facility;
 use App\Models\FacilityProperty;
 use App\Models\MultiImage;
 use App\Models\PackagePlan;
 use App\Models\Property;
+use App\Models\PropertyMessage;
 use App\Models\PropertyType;
 use App\Models\User;
 use Carbon\Carbon;
@@ -27,9 +29,9 @@ class PropertyController extends Controller
      */
     public function index(): view
     {
-        if(Auth::user()->role == 'admin'){
+        if (Auth::user()->role == 'admin') {
             $values = Property::where('is_project', "0")->get();
-        }else{
+        } else {
             $values = Property::where('is_project', "0")->where('agent_id', Auth::user()->id)->get();
         }
 
@@ -48,7 +50,7 @@ class PropertyController extends Controller
         $propertyXagent = $propertyXagent->count();
 
 
-        if(Auth::user()->package_status == 'active'){
+        if (Auth::user()->package_status == 'active') {
             $package = PackagePlan::join('users', 'users.package_id', '=', 'package_plans.id')
                 ->where('users.id', Auth::user()->id)
                 ->select('package_plans.name', 'package_plans.credits', 'package_plans.amount')
@@ -59,12 +61,13 @@ class PropertyController extends Controller
                 $name = $package->name;
                 $credits = $package->credits;
                 $amount = $package->amount;
-                if($propertyXagent < $credits){
+                if ($propertyXagent < $credits) {
                     $propertyType = PropertyType::where('status', 1)->orderBy('type_name', 'asc')->get();
                     $amenities = Amenities::where('status', 1)->orderBy('name', 'asc')->get();
                     $facilities = Facility::orderBy('name', 'asc')->get();
                     $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('name', 'asc')->get();
                     $projects = Property::where('is_project', "1")->where('status', 1)->get();
+                    $cities = City::orderBy('name', 'asc')->get();
                     return view('backend.properties.register', [
                         'propertyTypes' => $propertyType,
                         'amenities' => $amenities,
@@ -72,8 +75,9 @@ class PropertyController extends Controller
                         'facilities' => $facilities,
                         'projects' => $projects,
                         'propertyXagent' => $propertyXagent,
+                        'cities' => $cities,
                     ]);
-                }else{
+                } else {
                     $values = PackagePlan::orderBy('id', 'asc')->get();
                     return view('backend.properties.more.credits', [
                         'package_name' => $name,
@@ -86,14 +90,12 @@ class PropertyController extends Controller
             } else {
                 abort(403, "Acción no permitida, tienes más propiedades que creditos. Por favor compra mas creditos.");
             }
-        }else{
+        } else {
             abort(403, "Acción no permitida, el paquete no está activo.");
         }
 
 
-
     }
-
 
 
     /**
@@ -101,9 +103,9 @@ class PropertyController extends Controller
      */
     public function more(): view
     {
-        if(Auth::user()->role == 'admin'){
+        if (Auth::user()->role == 'admin') {
             $values = Property::where('is_project', "0")->get();
-        }else{
+        } else {
             $values = Property::where('is_project', "0")->where('agent_id', Auth::user()->id)->get();
         }
 
@@ -257,8 +259,10 @@ class PropertyController extends Controller
 
         $property_aminities = explode(",", $property->amenities_id);
 
+        $cities = City::orderBy('name', 'asc')->get();
 
-        return view('backend.properties.edit', compact('idItem', 'property', 'propertyType', 'amenities', 'agents', 'property_aminities', 'facilities', 'multiImages', 'facility'));
+
+        return view('backend.properties.edit', compact('idItem', 'property', 'propertyType', 'amenities', 'agents', 'property_aminities', 'facilities', 'multiImages', 'facility', 'cities'));
     }
 
     /**
@@ -466,10 +470,10 @@ class PropertyController extends Controller
         MultiImage::where('property_id', $request->id)->delete();
         FacilityProperty::where('property_id', $request->id)->delete();
         Property::where('id', $request->id)->delete();
-        $dirname = public_path('upload/properties/' . $property->code );
-        $dirname2 = public_path('upload/properties/' . $property->code . '/multipleImages/' );
+        $dirname = public_path('upload/properties/' . $property->code);
+        $dirname2 = public_path('upload/properties/' . $property->code . '/multipleImages/');
 
-        if(is_dir($dirname)){
+        if (is_dir($dirname)) {
             array_map('unlink', glob("$dirname/*.*"));
             array_map('unlink', glob("$dirname2/*.*"));
             rmdir($dirname2);
@@ -485,17 +489,35 @@ class PropertyController extends Controller
      */
     public function propertiesFilter($filter): view
     {
-        if($filter == 'featuredProperties'){
-            $properties = Property::where('status', 1)->where('featured', 1)->orderBy('id', 'desc')->get();
-        }elseif ($filter == 'hotProperties'){
-            $properties = Property::where('status', 1)->where('hot', 1)->orderBy('id', 'desc')->get();
-        } elseif ($filter == 'allProperties'){
-            $properties = Property::where('status', 1)->orderBy('id', 'desc')->get();
-        } elseif($filter == 'hotFeaturedProperties') {
-            $properties = Property::where('status', 1)->where('hot', 1)->orWhere('featured', 1)->orderBy('id', 'desc')->get();
-        }else{
-            $properties = Property::where('status', 1)->orderBy('id', 'desc')->get();
+        if ($filter == 'featuredProperties') {
+            $properties = Property::where('status', 1)->where('featured', 1)->orderBy('id', 'desc')->paginate(4);
+        } elseif ($filter == 'hotProperties') {
+            $properties = Property::where('status', 1)->where('hot', 1)->orderBy('id', 'desc')->paginate(4);
+        } elseif ($filter == 'allProperties') {
+            $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(4);
+        } elseif ($filter == 'hotFeaturedProperties') {
+            $properties = Property::where('status', 1)->where('hot', 1)->orWhere('featured', 1)->orderBy('id', 'desc')->paginate(4);
+        } else {
+            $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(4);
         }
+        return view('frontend.pages.properties.index', [
+            'featuredProperties' => $properties,
+        ]);
+
+    }
+
+    /**
+     * Property list front end.
+     */
+    public function propertiesSearchFilter(): view
+    {
+        $properties = Property::where('status', 1)
+            ->where("property_status", request("tipo"))
+            ->orderBy('id', 'desc')
+            ->filter(request(['search', 'city', 'property_type']))
+            ->paginate(4)
+            ->withQueryString();
+
         return view('frontend.pages.properties.index', [
             'featuredProperties' => $properties,
         ]);

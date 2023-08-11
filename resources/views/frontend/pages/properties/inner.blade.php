@@ -1,7 +1,10 @@
 @push('styles')
     <link href="{{ asset('front/assets/css/timePicker.css') }}" rel="stylesheet">
+    {{--    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/5.0.7/sweetalert2.min.css" rel="stylesheet">--}}
 @endpush
 @push('script')
+    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>--}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('front/assets/js/timePicker.js') }}"></script>
     <script src="{{ asset('front/assets/js/bxslider.js') }}"></script>
     <!-- map script -->
@@ -9,6 +12,70 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAX9rEY00ajicFc0JZbwK4i-3HOQMBV78"></script>
     <script src="{{ asset('front/assets/js/gmaps.js') }}"></script>
     <script src="{{ asset('front/assets/js/map-helper.js') }}"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('.more_info_phone').click(function (event) {
+
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Registro',
+                    html: `<input type="text" id="namePop" class="swal2-input" placeholder="Nombre"> <input type="text" id="phonePop" class="swal2-input" placeholder="Telefono">`,
+                    confirmButtonText: 'Enviar',
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    allowOutsideClick: () => !Swal.isLoading(),
+                    preConfirm: () => {
+                        const namePop = Swal.getPopup().querySelector('#namePop').value
+                        const phonePop = Swal.getPopup().querySelector('#phonePop').value
+                        if (!namePop || !phonePop) {
+                            Swal.showValidationMessage(`Ingrese valores validos`)
+                        }
+                        return {name: namePop, phone: phonePop}
+                    }
+                }).then((result) => {
+                    // Swal.fire(` correo: ${result.value.name} telefono: ${result.value.phone} `.trim())
+                    $.ajax({
+                        url: '/user/validate/phone/show',
+                        type: 'POST',
+                        data: {
+                            "email": result.value.name,
+                            "phone": result.value.phone,
+                            "property_id": {{ $property->id }},
+                        },
+                        dataType: 'JSON',
+                        success: function (response) {
+                            if (response.success === true) {
+                                $("#personal_phone").attr("href", "tel:" + response.phone)
+                                $("#personal_phone").text(response.phone)
+                                Swal.fire("Datos agregados satisfactoriamente")
+                            } else {
+                                Swal.fire("Error por favor trate de nuevo")
+                            }
+                        },
+
+                        error: function (xhr, status, error) {
+                            const err = eval("(" + xhr.responseText + ")");
+                            if (error === "Unauthorized" || err.message === "Unauthenticated.") {
+                                alert("mal")
+                            }
+                        }
+                    })
+                })
+
+            });
+
+        });
+
+    </script>
 @endpush
 
 <x-front-layout>
@@ -21,8 +88,9 @@
 
             @include('frontend/pages/properties/inner/header')
 
-{{--            {{dd($agentPro)}}--}}
             <div class="row clearfix">
+
+
                 <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                     <div class="property-details-content">
                         @if(count($multiImages) == 0)
@@ -228,87 +296,133 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                     <div class="property-sidebar default-sidebar">
-                        <div class="author-widget sidebar-widget">
-                            <div class="author-box">
-                                @foreach($agentPro as $aPro)
 
-                                    <figure class="author-thumb">
-                                        <img
-                                            src="{{ (!empty($aPro->photo)) ? url('upload/profiles/'.$aPro->photo) : url('upload/No_Image_Available.jpg') }}"
-                                            alt="">
-                                    </figure>
-                                    <div class="inner">
-                                        <h4>{{ $aPro->name }} {{ $aPro->lastname }}</h4>
-                                        <ul class="info clearfix">
-                                            <li><i class="fas fa-map-marker-alt"></i>{{ $aPro->address }}
-                                                , {{ $aPro->city }}
-                                            </li>
-                                            <li><i class="fas fa-phone"></i><a
-                                                    href="tel:{{ $aPro->phone }}">{{ $aPro->phone }}</a></li>
-                                        </ul>
-                                        <div class="btn-box"><a href="agents-details.html">Ver todas las propiedades</a>
-                                        </div>
+
+                        <div class="author-widget sidebar-widget">
+
+
+                            <div class="author-box">
+
+                                <figure class="author-thumb">
+                                    <img alt=""
+                                         src="{{ (!empty($property['agent']['photo'])) ? url('upload/profiles/'.$property['agent']['photo']) : url('upload/No_Image_Available.jpg') }}">
+                                </figure>
+                                <div class="inner">
+                                    <h4>{{ $property['agent']['name'] }} {{ $property['agent']['lastname'] }}</h4>
+                                    <ul class="info clearfix">
+                                        <li><i class="fas fa-map-marker-alt"></i>{{ $property['agent']['address'] }}
+                                            , {{ $property['agent']['city'] }}
+
+                                        </li>
+                                        <li><i class="fas fa-phone"></i>
+
+                                            @if(Auth::check())
+                                                <a href="tel:{{ $property['agent']['phone'] }}">{{ $property['agent']['phone'] }}</a>
+                                            @else
+                                                <a id="personal_phone" href="tel:{{ Str::limit($property['agent']['phone'], 5, '...') }}">{{ Str::limit($property['agent']['phone'], 5, '...') }}</a>
+                                            @endif
+                                        </li>
+                                    </ul>
+                                    @if(!Auth::check())
+                                        <div class="btn-box mb-md-2"><a href="javascript:;" class="more_info_phone">Ver
+                                                telefono</a></div>
+                                    @endif
+                                    <div class="btn-box"><a href="agents-details.html">Ver todas las propiedades</a>
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="form-inner">
-                                <form action="property-details.html" method="post" class="default-form">
-                                    <div class="form-group">
-                                        <input type="text" name="name" placeholder="Tu Nombre" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" name="email" placeholder="Tu correo" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" name="phone" placeholder="Telefono" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea name="message" placeholder="Mensaje"></textarea>
-                                    </div>
-                                    <div class="form-group message-btn">
-                                        <button type="submit" class="theme-btn btn-one">Enviar mensaje</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="calculator-widget sidebar-widget">
-                            <div class="calculate-inner">
-                                <div class="widget-title">
-                                    <h4>Mortgage Calculator</h4>
                                 </div>
-                                <form method="post" action="mortgage-calculator.html" class="default-form">
-                                    <div class="form-group">
-                                        <i class="fas fa-dollar-sign"></i>
-                                        <input type="number" name="total_amount" placeholder="Total Amount">
-                                    </div>
-                                    <div class="form-group">
-                                        <i class="fas fa-dollar-sign"></i>
-                                        <input type="number" name="down_payment" placeholder="Down Payment">
-                                    </div>
-                                    <div class="form-group">
-                                        <i class="fas fa-percent"></i>
-                                        <input type="number" name="interest_rate" placeholder="Interest Rate">
-                                    </div>
-                                    <div class="form-group">
-                                        <i class="far fa-calendar-alt"></i>
-                                        <input type="number" name="loan" placeholder="Loan Terms(Years)">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="select-box">
-                                            <select class="wide">
-                                                <option data-display="Monthly">Monthly</option>
-                                                <option value="1">Yearly</option>
-                                            </select>
+                            </div>
+
+
+                            <div class="form-inner">
+
+                                <form action="{{ route("front.properties.message") }}" method="post"
+                                      class="default-form">
+                                    @csrf
+                                    <input type="hidden" name="property_id" value="{{ $property->id }}">
+                                    <input type="hidden" name="user_id" value="{{ $var = Auth::user()->id ?? 0  }}">
+                                    <input type="hidden" name="agent_id" value="{{ $property->agent_id }}">
+                                    @if(Auth::check())
+                                        <div class="form-group">
+                                            <input type="text"
+                                                   value="{{ Auth::user()->name }} {{ Auth::user()->lastname }}"
+                                                   name="name" placeholder="Tu Nombre" required="">
                                         </div>
-                                    </div>
-                                    <div class="form-group message-btn">
-                                        <button type="submit" class="theme-btn btn-one">Calculate Now</button>
-                                    </div>
+                                        <div class="form-group">
+                                            <input type="email" value="{{ Auth::user()->email }}" name="email"
+                                                   placeholder="Tu correo" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" value="{{ Auth::user()->phone }}" name="phone"
+                                                   placeholder="Telefono" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="message" placeholder="Mensaje"></textarea>
+                                        </div>
+                                        <div class="form-group message-btn">
+                                            <button type="submit" class="theme-btn btn-one">Enviar mensaje</button>
+                                        </div>
+                                    @else
+                                        <div class="form-group">
+                                            <input type="text" name="name" placeholder="Tu Nombre" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" name="email" placeholder="Tu correo" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="phone" placeholder="Telefono" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="message" placeholder="Mensaje"></textarea>
+                                        </div>
+                                        <div class="form-group message-btn">
+                                            <button type="submit" class="theme-btn btn-one">Enviar mensaje</button>
+                                        </div>
+                                    @endif
+
                                 </form>
                             </div>
                         </div>
+
+                        {{--                        <div class="calculator-widget sidebar-widget">--}}
+                        {{--                            <div class="calculate-inner">--}}
+                        {{--                                <div class="widget-title">--}}
+                        {{--                                    <h4>Mortgage Calculator</h4>--}}
+                        {{--                                </div>--}}
+                        {{--                                <form method="post" action="mortgage-calculator.html" class="default-form">--}}
+                        {{--                                    <div class="form-group">--}}
+                        {{--                                        <i class="fas fa-dollar-sign"></i>--}}
+                        {{--                                        <input type="number" name="total_amount" placeholder="Total Amount">--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="form-group">--}}
+                        {{--                                        <i class="fas fa-dollar-sign"></i>--}}
+                        {{--                                        <input type="number" name="down_payment" placeholder="Down Payment">--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="form-group">--}}
+                        {{--                                        <i class="fas fa-percent"></i>--}}
+                        {{--                                        <input type="number" name="interest_rate" placeholder="Interest Rate">--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="form-group">--}}
+                        {{--                                        <i class="far fa-calendar-alt"></i>--}}
+                        {{--                                        <input type="number" name="loan" placeholder="Loan Terms(Years)">--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="form-group">--}}
+                        {{--                                        <div class="select-box">--}}
+                        {{--                                            <select class="wide">--}}
+                        {{--                                                <option data-display="Monthly">Monthly</option>--}}
+                        {{--                                                <option value="1">Yearly</option>--}}
+                        {{--                                            </select>--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="form-group message-btn">--}}
+                        {{--                                        <button type="submit" class="theme-btn btn-one">Calculate Now</button>--}}
+                        {{--                                    </div>--}}
+                        {{--                                </form>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
             </div>
@@ -316,140 +430,140 @@
                 <div class="title">
                     <h4>Similar Properties</h4>
                 </div>
-                <div class="row clearfix">
-                    <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                        <div class="feature-block-one wow fadeInUp animated" data-wow-delay="00ms"
-                             data-wow-duration="1500ms">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><img src="assets/images/feature/feature-1.jpg" alt="">
-                                    </figure>
-                                    <div class="batch"><i class="icon-11"></i></div>
-                                    <span class="category">Featured</span>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="author-info clearfix">
-                                        <div class="author pull-left">
-                                            <figure class="author-thumb"><img src="assets/images/feature/author-1.jpg"
-                                                                              alt=""></figure>
-                                            <h6>Michael Bean</h6>
-                                        </div>
-                                        <div class="buy-btn pull-right"><a href="property-details.html">For Buy</a>
-                                        </div>
-                                    </div>
-                                    <div class="title-text"><h4><a href="property-details.html">Villa on Grand
-                                                Avenue</a></h4></div>
-                                    <div class="price-box clearfix">
-                                        <div class="price-info pull-left">
-                                            <h6>Start From</h6>
-                                            <h4>$30,000.00</h4>
-                                        </div>
-                                        <ul class="other-option pull-right clearfix">
-                                            <li><a href="property-details.html"><i class="icon-12"></i></a></li>
-                                            <li><a href="property-details.html"><i class="icon-13"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing sed.</p>
-                                    <ul class="more-details clearfix">
-                                        <li><i class="icon-14"></i>3 Beds</li>
-                                        <li><i class="icon-15"></i>2 Baths</li>
-                                        <li><i class="icon-16"></i>600 Sq Ft</li>
-                                    </ul>
-                                    <div class="btn-box"><a href="property-details.html" class="theme-btn btn-two">See
-                                            Details</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                        <div class="feature-block-one wow fadeInUp animated" data-wow-delay="300ms"
-                             data-wow-duration="1500ms">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><img src="assets/images/feature/feature-2.jpg" alt="">
-                                    </figure>
-                                    <div class="batch"><i class="icon-11"></i></div>
-                                    <span class="category">Featured</span>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="author-info clearfix">
-                                        <div class="author pull-left">
-                                            <figure class="author-thumb"><img src="assets/images/feature/author-2.jpg"
-                                                                              alt=""></figure>
-                                            <h6>Robert Niro</h6>
-                                        </div>
-                                        <div class="buy-btn pull-right"><a href="property-details.html">For Rent</a>
-                                        </div>
-                                    </div>
-                                    <div class="title-text"><h4><a href="property-details.html">Contemporary
-                                                Apartment</a></h4></div>
-                                    <div class="price-box clearfix">
-                                        <div class="price-info pull-left">
-                                            <h6>Start From</h6>
-                                            <h4>$45,000.00</h4>
-                                        </div>
-                                        <ul class="other-option pull-right clearfix">
-                                            <li><a href="property-details.html"><i class="icon-12"></i></a></li>
-                                            <li><a href="property-details.html"><i class="icon-13"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing sed.</p>
-                                    <ul class="more-details clearfix">
-                                        <li><i class="icon-14"></i>3 Beds</li>
-                                        <li><i class="icon-15"></i>2 Baths</li>
-                                        <li><i class="icon-16"></i>600 Sq Ft</li>
-                                    </ul>
-                                    <div class="btn-box"><a href="property-details.html" class="theme-btn btn-two">See
-                                            Details</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                        <div class="feature-block-one wow fadeInUp animated" data-wow-delay="600ms"
-                             data-wow-duration="1500ms">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><img src="assets/images/feature/feature-3.jpg" alt="">
-                                    </figure>
-                                    <div class="batch"><i class="icon-11"></i></div>
-                                    <span class="category">Featured</span>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="author-info clearfix">
-                                        <div class="author pull-left">
-                                            <figure class="author-thumb"><img src="assets/images/feature/author-3.jpg"
-                                                                              alt=""></figure>
-                                            <h6>Keira Mel</h6>
-                                        </div>
-                                        <div class="buy-btn pull-right"><a href="property-details.html">Sold Out</a>
-                                        </div>
-                                    </div>
-                                    <div class="title-text"><h4><a href="property-details.html">Luxury Villa With
-                                                Pool</a></h4></div>
-                                    <div class="price-box clearfix">
-                                        <div class="price-info pull-left">
-                                            <h6>Start From</h6>
-                                            <h4>$63,000.00</h4>
-                                        </div>
-                                        <ul class="other-option pull-right clearfix">
-                                            <li><a href="property-details.html"><i class="icon-12"></i></a></li>
-                                            <li><a href="property-details.html"><i class="icon-13"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing sed.</p>
-                                    <ul class="more-details clearfix">
-                                        <li><i class="icon-14"></i>3 Beds</li>
-                                        <li><i class="icon-15"></i>2 Baths</li>
-                                        <li><i class="icon-16"></i>600 Sq Ft</li>
-                                    </ul>
-                                    <div class="btn-box"><a href="property-details.html" class="theme-btn btn-two">See
-                                            Details</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                <div class="row clearfix">--}}
+{{--                    <div class="col-lg-4 col-md-6 col-sm-12 feature-block">--}}
+{{--                        <div class="feature-block-one wow fadeInUp animated" data-wow-delay="00ms"--}}
+{{--                             data-wow-duration="1500ms">--}}
+{{--                            <div class="inner-box">--}}
+{{--                                <div class="image-box">--}}
+{{--                                    <figure class="image"><img src="assets/images/feature/feature-1.jpg" alt="">--}}
+{{--                                    </figure>--}}
+{{--                                    <div class="batch"><i class="icon-11"></i></div>--}}
+{{--                                    <span class="category">Featured</span>--}}
+{{--                                </div>--}}
+{{--                                <div class="lower-content">--}}
+{{--                                    <div class="author-info clearfix">--}}
+{{--                                        <div class="author pull-left">--}}
+{{--                                            <figure class="author-thumb"><img src="assets/images/feature/author-1.jpg"--}}
+{{--                                                                              alt=""></figure>--}}
+{{--                                            <h6>Michael Bean</h6>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="buy-btn pull-right"><a href="property-details.html">For Buy</a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="title-text"><h4><a href="property-details.html">Villa on Grand--}}
+{{--                                                Avenue</a></h4></div>--}}
+{{--                                    <div class="price-box clearfix">--}}
+{{--                                        <div class="price-info pull-left">--}}
+{{--                                            <h6>Start From</h6>--}}
+{{--                                            <h4>$30,000.00</h4>--}}
+{{--                                        </div>--}}
+{{--                                        <ul class="other-option pull-right clearfix">--}}
+{{--                                            <li><a href="property-details.html"><i class="icon-12"></i></a></li>--}}
+{{--                                            <li><a href="property-details.html"><i class="icon-13"></i></a></li>--}}
+{{--                                        </ul>--}}
+{{--                                    </div>--}}
+{{--                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing sed.</p>--}}
+{{--                                    <ul class="more-details clearfix">--}}
+{{--                                        <li><i class="icon-14"></i>3 Beds</li>--}}
+{{--                                        <li><i class="icon-15"></i>2 Baths</li>--}}
+{{--                                        <li><i class="icon-16"></i>600 Sq Ft</li>--}}
+{{--                                    </ul>--}}
+{{--                                    <div class="btn-box"><a href="property-details.html" class="theme-btn btn-two">See--}}
+{{--                                            Details</a></div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-lg-4 col-md-6 col-sm-12 feature-block">--}}
+{{--                        <div class="feature-block-one wow fadeInUp animated" data-wow-delay="300ms"--}}
+{{--                             data-wow-duration="1500ms">--}}
+{{--                            <div class="inner-box">--}}
+{{--                                <div class="image-box">--}}
+{{--                                    <figure class="image"><img src="assets/images/feature/feature-2.jpg" alt="">--}}
+{{--                                    </figure>--}}
+{{--                                    <div class="batch"><i class="icon-11"></i></div>--}}
+{{--                                    <span class="category">Featured</span>--}}
+{{--                                </div>--}}
+{{--                                <div class="lower-content">--}}
+{{--                                    <div class="author-info clearfix">--}}
+{{--                                        <div class="author pull-left">--}}
+{{--                                            <figure class="author-thumb"><img src="assets/images/feature/author-2.jpg"--}}
+{{--                                                                              alt=""></figure>--}}
+{{--                                            <h6>Robert Niro</h6>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="buy-btn pull-right"><a href="property-details.html">For Rent</a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="title-text"><h4><a href="property-details.html">Contemporary--}}
+{{--                                                Apartment</a></h4></div>--}}
+{{--                                    <div class="price-box clearfix">--}}
+{{--                                        <div class="price-info pull-left">--}}
+{{--                                            <h6>Start From</h6>--}}
+{{--                                            <h4>$45,000.00</h4>--}}
+{{--                                        </div>--}}
+{{--                                        <ul class="other-option pull-right clearfix">--}}
+{{--                                            <li><a href="property-details.html"><i class="icon-12"></i></a></li>--}}
+{{--                                            <li><a href="property-details.html"><i class="icon-13"></i></a></li>--}}
+{{--                                        </ul>--}}
+{{--                                    </div>--}}
+{{--                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing sed.</p>--}}
+{{--                                    <ul class="more-details clearfix">--}}
+{{--                                        <li><i class="icon-14"></i>3 Beds</li>--}}
+{{--                                        <li><i class="icon-15"></i>2 Baths</li>--}}
+{{--                                        <li><i class="icon-16"></i>600 Sq Ft</li>--}}
+{{--                                    </ul>--}}
+{{--                                    <div class="btn-box"><a href="property-details.html" class="theme-btn btn-two">See--}}
+{{--                                            Details</a></div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-lg-4 col-md-6 col-sm-12 feature-block">--}}
+{{--                        <div class="feature-block-one wow fadeInUp animated" data-wow-delay="600ms"--}}
+{{--                             data-wow-duration="1500ms">--}}
+{{--                            <div class="inner-box">--}}
+{{--                                <div class="image-box">--}}
+{{--                                    <figure class="image"><img src="assets/images/feature/feature-3.jpg" alt="">--}}
+{{--                                    </figure>--}}
+{{--                                    <div class="batch"><i class="icon-11"></i></div>--}}
+{{--                                    <span class="category">Featured</span>--}}
+{{--                                </div>--}}
+{{--                                <div class="lower-content">--}}
+{{--                                    <div class="author-info clearfix">--}}
+{{--                                        <div class="author pull-left">--}}
+{{--                                            <figure class="author-thumb"><img src="assets/images/feature/author-3.jpg"--}}
+{{--                                                                              alt=""></figure>--}}
+{{--                                            <h6>Keira Mel</h6>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="buy-btn pull-right"><a href="property-details.html">Sold Out</a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="title-text"><h4><a href="property-details.html">Luxury Villa With--}}
+{{--                                                Pool</a></h4></div>--}}
+{{--                                    <div class="price-box clearfix">--}}
+{{--                                        <div class="price-info pull-left">--}}
+{{--                                            <h6>Start From</h6>--}}
+{{--                                            <h4>$63,000.00</h4>--}}
+{{--                                        </div>--}}
+{{--                                        <ul class="other-option pull-right clearfix">--}}
+{{--                                            <li><a href="property-details.html"><i class="icon-12"></i></a></li>--}}
+{{--                                            <li><a href="property-details.html"><i class="icon-13"></i></a></li>--}}
+{{--                                        </ul>--}}
+{{--                                    </div>--}}
+{{--                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing sed.</p>--}}
+{{--                                    <ul class="more-details clearfix">--}}
+{{--                                        <li><i class="icon-14"></i>3 Beds</li>--}}
+{{--                                        <li><i class="icon-15"></i>2 Baths</li>--}}
+{{--                                        <li><i class="icon-16"></i>600 Sq Ft</li>--}}
+{{--                                    </ul>--}}
+{{--                                    <div class="btn-box"><a href="property-details.html" class="theme-btn btn-two">See--}}
+{{--                                            Details</a></div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
         </div>
     </section>

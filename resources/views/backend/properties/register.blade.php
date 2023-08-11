@@ -148,9 +148,13 @@
                                                 </div>
                                                 <div class="col-12 col-lg-3">
                                                     <label for="city" class="form-label">Ciudad</label>
-                                                    <input value="{{ old('city') }}" id="city" name="city" type="text"
-                                                           class="form-control"
-                                                           placeholder="Ciudad">
+                                                    <select class="form-select" id="city"
+                                                            name="city">
+                                                        @foreach($cities as $city)
+                                                            <option
+                                                                value="{{ $city->name }}">{{ $city->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                     <x-input-error :messages="$errors->get('city')" class="mt-2"/>
                                                 </div>
                                                 <div class="col-12 col-lg-3">

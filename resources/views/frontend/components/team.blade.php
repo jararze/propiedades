@@ -1,6 +1,6 @@
 <!-- team-section -->
 <section class="team-section sec-pad centred bg-color-1">
-    <div class="pattern-layer" style="background-image: url(assets/images/shape/shape-1.png);"></div>
+    <div class="pattern-layer" style="background-image: url({{ asset('front/assets/images/shape/shape-1.png') }});"></div>
     <div class="auto-container">
         <div class="sec-title">
             <h5>Nuesrtros Agentes</h5>

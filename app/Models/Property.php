@@ -11,7 +11,31 @@ class Property extends Model
 
     protected $guarded = [];
 
-//    public $incrementing = true;
+
+    public function scopeFilter($query, array $filters)
+    {
+
+        $query->when($filters['search'] ?? false, fn($query, $search) => $query
+            ->where('name', 'like', '%' . $search . '%')
+            ->orWhere('short_description', 'like', '%' . $search . '%')
+            ->orWhere('long_description', 'like', '%' . $search . '%')
+            ->orWhere('city', 'like', '%' . $search . '%')
+            ->orWhere('address', 'like', '%' . $search . '%')
+            ->orWhere('neighborhood', 'like', '%' . $search . '%'));
+
+        if($filters['city'] != 'Ciudad'){
+            $query->when($filters['city'] ?? false, fn($query, $city) => $query
+                ->where('city', $city));
+        }
+
+        if($filters['property_type'] != 'Todos'){
+            $query->when($filters['property_type'] ?? false, fn($query, $property_type) => $query
+                ->where('propertytype_id', $property_type));
+        }
+
+
+
+    }
 
     public function type()
     {

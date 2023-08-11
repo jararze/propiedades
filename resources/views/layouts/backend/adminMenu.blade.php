@@ -6,7 +6,39 @@
             <div class="menu-title">Dashboard</div>
         </a>
     </li>
+
+
+
+    <li class="menu-label">Diseño Principal</li>
+
+
+
+    <li>
+        <a href="{{ route('admin.configuration.index') }}">
+            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            </div>
+            <div class="menu-title">Imagen Principal</div>
+        </a>
+    </li>
+
+
     <li class="menu-label">Configuraciones</li>
+
+
+
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class="bi bi-house"></i>
+            </div>
+            <div class="menu-title">Ciudades</div>
+        </a>
+        <ul>
+            <li><a href="{{ route('admin.cities.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
+            <li><a href="{{ route('admin.cities.register') }}"><i class="bi bi-circle"></i>Agregar</a>
+            </li>
+        </ul>
+    </li>
+
     <li>
         <a href="javascript:;" class="has-arrow">
             <div class="parent-icon"><i class="bi bi-house"></i>
@@ -102,6 +134,19 @@
         </ul>
     </li>
 
+
+    <li class="menu-label">Posibles Interesados</li>
+
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class="bi bi-building-add"></i>
+            </div>
+            <div class="menu-title">Potenciales clientes</div>
+        </a>
+        <ul>
+            <li><a href="{{ route('admin.possible.users.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
+        </ul>
+    </li>
 
     {{--        <li>--}}
     {{--            <a href="pages-timeline.html">--}}

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\Configuration;
 use App\Models\Property;
 use App\Models\PropertyType;
 use App\Models\User;
@@ -24,12 +26,19 @@ class FrontendController extends Controller
         $featuredProperties = Property::where('featured', 1)->orderBy('id', 'desc')->take(3)->get();
         $hotProperties = Property::where('hot', 1)->orderBy('id', 'desc')->take(3)->get();
         $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('id', 'desc')->get();
+        $confPrincipalImage = Configuration::where('name', 'principal-image')->firstOrFail();
+
+        $cities = City::orderBy('name', 'asc')->get();
+
+
         return view('index', [
             'propertyTypes' => $types,
             'count' => $num,
             'featuredProperties' => $featuredProperties,
             'hotProperties' => $hotProperties,
             'agents' => $agents,
+            'confPrincipalImage' => $confPrincipalImage,
+            'cities' => $cities,
         ]);
     }
 

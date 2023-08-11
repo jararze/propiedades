@@ -122,10 +122,15 @@
                                                                     <div class="col-12 col-lg-3">
                                                                         <label for="city"
                                                                                class="form-label">Ciudad</label>
-                                                                        <input id="city" name="city" type="text"
-                                                                               class="form-control"
-                                                                               placeholder="Ciudad"
-                                                                               value="{{ $property->city }}">
+                                                                        <select class="form-select" id="city"
+                                                                                name="city">
+                                                                            @foreach($cities as $city)
+                                                                                @php
+                                                                                    $selected2 = ($city->name == $property->city) ? 'selected' : '';
+                                                                                @endphp
+                                                                                <option {{ $selected2 }} value="{{ $city->name }}">{{ $city->name }}
+                                                                            @endforeach
+                                                                        </select>
                                                                         <x-input-error :messages="$errors->get('city')"
                                                                                        class="mt-2"/>
                                                                     </div>
