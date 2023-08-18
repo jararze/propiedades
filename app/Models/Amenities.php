@@ -9,5 +9,10 @@ class Amenities extends Model
 {
     use HasFactory;
 
-    protected $guarder = [];
+    protected $guarded = [];
+
+//    public function properties()
+//    {
+//        return $this->belongsToMany(Property::class, 'properties', 'amenities_id', 'id');
+//    }
 }

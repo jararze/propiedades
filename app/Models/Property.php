@@ -14,27 +14,41 @@ class Property extends Model
 
     public function scopeFilter($query, array $filters)
     {
+        $query->when(isset($filters['search']), function ($query) use ($filters) {
+            $search = $filters['search'];
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('short_description', 'like', '%' . $search . '%')
+                    ->orWhere('long_description', 'like', '%' . $search . '%')
+                    ->orWhere('city', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%')
+                    ->orWhere('neighborhood', 'like', '%' . $search . '%');
+            });
+        });
 
-        $query->when($filters['search'] ?? false, fn($query, $search) => $query
-            ->where('name', 'like', '%' . $search . '%')
-            ->orWhere('short_description', 'like', '%' . $search . '%')
-            ->orWhere('long_description', 'like', '%' . $search . '%')
-            ->orWhere('city', 'like', '%' . $search . '%')
-            ->orWhere('address', 'like', '%' . $search . '%')
-            ->orWhere('neighborhood', 'like', '%' . $search . '%'));
+        $query->when(isset($filters['city']) && $filters['city'] != 'Ciudad', function ($query) use ($filters) {
+            $query->where('city', $filters['city']);
+        });
 
-        if($filters['city'] != 'Ciudad'){
-            $query->when($filters['city'] ?? false, fn($query, $city) => $query
-                ->where('city', $city));
-        }
+        $query->when(isset($filters['property_type']) && $filters['property_type'] != 'Todos', function ($query) use ($filters) {
+            $query->where('propertytype_id', $filters['property_type']);
+        });
 
-        if($filters['property_type'] != 'Todos'){
-            $query->when($filters['property_type'] ?? false, fn($query, $property_type) => $query
-                ->where('propertytype_id', $property_type));
-        }
+        $query->when(isset($filters['neighborhoods']) && $filters['neighborhoods'] != 'Zona', function ($query) use ($filters) {
+            $query->where('neighborhood', $filters['neighborhoods']);
+        });
 
+        $query->when(isset($filters['garage']) && $filters['garage'] != 'Garajes', function ($query) use ($filters) {
+            $query->where('garage', $filters['garage']);
+        });
 
+        $query->when(isset($filters['bedrooms']) && $filters['bedrooms'] != 'Habitaciones', function ($query) use ($filters) {
+            $query->where('bedrooms', $filters['bedrooms']);
+        });
 
+        $query->when(isset($filters['bathrooms']) && $filters['bathrooms'] != 'Baños', function ($query) use ($filters) {
+            $query->where('bathrooms', $filters['bathrooms']);
+        });
     }
 
     public function type()

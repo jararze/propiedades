@@ -33,8 +33,7 @@
 <body>
 @if(Request::is('/'))
 @endif
-@include('layouts.frontend.loader')
-
+{{--@include('layouts.frontend.loader')--}}
 
 @include('layouts.frontend.header')
 

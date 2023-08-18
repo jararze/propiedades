@@ -136,3 +136,15 @@ jQuery(document).on('ready', function () {
         gMap();
     })(jQuery);
 });
+
+
+$(window).on("load", function() {
+    "use strict";
+    var hd_height = $("header").innerHeight();
+    $(".half-map-sec #map-container.fullwidth-home-map").css({
+        "top": hd_height
+    });
+    $(".half-map-sec").css({
+        "margin-top": hd_height
+    });
+});

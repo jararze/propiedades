@@ -1,3 +1,7 @@
+@php
+    $categories=App\Models\Configuration::all();
+@endphp
+
 <!-- main header -->
 <header class="main-header">
     <!-- header-top -->
@@ -5,15 +9,15 @@
         <div class="top-inner clearfix">
             <div class="left-column pull-left">
                 <ul class="info clearfix">
-                    <li><i class="fas fa-map-marker-alt"></i>San Miguel, </li>
-                    <li><i class="fas fa-clock"></i>Lun - Sab 9.00 - 18.00</li>
-                    <li><i class="fas fa-phone"></i><a href="tel:2512353256">+59179680616</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i>{{  $categories[1]->value }} </li>
+                    <li><i class="fas fa-clock"></i>{{  $categories[2]->value }}</li>
+                    <li><i class="fas fa-phone"></i><a href="tel:+591{{  $categories[3]->value }}">{{  $categories[3]->value }}</a></li>
                 </ul>
             </div>
             <div class="right-column pull-right">
                 <ul class="social-links clearfix">
-                    <li><a href="index.html"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="{{  $categories[4]->value }}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="{{  $categories[5]->value }}" target="_blank"><i class="fab fa-tiktok"></i></a></li>
                 </ul>
                 <div class="sign-box">
                     <ul class="social-links clearfix">
@@ -45,6 +49,11 @@
         </div>
     </div>
     <!-- header-lower -->
+
+    @php
+        $currenturl = Request::path();
+//        dd($currenturl);
+    @endphp
     <div class="header-lower">
         <div class="outer-box">
             <div class="main-box">
@@ -66,10 +75,10 @@
                     <nav class="main-menu navbar-expand-md navbar-light">
                         <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                             <ul class="navigation clearfix">
-                                <li class="current"><a href="{{ route('index') }}"><span>Inicio</span></a></li>
-                                <li><a href="{{ route('index') }}"><span>Nosotros</span></a></li>
-                                <li><a href=""><span>Agentes</span></a></li>
-                                <li><a href="{{ route("front.project.index") }}"><span>Proyectos</span></a></li>
+                                <li class="@if($currenturl == '/'){{ 'current' }} @endif"><a href="{{ route('index') }}"><span>Inicio</span></a></li>
+                                <li class="@if($currenturl == 'about'){{ 'current' }} @endif"><a href="{{ route('about') }}"><span>Nosotros</span></a></li>
+                                <li class="@if($currenturl == ''){{ 'current' }} @endif"><a href=""><span>Agentes</span></a></li>
+                                <li class="@if($currenturl == route("front.project.index")){{ 'current' }} @endif"><a href="{{ route("front.project.index") }}"><span>Proyectos</span></a></li>
                                 <li class="dropdown"><a href="{{ route("front.properties.index", 'allProperties') }}"><span>Propiedades</span></a>
                                     <ul>
                                         <li><a href="">Venta</a></li>
@@ -77,8 +86,8 @@
                                         <li><a href="">Anticretico</a></li>
                                     </ul>
                                 </li>
-                                <li><a href=""><span>Blog</span></a></li>
-                                <li><a href=""><span>Contact</span></a></li>
+{{--                                <li><a href=""><span>Blog</span></a></li>--}}
+                                <li class="@if($currenturl === 'contact'){{ 'current' }} @endif"><a href="/contact"><span>Contacto</span></a></li>
                             </ul>
                         </div>
                     </nav>

@@ -4,7 +4,7 @@
         <div class="video-inner">
             <div class="video-btn">
                 <a class="lightbox-image" data-caption=""
-                   href="https://www.youtube.com/watch?v=nfP5N9Yc72A&amp;t=28s"><i class="icon-17"></i></a>
+                   href="{{  $configuration[6]->value }}"><i class="icon-17"></i></a>
             </div>
         </div>
     </div>

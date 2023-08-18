@@ -15,8 +15,9 @@
                         <ul class="tab-btns tab-buttons centred clearfix">
                             <li class="tab-btn active-btn" data-tab="#tab-1">COMPRA</li>
                             <li class="tab-btn" data-tab="#tab-2">ALQUILER</li>
-                            <li class="tab-btn" data-tab="#tab-3">ANTICRETICO</li>
-                            <li class="tab-btn" data-tab="#tab-4">PROYECTO</li>
+                            <li class="tab-btn" data-tab="#tab-3">ROOMIE</li>
+                            <li class="tab-btn" data-tab="#tab-4">ANTICRETICO</li>
+                            <li class="tab-btn" data-tab="#tab-5">PROYECTO</li>
                         </ul>
                     </div>
                     <div class="tabs-content info-group">
@@ -28,10 +29,14 @@
                         </div>
 
                         <div class="tab" id="tab-3">
-                            <x-search-card type="Anticretico" :cities="$cities" :propertyTypes="$propertyTypes" :agents="$agents" />
+                            <x-search-card type="Roomie" :cities="$cities" :propertyTypes="$propertyTypes" :agents="$agents" />
                         </div>
 
                         <div class="tab" id="tab-4">
+                            <x-search-card type="Anticretico" :cities="$cities" :propertyTypes="$propertyTypes" :agents="$agents" />
+                        </div>
+
+                        <div class="tab" id="tab-5">
                             <x-search-card type="Proyecto" :cities="$cities" :propertyTypes="$propertyTypes" :agents="$agents" />
                         </div>
                     </div>

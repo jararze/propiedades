@@ -1,103 +1,137 @@
 <div class="default-sidebar property-sidebar">
     <div class="filter-widget sidebar-widget">
         <div class="widget-title">
-            <h5>Property</h5>
+            <h5>Propiedad</h5>
         </div>
-        <div class="widget-content">
-            <div class="select-box">
-                <select class="wide">
-                    <option data-display="All Type">All Type</option>
-                    <option value="1">Villa</option>
-                    <option value="2">Commercial</option>
-                    <option value="3">Residential</option>
-                </select>
+        <form action="/properties/filter" method="GET">
+            <div class="widget-content">
+                <div class="select-box">
+                    <label for="property_type">Tipo de propiedad</label>
+                    <div class="select-box">
+                        <select class="wide" id="property_type" name="property_type">
+                            <option data-display="Todos" value="Todos">Todos los tipos</option>
+                            @foreach($types as $type)
+                                @php
+                                    $selected = (request('property_type') == $type->id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $type->id }}" {{ $selected }}>{{ $type->type_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="select-box">
+                    <select class="wide" id="city" name="city">
+                        <option data-display="Ciudad">Ciudad</option>
+                        @foreach($cities as $city)
+                            @php
+                                $selected = (request('city') == $city->name) ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $city->name }}" {{ $selected }}>{{ $city->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="select-box">
+                    <select class="wide" id="neighborhoods" name="neighborhoods">
+                        <option data-display="Zona">Zona</option>
+                        @foreach($neighborhoods as $neighborhood)
+                            @php
+                                $selected = (request('neighborhoods') == $neighborhood) ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $neighborhood }}" {{ $selected }}>{{ $neighborhood }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="select-box">
+                    <select class="wide" id="garage" name="garage">
+                        <option data-display="Garage">Garajes</option>
+                        @foreach($garages as $garage)
+                            @php
+                                $selected = (request('garage') == $garage) ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $garage }}" {{ $selected }}>{{ $garage }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="select-box">
+                    <select class="wide" id="bedrooms" name="bedrooms">
+                        <option data-display="Habitaciones">Habitaciones</option>
+                        @foreach($bedrooms as $bedroom)
+                            @php
+                                $selected = (request('bedrooms') == $bedroom) ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $bedroom }}" {{ $selected }}>{{ $bedroom }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="select-box">
+                    <select class="wide" id="bathrooms" name="bathrooms">
+                        <option data-display="Baños">Baños</option>
+                        @foreach($bathrooms as $bathroom)
+                            @php
+                                $selected = (request('bathrooms') == $bathroom) ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $bathroom }}" {{ $selected }}>{{ $bathroom }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="filter-btn">
+                    <button type="submit" class="theme-btn btn-one"><i class="fas fa-filter"></i>&nbsp;Buscar
+                    </button>
+                </div>
+                <div class="filter-btn" style="margin-top: 20px">
+                    <a href="/properties/filter" class="theme-btn btn-one" style="background-color: #8d4654; border-color: #8d4654"><i class="fas fa-filter"></i>&nbsp;Eliminar filtros</a>
+                </div>
             </div>
-            <div class="select-box">
-                <select class="wide">
-                    <option data-display="Select Location">Select Location</option>
-                    <option value="1">New York</option>
-                    <option value="2">California</option>
-                    <option value="3">London</option>
-                    <option value="4">Maxico</option>
-                </select>
-            </div>
-            <div class="select-box">
-                <select class="wide">
-                    <option data-display="This Area Only">This Area Only</option>
-                    <option value="1">New York</option>
-                    <option value="2">California</option>
-                    <option value="3">London</option>
-                    <option value="4">Maxico</option>
-                </select>
-            </div>
-            <div class="select-box">
-                <select class="wide">
-                    <option data-display="All Type">Max Rooms</option>
-                    <option value="1">2+ Rooms</option>
-                    <option value="2">3+ Rooms</option>
-                    <option value="3">4+ Rooms</option>
-                    <option value="4">5+ Rooms</option>
-                </select>
-            </div>
-            <div class="select-box">
-                <select class="wide">
-                    <option data-display="Most Popular">Most Popular</option>
-                    <option value="1">Villa</option>
-                    <option value="2">Commercial</option>
-                    <option value="3">Residential</option>
-                </select>
-            </div>
-            <div class="select-box">
-                <select class="wide">
-                    <option data-display="All Type">Select Floor</option>
-                    <option value="1">2x Floor</option>
-                    <option value="2">3x Floor</option>
-                    <option value="3">4x Floor</option>
-                </select>
-            </div>
-            <div class="filter-btn">
-                <button type="submit" class="theme-btn btn-one"><i class="fas fa-filter"></i>&nbsp;Filter
-                </button>
-            </div>
-        </div>
+        </form>
     </div>
     <div class="price-filter sidebar-widget">
         <div class="widget-title">
-            <h5>Select Price Range</h5>
+            <h5>Rango de precio</h5>
         </div>
-        <div class="range-slider clearfix">
-            <div class="clearfix">
-                <div class="input">
-                    <input type="text" class="property-amount" name="field-name" readonly="">
+
+{{--        @dd(request()->all())--}}
+        @php
+//            $queryString = http_build_query(request()->all(),"","&");
+            $queryString = \Illuminate\Support\Arr::query(request()->all());
+        @endphp
+        <form action="/properties/filter" method="get">
+            <div class="range-slider clearfix">
+                <div class="clearfix">
+                    <div class="input">
+                        <input type="text" class="property-amount" name="property-amount" readonly="">
+                        <input type="text" class="dsa" name="dsa" readonly="" value="{{ $queryString }}">
+                    </div>
                 </div>
+                <div class="price-range-slider"></div>
             </div>
-            <div class="price-range-slider"></div>
-        </div>
+            <div class="filter-btn" style="margin-top: 20px">
+                <button type="submit" class="theme-btn btn-one"><i class="fas fa-filter"></i>&nbsp;Buscar
+                </button>
+            </div>
+        </form>
     </div>
+
     <div class="category-widget sidebar-widget">
         <div class="widget-title">
-            <h5>Status Of Property</h5>
+            <h5>Propiedades para:</h5>
         </div>
         <ul class="category-list clearfix">
-            <li><a href="property-details.html">For Rent <span>(200)</span></a></li>
-            <li><a href="property-details.html">For Sale <span>(700)</span></a></li>
+            @foreach($counts as $key => $count)
+                <li><a href="/properties/filter?status={{ $key }}">{{ $key }} <span>({{ $count }})</span></a></li>
+            @endforeach
         </ul>
     </div>
+
+
     <div class="category-widget sidebar-widget">
         <div class="widget-title">
-            <h5>Amenities</h5>
+            <h5>Comodidades</h5>
         </div>
         <ul class="category-list clearfix">
-            <li><a href="property-details.html">Air Conditioning <span>(17)</span></a></li>
-            <li><a href="property-details.html">Central Heating <span>(4)</span></a></li>
-            <li><a href="property-details.html">Cleaning Service <span>(12)</span></a></li>
-            <li><a href="property-details.html">Dining Room <span>(8)</span></a></li>
-            <li><a href="property-details.html">Dishwasher <span>(5)</span></a></li>
-            <li><a href="property-details.html">Dishwasher <span>(2)</span></a></li>
-            <li><a href="property-details.html">Family Room <span>(19)</span></a></li>
-            <li><a href="property-details.html">Onsite Parking <span>(11)</span></a></li>
-            <li><a href="property-details.html">Fireplace <span>(7)</span></a></li>
-            <li><a href="property-details.html">Hardwood Flows <span>(9)</span></a></li>
+            @foreach($amenities as $amenity)
+                <li><a href="/properties/filter?amenities={{ $amenity->id }}">{{ $amenity->name }} <span>({{ $amenity->property_count }})</span></a>
+                </li>
+            @endforeach
         </ul>
     </div>
 </div>

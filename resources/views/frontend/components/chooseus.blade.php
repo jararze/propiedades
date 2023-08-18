@@ -8,7 +8,7 @@
                     <h2>Estas son las razones</h2>
                 </div>
                 <div class="btn-box">
-                    <a class="theme-btn btn-one" href="categories.html">Ver todas las propiedades</a>
+                    <a class="theme-btn btn-one" href="/properties/filter">Ver todas las propiedades</a>
                 </div>
             </div>
             <div class="lower-box">
@@ -18,7 +18,7 @@
                             <div class="inner-box">
                                 <div class="icon-box"><i class="icon-19"></i></div>
                                 <h4>Excelente reputación</h4>
-                                <p>Lorem ipsum dolor sit consectetur sed eiusm tempor.</p>
+                                <p>{{  $configuration[7]->value }}</p>
                             </div>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                             <div class="inner-box">
                                 <div class="icon-box"><i class="icon-26"></i></div>
                                 <h4>Los mejores agentes</h4>
-                                <p>Lorem ipsum dolor sit consectetur sed eiusm tempor.</p>
+                                <p>{{  $configuration[8]->value }}</p>
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                             <div class="inner-box">
                                 <div class="icon-box"><i class="icon-21"></i></div>
                                 <h4>Servicio personalizado</h4>
-                                <p>Lorem ipsum dolor sit consectetur sed eiusm tempor.</p>
+                                <p>{{  $configuration[9]->value }}</p>
                             </div>
                         </div>
                     </div>

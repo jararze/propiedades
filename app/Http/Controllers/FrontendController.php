@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Configuration;
 use App\Models\Property;
 use App\Models\PropertyType;
+use App\Models\Testimony;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -27,6 +28,9 @@ class FrontendController extends Controller
         $hotProperties = Property::where('hot', 1)->orderBy('id', 'desc')->take(3)->get();
         $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('id', 'desc')->get();
         $confPrincipalImage = Configuration::where('name', 'principal-image')->firstOrFail();
+        $properties = Property::where("status", 1)->get();
+        $configuration = Configuration::all();
+        $testimonies =Testimony::all();
 
         $cities = City::orderBy('name', 'asc')->get();
 
@@ -39,6 +43,9 @@ class FrontendController extends Controller
             'agents' => $agents,
             'confPrincipalImage' => $confPrincipalImage,
             'cities' => $cities,
+            'properties' => $properties,
+            'configuration' => $configuration,
+            'testimonies' => $testimonies,
         ]);
     }
 
@@ -49,4 +56,18 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.signin');
     }
+
+
+    public function about(): View
+    {
+        return view('frontend.pages.about');
+    }
+
+
+    public function contact(): View
+    {
+        return view('frontend.pages.contact');
+    }
+
+
 }

@@ -63,12 +63,12 @@
                                                         <h4>{{ number_format($featured_propery->max_price, 0) }}$us</h4>
                                                     </div>
                                                     <div class="author-box pull-right">
-                                                        <figure class="author-thumb">
-                                                            <img
-                                                                src="{{ (!empty($featured_propery['agent']['photo'])) ? url('upload/profiles/'.$featured_propery['agent']['photo']) : url('upload/No_Image_Available.jpg') }}"
-                                                                alt="">
-                                                            <span>{{ $featured_propery['agent']['name'] }} {{ $featured_propery['agent']['lastname'] }}</span>
+                                                        <figure class="image-box">
+{{--                                                            <img--}}
+{{--                                                                src="{{ (!empty($featured_propery['agent']['photo'])) ? url('upload/profiles/'.$featured_propery['agent']['photo']) : url('upload/No_Image_Available.jpg') }}"--}}
+{{--                                                                alt="">--}}
                                                         </figure>
+                                                        <span class="category" style="margin-right: 50px; padding: 10px; position: relative; background-color: #08abc4; border-radius: 5px; line-height: 20px">{{ $featured_propery['type']['type_name'] }}</span>
                                                     </div>
                                                 </div>
                                                 <p>{{ Str::words($featured_propery->short_description, 25, '...') }}</p>

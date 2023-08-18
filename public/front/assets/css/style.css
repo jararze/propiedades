@@ -2533,7 +2533,7 @@ div#mCSB_1_container {
     color: #ffffff;
     text-transform: uppercase;
     border-radius: 3px;
-    padding: 0px 14px;
+    padding: 0px 8px;
     text-align: center;
     background-color: #f2b241;
     z-index: 1;
@@ -2725,7 +2725,7 @@ div#mCSB_1_container {
 
 .testimonial-section {
     position: relative;
-    padding: 114px 0px 295px 0px;
+    padding: 114px 0px 100px 0px;
 }
 
 .testimonial-section .pattern-layer {
@@ -2834,6 +2834,8 @@ div#mCSB_1_container {
 /** chooseus-section **/
 
 .chooseus-section {
+    padding-top: 270px;
+    padding-bottom: 180px;
     position: relative;
 }
 
@@ -3118,7 +3120,7 @@ div#mCSB_1_container {
     display: block;
     background-color: #ffffff;
     border-radius: 10px;
-    padding: 31px 30px 40px 30px;
+    padding: 31px 30px 80px 30px;
     margin-top: -85px;
     z-index: 1;
     box-shadow: 0 15px 50px 0px rgb(0 0 0 / 10%);

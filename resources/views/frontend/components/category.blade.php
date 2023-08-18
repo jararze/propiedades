@@ -8,15 +8,13 @@
                         <div class="category-block-one">
                             <div class="inner-box">
                                 <div class="icon-box"><i class="{{ $property->type_icon }}"></i></div>
-                                <h5><a href="property-details.html">{{ $property->type_name }}</a></h5>
-{{--                                <span>{{ mt_rand(1, 50) }}</span>--}}
+                                <h5><a href="/properties/filter?property_type={{ $property->id }}">{{ $property->type_name }}</a></h5>
                                 <span>{{ $count[$property->id] }}</span>
                             </div>
                         </div>
                     </li>
                 @endforeach
             </ul>
-{{--            <div class="more-btn"><a class="theme-btn btn-one" href="categories.html">Todos los tipos</a></div>--}}
         </div>
     </div>
 </section>

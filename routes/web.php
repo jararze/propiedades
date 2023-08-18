@@ -13,6 +13,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\PropertyMessageController;
 use App\Http\Controllers\PropertyTypeController;
+use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,10 @@ use Illuminate\Support\Facades\Route;
 Route::controller(FrontendController::class)->group(function () {
 
     Route::get('/', 'index')->name('index');
+
+    Route::get('/about', 'about')->name('about');
+
+    Route::get('/contact', 'contact')->name('contact');
 
     Route::get('/user/signin', 'userSignin')->name('user.signin');
 
@@ -101,6 +106,24 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
 
     Route::get('admin/configuration/index', [ConfigurationController::class, 'index'])->name('admin.configuration.index');
     Route::post('admin/configuration/update', [ConfigurationController::class, 'update'])->name('admin.configuration.update');
+
+    Route::get('admin/configuration/index/menu', [ConfigurationController::class, 'indexMenu'])->name('admin.configuration.index.menu');
+    Route::post('admin/configuration/update/menu', [ConfigurationController::class, 'updateMenu'])->name('admin.configuration.update.menu');
+
+    Route::get('admin/configuration/video/index', [ConfigurationController::class, 'indexVideo'])->name('admin.configuration.video.index');
+    Route::post('admin/configuration/video/update', [ConfigurationController::class, 'updateVideo'])->name('admin.configuration.video.update');
+
+    Route::get('admin/configuration/reasons/index', [ConfigurationController::class, 'indexReasons'])->name('admin.configuration.reasons.index');
+    Route::post('admin/configuration/reasons/update', [ConfigurationController::class, 'updateReasons'])->name('admin.configuration.reasons.update');
+
+
+    Route::get('/admin/testimonies/all', [TestimonyController::class, 'index'])->name('admin.testimonies.index');
+    Route::get('/admin/testimonies/register', [TestimonyController::class, 'create'])->name('admin.testimonies.register');
+    Route::post('/admin/testimonies/register', [TestimonyController::class, 'store']);
+    Route::get('/admin/testimonies/edit/{id}', [TestimonyController::class, 'edit'])->name('admin.testimonies.edit');
+    Route::post('/admin/testimonies/edit', [TestimonyController::class, 'update'])->name('admin.testimonies.edit.info');
+    Route::get('/admin/testimonies/delete', [TestimonyController::class, 'destroy'])->name('admin.testimonies.delete');
+
 
     Route::get('/admin/cities/all', [CityController::class, 'index'])->name('admin.cities.index');
     Route::get('/admin/cities/register', [CityController::class, 'create'])->name('admin.cities.register');

@@ -7,8 +7,8 @@
                 <h2>¿Comprar una propiedad nueva o <br/>vender una existente?</h2>
             </div>
             <div class="btn-box pull-right">
-                <a class="theme-btn btn-three" href="property-details.html">Alquilar</a>
-                <a class="theme-btn btn-one" href="index.html">Comprar</a>
+                <a class="theme-btn btn-three" href="/properties/filter?tipo=Alquiler">Alquilar</a>
+                <a class="theme-btn btn-one" href="/properties/filter?tipo=Venta">Comprar</a>
             </div>
         </div>
     </div>

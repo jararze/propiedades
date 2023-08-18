@@ -1,3 +1,7 @@
+@php
+    $categories=App\Models\Configuration::all();
+@endphp
+
 <!-- main-footer -->
 <footer class="main-footer">
     <div class="footer-top bg-color-2">
@@ -9,9 +13,7 @@
                             <h3>Sobre nosotros</h3>
                         </div>
                         <div class="text">
-                            <p>Lorem ipsum dolor amet consetetur adi pisicing elit sed eiusm tempor in cididunt ut
-                                labore dolore magna aliqua enim ad minim venitam</p>
-                            <p>Quis nostrud exercita laboris nisi ut aliquip commodo.</p>
+                            <p>{{  $categories[11]->value }}</p>
                         </div>
                     </div>
                 </div>
@@ -22,8 +24,9 @@
                         </div>
                         <div class="widget-content">
                             <ul class="links-list class">
-                                <li><a href="">Quienes somos</a></li>
+                                <li><a href="">Nosotros</a></li>
                                 <li><a href="">Agentes</a></li>
+                                <li><a href="">Proyectos</a></li>
                                 <li><a href="">Propiedades</a></li>
                                 <li><a href="">Blog</a></li>
                                 <li><a href="">Contactanos</a></li>
@@ -38,11 +41,11 @@
                         </div>
                         <div class="widget-content">
                             <ul class="info-list clearfix">
-                                <li><i class="fas fa-map-marker-alt"></i>San Miguel, jose maria zalles # 07
+                                <li><i class="fas fa-map-marker-alt"></i>{{  $categories[1]->value }}
                                 </li>
-                                <li><i class="fas fa-microphone"></i><a href="tel:23055873407">+59179680616</a>
+                                <li><i class="fas fa-microphone"></i><a href="tel:+591{{  $categories[3]->value }}">{{  $categories[3]->value }}</a>
                                 </li>
-                                <li><i class="fas fa-envelope"></i><a href="mailto:info@propropiedades.com">info@propropiedades.com</a>
+                                <li><i class="fas fa-envelope"></i><a href="mailto:{{  $categories[10]->value }}">{{  $categories[10]->value }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -56,11 +59,11 @@
             <div class="inner-box clearfix">
                 <figure class="footer-logo"><a href="{{ route('index') }}"><img alt="" src="{{ asset('backend/assets/images/logo/PROpiedades_03.png') }}" style="width: 30%"></a></figure>
                 <div class="copyright pull-left">
-                    <p><a href="index.html">Propropiedades</a> &copy; {{ date('Y') }} Todos los derechos reservados.</p>
+                    <p><a href="/">Propropiedades</a> &copy; {{ date('Y') }} Todos los derechos reservados.</p>
                 </div>
                 <ul class="footer-nav pull-right clearfix">
-                    <li><a href="index.html">Terminos del servicio</a></li>
-                    <li><a href="index.html">Politicas de privacidad</a></li>
+                    <li><a href="/">Terminos del servicio</a></li>
+                    <li><a href="/">Politicas de privacidad</a></li>
                 </ul>
             </div>
         </div>

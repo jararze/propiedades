@@ -22,6 +22,50 @@
     </li>
 
 
+
+
+    <li>
+        <a href="{{ route('admin.configuration.index.menu') }}">
+            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            </div>
+            <div class="menu-title">Cabecera/Pie Pagina</div>
+        </a>
+    </li>
+
+
+
+
+    <li>
+        <a href="{{ route('admin.configuration.video.index') }}">
+            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            </div>
+            <div class="menu-title">Video</div>
+        </a>
+    </li>
+
+
+
+
+    <li>
+        <a href="{{ route('admin.testimonies.index') }}">
+            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            </div>
+            <div class="menu-title">Testimonios</div>
+        </a>
+    </li>
+
+
+
+
+    <li>
+        <a href="{{ route('admin.configuration.reasons.index') }}">
+            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            </div>
+            <div class="menu-title">Razones</div>
+        </a>
+    </li>
+
+
     <li class="menu-label">Configuraciones</li>
 
 

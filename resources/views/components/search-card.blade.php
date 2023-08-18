@@ -32,9 +32,9 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-12 column">
                     <div class="form-group">
-                        <label>Tipo de propiedad</label>
+                        <label for="property_type">Tipo de propiedad</label>
                         <div class="select-box">
-                            <select class="wide" name="property_type">
+                            <select class="wide" id="property_type" name="property_type">
                                 <option data-display="Todos" value="Todos">Todos los tipos</option>
                                 @foreach($propertyTypes as $property)
                                     <option value="{{ $property->id }}">{{ $property->type_name }}</option>

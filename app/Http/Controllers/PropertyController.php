@@ -18,6 +18,7 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
@@ -500,8 +501,69 @@ class PropertyController extends Controller
         } else {
             $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(4);
         }
+
+        $types = PropertyType::where('status', 1)->orderBy('id', 'asc')->get();
+        $cities = City::orderBy('name', 'asc')->get();
+        $neighborhoods = Property::where('status', 1)
+            ->where('neighborhood', '!=', '')
+            ->orderBy('neighborhood', 'asc')
+            ->distinct()
+            ->pluck('neighborhood');
+
+
+        $propertyStatuses = ['Venta', 'Alquiler', 'Anticretico', 'Roomis'];
+
+        $counts = Property::where('status', 1)
+            ->whereIn('property_status', $propertyStatuses)
+            ->distinct()
+            ->select('property_status', Property::raw('COUNT(DISTINCT id) as count'))
+            ->groupBy('property_status')
+            ->pluck('count', 'property_status');
+
+        $garages = Property::where('status', 1)
+            ->where('garage', '!=', 0)
+            ->orderBy('garage', 'asc')
+            ->distinct()
+            ->pluck('garage');
+
+        $bedrooms = Property::where('status', 1)
+            ->where('bedrooms', '!=', 0)
+            ->orderBy('bedrooms', 'asc')
+            ->distinct()
+            ->pluck('bedrooms');
+
+        $bathrooms = Property::where('status', 1)
+            ->where('bathrooms', '!=', 0)
+            ->orderBy('bathrooms', 'asc')
+            ->distinct()
+            ->pluck('bathrooms');
+
+        $amenities = Amenities::where('status', 1)
+            ->select('id', 'name')
+            ->selectSub(function ($query) {
+                $query->from('properties')
+                    ->selectRaw('COUNT(DISTINCT id)')
+                    ->whereColumn('properties.status', '=', 'amenities.status')
+                    ->where(function ($subquery) {
+                        $subquery->whereRaw("CONCAT(',', properties.amenities_id, ',') LIKE CONCAT('%,', amenities.id, ',%')")
+                            ->orWhere('properties.amenities_id', '=', \DB::raw('amenities.id'))
+                            ->orWhere(\DB::raw("CONCAT(',', properties.amenities_id)"), 'LIKE', \DB::raw("CONCAT('%,', amenities.id)"));
+                    })
+                    ->limit(1);
+            }, 'property_count')
+            ->orderBy('name', 'asc')
+            ->get();
+
         return view('frontend.pages.properties.index', [
             'featuredProperties' => $properties,
+            'types' => $types,
+            'cities' => $cities,
+            'neighborhoods' => $neighborhoods,
+            'garages' => $garages,
+            'bedrooms' => $bedrooms,
+            'bathrooms' => $bathrooms,
+            'counts' => $counts,
+            'amenities' => $amenities,
         ]);
 
     }
@@ -512,14 +574,80 @@ class PropertyController extends Controller
     public function propertiesSearchFilter(): view
     {
         $properties = Property::where('status', 1)
-            ->where("property_status", request("tipo"))
+            ->when(request('tipo'), function ($query) {
+                return $query->where('property_status', request('tipo'));
+            })
             ->orderBy('id', 'desc')
-            ->filter(request(['search', 'city', 'property_type']))
+            ->filter(request(['search', 'city', 'property_type', 'neighborhoods', 'garage', 'bedrooms', 'bathrooms']))
             ->paginate(4)
             ->withQueryString();
 
+        $types = PropertyType::where('status', 1)->orderBy('id', 'asc')->get();
+        $cities = City::orderBy('name', 'asc')->get();
+        $neighborhoods = Property::where('status', 1)
+            ->where('neighborhood', '!=', '')
+            ->orderBy('neighborhood', 'asc')
+            ->distinct()
+            ->pluck('neighborhood');
+
+
+        $propertyStatuses = ['Venta', 'Alquiler', 'Anticretico', 'Roomie'];
+
+        $counts = Property::where('status', 1)
+            ->whereIn('property_status', $propertyStatuses)
+            ->distinct()
+            ->select('property_status', Property::raw('COUNT(DISTINCT id) as count'))
+            ->groupBy('property_status')
+            ->pluck('count', 'property_status');
+
+        $garages = Property::where('status', 1)
+            ->where('garage', '!=', 0)
+            ->orderBy('garage', 'asc')
+            ->distinct()
+            ->pluck('garage');
+
+        $bedrooms = Property::where('status', 1)
+            ->where('bedrooms', '!=', 0)
+            ->orderBy('bedrooms', 'asc')
+            ->distinct()
+            ->pluck('bedrooms');
+
+        $bathrooms = Property::where('status', 1)
+            ->where('bathrooms', '!=', 0)
+            ->orderBy('bathrooms', 'asc')
+            ->distinct()
+            ->pluck('bathrooms');
+
+        $amenities = Amenities::where('status', 1)
+            ->select('id', 'name')
+            ->selectSub(function ($query) {
+                $query->from('properties')
+                    ->selectRaw('COUNT(DISTINCT id)')
+                    ->whereColumn('properties.status', '=', 'amenities.status')
+                    ->where(function ($subquery) {
+                        $subquery->whereRaw("CONCAT(',', properties.amenities_id, ',') LIKE CONCAT('%,', amenities.id, ',%')")
+                            ->orWhere('properties.amenities_id', '=', \DB::raw('amenities.id'))
+                            ->orWhere(\DB::raw("CONCAT(',', properties.amenities_id)"), 'LIKE', \DB::raw("CONCAT('%,', amenities.id)"));
+                    })
+                    ->limit(1);
+            }, 'property_count')
+            ->orderBy('name', 'asc')
+            ->get();
+
         return view('frontend.pages.properties.index', [
             'featuredProperties' => $properties,
+            'types' => $types,
+            'cities' => $cities,
+            'neighborhoods' => $neighborhoods,
+            'garages' => $garages,
+            'bedrooms' => $bedrooms,
+            'bathrooms' => $bathrooms,
+            'counts' => $counts,
+            'amenities' => $amenities,
+//            'count_sale' => $count_sale,
+//            'count_alquiler' => $count_alquiler,
+//            'count_anticretico' => $count_anticretico,
+//            'count_roomis' => $count_roomis,
         ]);
 
     }

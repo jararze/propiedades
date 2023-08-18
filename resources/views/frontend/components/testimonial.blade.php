@@ -7,42 +7,24 @@
             <h2>Lo que dicen de nosotros</h2>
         </div>
         <div class="single-item-carousel owl-carousel owl-theme owl-dots-none nav-style-one">
-            <div class="testimonial-block-one">
-                <div class="inner-box">
-                    <figure class="thumb-box"><img alt="" src="{{asset('front/assets/images/resource/testimonial-1.jpg')}}"></figure>
-                    <div class="text">
-                        <p>Nuestro objetivo cada día es garantizar que las necesidades de nuestros residentes no solo se satisfagan sino que se superen. Para que eso suceda, nos comprometemos a brindar un entorno en el que los residentes puedan disfrutar.</p>
-                    </div>
-                    <div class="author-info">
-                        <h4>Rebeka Dawson</h4>
-                        <span class="designation">Instructor</span>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-block-one">
-                <div class="inner-box">
-                    <figure class="thumb-box"><img alt="" src="{{asset('front/assets/images/resource/testimonial-2.jpg')}}"></figure>
-                    <div class="text">
-                        <p>Nuestro objetivo cada día es garantizar que las necesidades de nuestros residentes no solo se satisfagan sino que se superen. Para que eso suceda, nos comprometemos a brindar un entorno en el que los residentes puedan disfrutar.</p>
-                    </div>
-                    <div class="author-info">
-                        <h4>Marc Kenneth</h4>
-                        <span class="designation">Fundador CEO</span>
+            @foreach($testimonies as $testimony)
+                <div class="testimonial-block-one">
+                    <div class="inner-box">
+                        <figure class="thumb-box">
+                            <img
+                                alt="{{ $testimony->name }}"
+                                src="{{ (!empty($testimony->photo)) ? url('upload/testimonies/'  . $testimony->photo) : url('upload/No_Image_Available.jpg') }}">
+                        </figure>
+                        <div class="text">
+                            <p>{{ $testimony->testimony }}</p>
+                        </div>
+                        <div class="author-info">
+                            <h4>{{ $testimony->name }}</h4>
+                            <span class="designation">{{ $testimony->job }}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-block-one">
-                <div class="inner-box">
-                    <figure class="thumb-box"><img alt="" src="{{asset('front/assets/images/resource/testimonial-1.jpg')}}"></figure>
-                    <div class="text">
-                        <p>Nuestro objetivo cada día es garantizar que las necesidades de nuestros residentes no solo se satisfagan sino que se superen. Para que eso suceda, nos comprometemos a brindar un entorno en el que los residentes puedan disfrutar.</p>
-                    </div>
-                    <div class="author-info">
-                        <h4>Owen Lester</h4>
-                        <span class="designation">Gerente</span>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
