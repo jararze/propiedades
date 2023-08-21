@@ -1,3 +1,7 @@
+@php
+    $categories=App\Models\Configuration::all();
+@endphp
+
 @push('styles')
 
 @endpush
@@ -150,7 +154,6 @@
                     </section>
 
 
-
                     @if(count($multiImages) != 0)
                         <section class="full-height-section no-col-padding columns-stretch content-middle bg_image_2">
                             <div class="container">
@@ -186,11 +189,12 @@
                                                                     data-slides-per-view="1" data-slides-space="0">
                                                                     <div class="swiper-wrapper">
                                                                         @foreach($multiImages as $key => $image)
-                                                                            <div class="swiper-slide slider_image_{{ $key }}"
-                                                                                 data-image="{{ (!empty($image->name)) ? url('upload/properties/' .  $property->code . "/multipleImages/" . $image->name) : url('upload/No_Image_Available.jpg') }}"
-                                                                                 data-cats="&lt;a href=&quot;#&quot; rel=&quot;category tag&quot;&gt;Apartment&lt;/a&gt;, &lt;a href=&quot;#&quot; rel=&quot;category tag&quot;&gt;Environment&lt;/a&gt;, &lt;a href=&quot;#&quot; rel=&quot;category tag&quot;&gt;Interior&lt;/a&gt;"
-                                                                                 data-title="The planned price increase"
-                                                                                 data-date="July 16, 2016">
+                                                                            <div
+                                                                                class="swiper-slide slider_image_{{ $key }}"
+                                                                                data-image="{{ (!empty($image->name)) ? url('upload/properties/' .  $property->code . "/multipleImages/" . $image->name) : url('upload/No_Image_Available.jpg') }}"
+                                                                                data-cats="&lt;a href=&quot;#&quot; rel=&quot;category tag&quot;&gt;Apartment&lt;/a&gt;, &lt;a href=&quot;#&quot; rel=&quot;category tag&quot;&gt;Environment&lt;/a&gt;, &lt;a href=&quot;#&quot; rel=&quot;category tag&quot;&gt;Interior&lt;/a&gt;"
+                                                                                data-title="The planned price increase"
+                                                                                data-date="July 16, 2016">
                                                                                 <a href="#" class="slide_link">
                                                                                     <img
                                                                                         src="{{ (!empty($image->name)) ? url('upload/properties/' .  $property->code . "/multipleImages/" . $image->name) : url('upload/No_Image_Available.jpg') }}"
@@ -258,7 +262,8 @@
                                                                  data-slides-per-view="1" data-slides-space="0">
                                                                 <div class="swiper-wrapper">
                                                                     @foreach($unitss as $unit)
-                                                                        <div class="swiper-slide" data-title="{{ $unit->name }}">
+                                                                        <div class="swiper-slide"
+                                                                             data-title="{{ $unit->name }}">
                                                                             <div class="slide_content">
                                                                                 <div class="row">
                                                                                     <div class="columns_wrap">
@@ -271,7 +276,8 @@
                                                                                                 </h4>
                                                                                                 <ul class="trx_addons_list trx_addons_list_parameters">
                                                                                                     <li>
-                                                                                                        <strong>A LA</strong>
+                                                                                                        <strong>A
+                                                                                                            LA</strong>
                                                                                                         <em>{{ $unit->property_status }}</em>
                                                                                                     </li>
                                                                                                     <li>
@@ -283,7 +289,9 @@
                                                                                                         <em>{{ $unit->bathrooms }}</em>
                                                                                                     </li>
                                                                                                     <li>
-                                                                                                        <strong>Metros Construidos m<sup>2</sup></strong>
+                                                                                                        <strong>Metros
+                                                                                                            Construidos
+                                                                                                            m<sup>2</sup></strong>
                                                                                                         <em>{{ $unit->size }}</em>
                                                                                                     </li>
                                                                                                     <li>
@@ -305,7 +313,8 @@
                                                                                                 <div
                                                                                                     class="sc_item_button sc_button_wrap">
                                                                                                     <a href="{{ route('front.properties.inner', $unit->id) }}"
-                                                                                                       class="sc_button sc_button_default sc_button_size_normal sc_button_icon_left" target="_blank">
+                                                                                                       class="sc_button sc_button_default sc_button_size_normal sc_button_icon_left"
+                                                                                                       target="_blank">
                                                                                                             <span
                                                                                                                 class="sc_button_text">
 																												<span
@@ -322,7 +331,8 @@
                                                                                                     <div>
                                                                                                         <img
                                                                                                             src="{{ (!empty($unit->thumbnail)) ? url('upload/properties/' .  $unit->code . "/" . $unit->thumbnail) : url('upload/No_Image_Available.jpg') }}"
-                                                                                                            alt="{{ $unit->name }}" style="width: 400px; height: 300px">
+                                                                                                            alt="{{ $unit->name }}"
+                                                                                                            style="width: 400px; height: 300px">
                                                                                                     </div>
                                                                                                 </figure>
                                                                                             </div>
@@ -379,7 +389,8 @@
                                                 <h6 class="sc_item_subtitle sc_content_subtitle sc_align_default sc_item_title_style_default">
                                                     {{ $property->name  }} Comodidades</h6>
                                                 <h2 class="sc_item_title sc_content_title sc_align_default sc_item_title_style_default">
-                                                    IMPRESIONANTES APARTAMENTOS DE ALQUILER DE LUJO, DISEÑADOS PARA LA VIDA</h2>
+                                                    IMPRESIONANTES APARTAMENTOS DE ALQUILER DE LUJO, DISEÑADOS PARA LA
+                                                    VIDA</h2>
                                             </div>
                                             <div class="height_small"></div>
                                             <div class="row">
@@ -389,17 +400,19 @@
                                                             <div class="sc_services sc_services_iconed"
                                                                  data-slides-per-view="3"
                                                                  data-slides-min-width="250">
-                                                                <div class="sc_services_columns sc_item_columns trx_addons_columns_wrap columns_padding_bottom">
+                                                                <div
+                                                                    class="sc_services_columns sc_item_columns trx_addons_columns_wrap columns_padding_bottom">
                                                                     @if($property_aminities == NULL )
                                                                         <h4>Sin Información</h4>
                                                                     @else
                                                                         @foreach($amenities as $amenity)
                                                                             @if(in_array($amenity->id, $property_aminities))
-{{--                                                                                <li>{{ $amenity->name }}</li>--}}
+                                                                                {{--                                                                                <li>{{ $amenity->name }}</li>--}}
                                                                                 <div class="trx_addons_column-1_3 ">
                                                                                     <div
                                                                                         class="sc_services_item without_content with_icon sc_services_item_featured_top">
-                                                                                        <div class="sc_services_item_header">
+                                                                                        <div
+                                                                                            class="sc_services_item_header">
                                                                                             <a href="#"
                                                                                                id="sc_services_1559316197_icon-modem"
                                                                                                class="sc_services_item_icon sc_icon_type_svg">
@@ -465,11 +478,12 @@
                                                                  data-slides-space="0">
                                                                 <div class="swiper-wrapper">
                                                                     @foreach($allVideos as $videoo)
-                                                                        <div class="swiper-slide slider_image_{{ $videoo->id }}"
-                                                                             style="background-image: url('{{ (!empty($videoo->thumbnail)) ? url('upload/properties/' .  $videoo->code . "/" . $videoo->thumbnail) : url('upload/No_Image_Available.jpg') }}')"
-                                                                             data-image="{{ (!empty($videoo->thumbnail)) ? url('upload/properties/' .  $videoo->code . "/" . $videoo->thumbnail) : url('upload/No_Image_Available.jpg') }}"
-                                                                             data-cats="Interior"
-                                                                             data-title="{{ $videoo->name }}">
+                                                                        <div
+                                                                            class="swiper-slide slider_image_{{ $videoo->id }}"
+                                                                            style="background-image: url('{{ (!empty($videoo->thumbnail)) ? url('upload/properties/' .  $videoo->code . "/" . $videoo->thumbnail) : url('upload/No_Image_Available.jpg') }}')"
+                                                                            data-image="{{ (!empty($videoo->thumbnail)) ? url('upload/properties/' .  $videoo->code . "/" . $videoo->thumbnail) : url('upload/No_Image_Available.jpg') }}"
+                                                                            data-cats="Interior"
+                                                                            data-title="{{ $videoo->name }}">
                                                                             <div
                                                                                 class="trx_addons_video_player with_cover hover_play">
                                                                                 <div class="video_mask"></div>
@@ -485,11 +499,11 @@
                                                             </div>
                                                             <div class="slider_titles_outside_wrap">
                                                                 @foreach($allVideos as $var)
-{{--                                                                    {{ dd($var) }}--}}
-                                                                <div class="slide_info slide_info_small">
-                                                                    <h3 class="slide_title">{{ $var->name }}</h3>
-                                                                    <div class="slide_cats">Interior</div>
-                                                                </div>
+                                                                    {{--                                                                    {{ dd($var) }}--}}
+                                                                    <div class="slide_info slide_info_small">
+                                                                        <h3 class="slide_title">{{ $var->name }}</h3>
+                                                                        <div class="slide_cats">Interior</div>
+                                                                    </div>
                                                                 @endforeach
                                                             </div>
                                                             <div class="slider_controls_wrap">
@@ -539,7 +553,9 @@
                         </div>
                     </section>
 
-                    <section class="full-height-section no-col-padding columns-stretch content-middle bg_image_4 scheme_dark" style="background-image: url('{{ url('bg_hotspots.jpg') }}')">
+                    <section
+                        class="full-height-section no-col-padding columns-stretch content-middle bg_image_4 scheme_dark"
+                        style="background-image: url('{{ url('bg_hotspots.jpg') }}')">
                         <div class="container">
                             <div class="row">
                                 <a id="sc_anchor_neiborhoods" class="sc_anchor sc_anchor_default"
@@ -559,7 +575,7 @@
                                                  data-tooltipanimation="grow" data-tooltipstyle="light"
                                                  data-trigger="hover" data-maxwidth="240" data-marginoffset=""
                                                  data-isdisplayall="off" data-displayednum="1">
-{{--                                                <img src="{{url('upload/No_Image_Available.jpg')}}" alt=""/>--}}
+                                                {{--                                                <img src="{{url('upload/No_Image_Available.jpg')}}" alt=""/>--}}
                                                 <div class="cq-hotspots">
                                                     <div class="hotspot-item pulse-white" data-top="31%"
                                                          data-left="0%">
@@ -600,7 +616,8 @@
                     </section>
 
 
-                    <section class="no-col-padding columns-stretch column-xs-12 column-equal-height columns-flex scheme_side">
+                    <section
+                        class="no-col-padding columns-stretch column-xs-12 column-equal-height columns-flex scheme_side">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="columns_wrap">
@@ -613,11 +630,14 @@
                                             <div class="sc_content sc_content_default">
                                                 <div class="sc_content_container">
                                                     <div class="sc_align_center">
-                                                        <span class="trx_addons_dark">Windsor Apartments</span>
-                                                        <br/> 123, New Lenox<br/> Chicago, IL 60606<br/> Phone:
-                                                        <span class="trx_addons_dark"><a href="tel:+1234567890">123-456-7890</a> <br/></span>
-                                                        Fax: 098-765-4321<br/> Email: <span class="trx_addons_dark"><a
-                                                                href="mailto:info@yoursite.com">info@yoursite.com</a>
+                                                        <span
+                                                            class="trx_addons_dark">ProPropiedades -  {{ $property->name }}</span>
+                                                        <br/> {{  $categories[1]->value }}<br/> Phone:
+                                                        <span class="trx_addons_dark"><a
+                                                                href="tel:+591{{  $categories[3]->value }}">{{  $categories[3]->value }}</a> <br/></span>
+
+                                                        <br/> Correo: <span class="trx_addons_dark"><a
+                                                                href="mailto:{{  $categories[10]->value }}">{{  $categories[10]->value }}</a>
                                                                 </span>
                                                     </div>
                                                 </div>
@@ -626,18 +646,14 @@
                                             <div class="widget_area sc_widget_socials">
                                                 <aside class="widget widget_socials">
                                                     <div class="socials_wrap sc_align_center">
-                                                                <span class="social_item">
-																	<a href="#" target="_blank"
-                                                                       class="social_icons social_twitter">
-																		<span class="trx_addons_icon-twitter"></span>
-                                                                </a>
-                                                                </span><span class="social_item">
-																	<a href="#" target="_blank"
+                                                        <span class="social_item">
+																	<a href="{{  $categories[4]->value }}" target="_blank"
                                                                        class="social_icons social_facebook">
 																		<span class="trx_addons_icon-facebook"></span>
-                                                                </a>
-                                                                </span><span class="social_item">
-																	<a href="#" target="_blank"
+                                                                    </a>
+                                                        </span>
+                                                        <span class="social_item">
+																	<a href="{{  $categories[5]->value }}" target="_blank"
                                                                        class="social_icons social_instagram">
 																		<span class="trx_addons_icon-instagram"></span>
                                                                 </a>
@@ -654,14 +670,15 @@
                                                title="Contacts" data-icon="icon-email" data-url=""></a>
 
 
-                                            <div id="sc_googlemap_1_wrap" class="sc_googlemap_wrap" style="min-height: 700px !important;">
+                                            <div id="sc_googlemap_1_wrap" class="sc_googlemap_wrap"
+                                                 style="min-height: 700px !important;">
                                                 <div id="sc_googlemap_1"
                                                      class="sc_googlemap sc_googlemap_default h92vh" data-zoom="16"
                                                      data-style="dark">
                                                     <iframe frameborder="0"
                                                             style="border: 0px; width: 100%; height: 100%;"
-                                                            src="https://maps.google.com/maps?t=m&amp;output=embed&amp;iwloc=near&amp;z=12&amp;q=56-34+Waldron+St+Flushing%2C+NY+11368%2C+USA"
-                                                            aria-label="123, New Lenox Chicago, IL 60606, USA ">
+                                                            src="https://maps.google.com/maps?t=m&amp;output=embed&amp;iwloc=near&amp;z=12&amp;"
+                                                            aria-label="">
                                                     </iframe>
                                                 </div>
                                             </div>
@@ -673,7 +690,7 @@
                                         <div class="column-inner ph20p">
                                             <div class="height_large"></div>
                                             <div class="height_huge hide_on_mobile"></div>
-                                            <h3 class="trx_addons_no_margins sc_align_center">ENQUIRE</h3>
+                                            <h3 class="trx_addons_no_margins sc_align_center">CONSULTA</h3>
                                             <div class="height_small"></div>
                                             <div class="sc_content sc_content_default">
                                                 <div class="sc_content_container">
@@ -694,7 +711,7 @@
 																				<input type="text" name="name"
                                                                                        aria-required="true"
                                                                                        id="contact_form_username"
-                                                                                       placeholder="Your name">
+                                                                                       placeholder="Nombre">
 																			</span>
                                                                         </label>
                                                                         <label
@@ -703,7 +720,7 @@
 																				<input type="text" name="email"
                                                                                        aria-required="true"
                                                                                        id="contact_form_email"
-                                                                                       placeholder="Your e-mail">
+                                                                                       placeholder="Correo">
 																			</span>
                                                                         </label>
                                                                     </div>
@@ -715,13 +732,13 @@
 																				<textarea name="message"
                                                                                           aria-required="true"
                                                                                           id="contact_form_message"
-                                                                                          placeholder="Your message"></textarea>
+                                                                                          placeholder="Tu mensaje"></textarea>
 																			</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="sc_form_field sc_form_field_button">
-                                                                    <button>Schedule a tour</button>
+                                                                    <button>Planifica una visita</button>
                                                                 </div>
                                                                 <div class="trx_addons_message_box sc_form_result">
                                                                 </div>
