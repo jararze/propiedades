@@ -476,7 +476,7 @@ class ProjectController extends Controller
 //        } elseif ($filter == 'hotFeaturedProperties') {
 //            $properties = Property::where('status', 1)->where('hot', 1)->orWhere('featured', 1)->orderBy('id', 'desc')->paginate(4);
 //        } else {
-            $properties = Property::where('status', 1)->where("is_project", "0")->orderBy('id', 'desc')->paginate(4);
+            $properties = Property::where('status', 1)->where("is_project", "1")->orderBy('id', 'desc')->paginate(4);
 //        }
 
         $types = PropertyType::where('status', 1)->orderBy('id', 'asc')->get();
