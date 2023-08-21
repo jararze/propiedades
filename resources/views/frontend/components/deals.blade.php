@@ -14,7 +14,7 @@
                         <div class="inner-box" style="min-height: 735px !important;">
                             <div class="image-box">
                                 <figure class="image">
-                                    <img alt="{{ $hotProperty->name }}" src="{{ (!empty($featured_propery->thumbnail)) ? url('upload/properties/' .  $featured_propery->code . "/" . $featured_propery->thumbnail) : url('upload/No_Image_Available.jpg') }}">
+                                    <img alt="{{ $hotProperty->name }}" src="{{ (!empty($hotProperty->thumbnail)) ? url('upload/properties/' .  $hotProperty->code . "/" . $hotProperty->thumbnail) : url('upload/No_Image_Available.jpg') }}">
                                 </figure>
                                 <div class="batch"><i class="icon-11"></i></div>
                                 <span class="category">Propiedad Caliente</span>

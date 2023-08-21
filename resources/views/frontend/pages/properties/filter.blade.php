@@ -117,7 +117,7 @@
         </div>
         <ul class="category-list clearfix">
             @foreach($counts as $key => $count)
-                <li><a href="/properties/filter?status={{ $key }}">{{ $key }} <span>({{ $count }})</span></a></li>
+                <li><a href="/properties/filter?tipo={{ $key }}">{{ $key }} <span>({{ $count }})</span></a></li>
             @endforeach
         </ul>
     </div>
