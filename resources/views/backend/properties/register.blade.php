@@ -129,7 +129,7 @@
                                                            placeholder="Direccion">
                                                     <x-input-error :messages="$errors->get('address')" class="mt-2"/>
                                                 </div>
-                                                <div class="col-8">
+                                                <div class="col-4">
                                                     <label for="neighborhood" class="form-label">Zona </label>
                                                     <input value="{{ old('neighborhood') }}" id="neighborhood"
                                                            name="neighborhood" type="text"
@@ -139,12 +139,22 @@
                                                                    class="mt-2"/>
                                                 </div>
                                                 <div class="col-4">
-                                                    <label for="size" class="form-label">Tamaño propiedad (mt2)</label>
+                                                    <label for="size" class="form-label">Tamaño terreno (mt2)</label>
                                                     <input value="{{ old('size') }}" id="size" name="size" type="number"
                                                            step="any"
                                                            class="form-control"
-                                                           placeholder="Tamaño Propiedad">
+                                                           placeholder="Tamaño Proyecto">
                                                     <x-input-error :messages="$errors->get('size')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label for="size_max" class="form-label">Tamaño contruido
+                                                        (mt2)</label>
+                                                    <input value="{{ old('size_max') }}" id="size_max" name="size_max"
+                                                           type="number"
+                                                           step="any"
+                                                           class="form-control"
+                                                           placeholder="Tamaño Proyecto">
+                                                    <x-input-error :messages="$errors->get('size_max')" class="mt-2"/>
                                                 </div>
                                                 <div class="col-12 col-lg-3">
                                                     <label for="city" class="form-label">Ciudad</label>
