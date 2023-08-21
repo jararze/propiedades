@@ -94,11 +94,12 @@
                 <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                     <div class="property-details-content">
                         @if(count($multiImages) == 0)
+                            <h2>{{ $property->thumbnail }}</h2>
                             <div class="carousel-inner">
                                 <div class="single-item-carousel owl-carousel owl-theme owl-dots-none">
                                     <figure class="image-box">
                                         <img
-                                            src="{{ (!empty($property->thumbnail)) ? url('upload/properties/' .  $property->code . "/" . $property->thumbnail) : url('upload/No_Image_Available.jpg') }}"
+                                            src="{{ (!empty($property->thumbnail)) ? url('upload/properties/' .  $property->code . "/" . $property->thumbnail) : url('upload/No_Image_Availablee.jpg') }}"
                                             alt=""></figure>
                                 </div>
                             </div>
