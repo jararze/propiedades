@@ -96,8 +96,9 @@
                         @if(count($multiImages) == 0)
                             <div class="carousel-inner">
                                 <div class="single-item-carousel owl-carousel owl-theme owl-dots-none">
-                                    <figure class="image-box"><img
-                                            src="{{ asset('upload/No_Image_Available.jpg') }}"
+                                    <figure class="image-box">
+                                        <img
+                                            src="{{ (!empty($property->thumbnail)) ? url('upload/properties/' .  $property->code . "/" . $property->thumbnail) : url('upload/No_Image_Available.jpg') }}"
                                             alt=""></figure>
                                 </div>
                             </div>
