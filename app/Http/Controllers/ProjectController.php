@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PropertyRequest;
 use App\Models\Amenities;
+use App\Models\City;
 use App\Models\Facility;
 use App\Models\FacilityProperty;
 use App\Models\MultiImage;
@@ -466,11 +467,82 @@ class ProjectController extends Controller
      */
     public function propertiesFilter(): view
     {
-        $properties = Property::where('status', 1)->where('is_project', "1")->orderBy('id', 'desc')->get();
+//        if ($filter == 'featuredProperties') {
+//            $properties = Property::where('status', 1)->where('featured', 1)->orderBy('id', 'desc')->paginate(4);
+//        } elseif ($filter == 'hotProperties') {
+//            $properties = Property::where('status', 1)->where('hot', 1)->orderBy('id', 'desc')->paginate(4);
+//        } elseif ($filter == 'allProperties') {
+//            $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(4);
+//        } elseif ($filter == 'hotFeaturedProperties') {
+//            $properties = Property::where('status', 1)->where('hot', 1)->orWhere('featured', 1)->orderBy('id', 'desc')->paginate(4);
+//        } else {
+            $properties = Property::where('status', 1)->where("is_project", "0")->orderBy('id', 'desc')->paginate(4);
+//        }
+
+        $types = PropertyType::where('status', 1)->orderBy('id', 'asc')->get();
+        $cities = City::orderBy('name', 'asc')->get();
+        $neighborhoods = Property::where('status', 1)
+            ->where('neighborhood', '!=', '')
+            ->orderBy('neighborhood', 'asc')
+            ->distinct()
+            ->pluck('neighborhood');
+
+
+        $propertyStatuses = ['Venta', 'Alquiler', 'Anticretico', 'Roomie'];
+
+        $counts = Property::where('status', 1)
+            ->whereIn('property_status', $propertyStatuses)
+            ->distinct()
+            ->select('property_status', Property::raw('COUNT(DISTINCT id) as count'))
+            ->groupBy('property_status')
+            ->pluck('count', 'property_status');
+
+        $garages = Property::where('status', 1)
+            ->where('garage', '!=', 0)
+            ->orderBy('garage', 'asc')
+            ->distinct()
+            ->pluck('garage');
+
+        $bedrooms = Property::where('status', 1)
+            ->where('bedrooms', '!=', 0)
+            ->orderBy('bedrooms', 'asc')
+            ->distinct()
+            ->pluck('bedrooms');
+
+        $bathrooms = Property::where('status', 1)
+            ->where('bathrooms', '!=', 0)
+            ->orderBy('bathrooms', 'asc')
+            ->distinct()
+            ->pluck('bathrooms');
+
+        $amenities = Amenities::where('status', 1)
+            ->select('id', 'name')
+            ->selectSub(function ($query) {
+                $query->from('properties')
+                    ->selectRaw('COUNT(DISTINCT id)')
+                    ->whereColumn('properties.status', '=', 'amenities.status')
+                    ->where(function ($subquery) {
+                        $subquery->whereRaw("CONCAT(',', properties.amenities_id, ',') LIKE CONCAT('%,', amenities.id, ',%')")
+                            ->orWhere('properties.amenities_id', '=', \DB::raw('amenities.id'))
+                            ->orWhere(\DB::raw("CONCAT(',', properties.amenities_id)"), 'LIKE', \DB::raw("CONCAT('%,', amenities.id)"));
+                    })
+                    ->limit(1);
+            }, 'property_count')
+            ->orderBy('name', 'asc')
+            ->get();
+
+
         return view('frontend.pages.projects.index', [
             'featuredProperties' => $properties,
+            'types' => $types,
+            'cities' => $cities,
+            'neighborhoods' => $neighborhoods,
+            'garages' => $garages,
+            'bedrooms' => $bedrooms,
+            'bathrooms' => $bathrooms,
+            'counts' => $counts,
+            'amenities' => $amenities,
         ]);
-
     }
 
 

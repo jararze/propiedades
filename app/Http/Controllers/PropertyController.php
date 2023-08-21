@@ -511,7 +511,7 @@ class PropertyController extends Controller
             ->pluck('neighborhood');
 
 
-        $propertyStatuses = ['Venta', 'Alquiler', 'Anticretico', 'Roomis'];
+        $propertyStatuses = ['Venta', 'Alquiler', 'Anticretico', 'Roomie'];
 
         $counts = Property::where('status', 1)
             ->whereIn('property_status', $propertyStatuses)
