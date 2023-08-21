@@ -1,5 +1,5 @@
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
     <link rel="stylesheet" href="{{ asset('css/color.css') }}">
 
 @endpush
@@ -577,7 +577,7 @@
     @include('frontend.pages.projects.headerList')
 
     <section id="map-container" class="fullwidth-home-map hp3" style="height: 490px">
-        <h3 class="vis-hid">Visible Heading</h3>
+        <h3 class="vis-hid" style="">Visible Heading</h3>
         <div id="map" data-map-zoom="9"></div>
     </section>
 
@@ -745,6 +745,14 @@
                             </div>
                         </div>
                         {{ $featuredProperties->links('vendor.pagination.bootstrap-5') }}
+{{--                        <div class="pagination-wrapper">--}}
+{{--                            <ul class="pagination clearfix">--}}
+{{--                                <li><a href="property-list.html" class="current">1</a></li>--}}
+{{--                                <li><a href="property-list.html">2</a></li>--}}
+{{--                                <li><a href="property-list.html">3</a></li>--}}
+{{--                                <li><a href="property-list.html"><i class="fas fa-angle-right"></i></a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
             </div>
