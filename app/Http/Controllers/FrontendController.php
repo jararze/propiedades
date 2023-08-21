@@ -28,7 +28,7 @@ class FrontendController extends Controller
         $hotProperties = Property::where('hot', 1)->where('status', 1)->orderBy('id', 'desc')->take(3)->get();
         $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('id', 'desc')->get();
         $confPrincipalImage = Configuration::where('name', 'principal-image')->firstOrFail();
-        $properties = Property::where("status", 1)->get();
+        $properties = Property::where("status", 1)->where('is_project', "0")->get();
         $configuration = Configuration::all();
         $testimonies =Testimony::all();
 

@@ -195,6 +195,7 @@
                                                         <option value="Venta">Venta</option>
                                                         <option value="Alquiler">Alquiler</option>
                                                         <option value="Anticretico">Anticretico</option>
+                                                        <option value="Roomie">Roomie</option>
                                                     </select>
                                                     <x-input-error :messages="$errors->get('property_status')"
                                                                    class="mt-2"/>

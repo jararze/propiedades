@@ -182,6 +182,10 @@
                                                                                 {{ $selectedTS = ($property->property_status == 'Anticretico') ? "selected='selected'" : "" }} value="Anticretico">
                                                                                 Anticretico
                                                                             </option>
+                                                                            <option
+                                                                                {{ $selectedTS = ($property->property_status == 'Roomie') ? "selected='selected'" : "" }} value="Roomie">
+                                                                                Roomie
+                                                                            </option>
                                                                         </select>
                                                                         <x-input-error
                                                                             :messages="$errors->get('property_status')"
