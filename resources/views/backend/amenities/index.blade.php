@@ -1,5 +1,10 @@
 @push('styles')
-
+    <style>
+        .svg svg {
+            height: 80px !important;
+            width: 80px !important;
+        }
+    </style>
 @endpush
 @push('script')
 
@@ -70,6 +75,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Nombre Amenitie</th>
+                                        <th>Icono</th>
                                         <th>Fecha Creacion</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -79,6 +85,7 @@
                                         <tr>
                                             <td>#{{ $item->id }}</td>
                                             <td>{{ $item->name }}</td>
+                                            <td class="svg">{!! $item->icon !!} </td>
                                             <td>{{ $item->created_at }}</td>
                                             <td>
                                                 <div class="d-flex align-items-center gap-3 fs-6">

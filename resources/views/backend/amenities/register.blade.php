@@ -50,6 +50,12 @@
                                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                     </div>
                                     <div class="col-12">
+                                        <label for="svg" class="form-label">Icono</label>
+                                        <textarea class="form-control" name="svg" id="svg" cols="30"
+                                                  rows="10"></textarea>
+                                        <x-input-error :messages="$errors->get('svg')" class="mt-2"/>
+                                    </div>
+                                    <div class="col-12">
                                         <label for="status" class="form-label">Estatus</label>
                                         <select id="status" name="status" class="form-select">
                                             <option value="1">Activo</option>

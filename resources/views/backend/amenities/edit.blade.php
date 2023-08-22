@@ -1,4 +1,10 @@
 @push('styles')
+    <style>
+        .svg svg {
+            height: 80px !important;
+            width: 80px !important;
+        }
+    </style>
 
 @endpush
 @push('script')
@@ -22,7 +28,8 @@
             <div class="ms-auto">
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary">Acciones</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Menu</span>
+                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
+                            data-bs-toggle="dropdown"><span class="visually-hidden">Menu</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
                         <a class="dropdown-item" href="{{ route('admin.Amenities.register') }}">Añadir Amenities</a>
@@ -45,12 +52,20 @@
 
                                 <form class="row g-3" method="post" action="{{ route('admin.Amenities.edit.info') }}">
                                     @csrf
-{{--                                    @method('patch')--}}
+                                    {{--                                    @method('patch')--}}
                                     <div class="col-12">
                                         <label for="name" class="form-label">Nombre</label>
-                                        <input id="id" name="id" type="hidden" class="form-control" value="{{ $amenitie->id }}">
-                                        <input id="name" name="name" type="text" class="form-control" placeholder="Amenitie" value="{{ $amenitie->name }}">
-                                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                        <input id="id" name="id" type="hidden" class="form-control"
+                                               value="{{ $amenitie->id }}">
+                                        <input id="name" name="name" type="text" class="form-control"
+                                               placeholder="Amenitie" value="{{ $amenitie->name }}">
+                                        <x-input-error :messages="$errors->get('name')" class="mt-2"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="svg" class="form-label">Icono</label>
+                                        <textarea class="form-control" name="svg" id="svg" cols="30"
+                                                  rows="10">{{ $amenitie->icon }}</textarea>
+                                        <x-input-error :messages="$errors->get('svg')" class="mt-2"/>
                                     </div>
                                     <div class="col-12">
                                         <label for="status" class="form-label">Estatus</label>
@@ -58,7 +73,7 @@
                                             <option value="1">Activo</option>
                                             <option value="0">Inactivo</option>
                                         </select>
-                                        <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                                        <x-input-error :messages="$errors->get('status')" class="mt-2"/>
                                     </div>
                                     <div class="col-12">
                                         <div class="d-grid">
@@ -92,6 +107,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Nombre Amenitie</th>
+                                            <th>Icono</th>
                                             <th>Fecha Creacion</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -101,29 +117,41 @@
                                             <tr>
                                                 <td>#{{ $item->id }}</td>
                                                 <td>{{ $item->name }}</td>
+                                                <td class="svg">{!! $item->icon !!}</td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex align-items-center gap-3 fs-6">
-                                                        <a href="{{ route('admin.Amenities.edit',['id' => $item->id]) }}" class="text-warning" data-bs-toggle="tooltip"
-                                                           data-bs-placement="bottom" title="" data-bs-original-title="Edit info"
+                                                        <a href="{{ route('admin.Amenities.edit',['id' => $item->id]) }}"
+                                                           class="text-warning" data-bs-toggle="tooltip"
+                                                           data-bs-placement="bottom" title=""
+                                                           data-bs-original-title="Edit info"
                                                            aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
-                                                        <a href="" class="text-danger" data-bs-toggle="modal" data-bs-target="#exampleDangerModal{{ $item->id }}"><i class="bi bi-trash-fill"></i></a>
+                                                        <a href="" class="text-danger" data-bs-toggle="modal"
+                                                           data-bs-target="#exampleDangerModal{{ $item->id }}"><i
+                                                                class="bi bi-trash-fill"></i></a>
                                                     </div>
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="exampleDangerModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal fade" id="exampleDangerModal{{ $item->id }}"
+                                                         tabindex="-1" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg modal-dialog-centered">
                                                             <div class="modal-content bg-danger">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title text-white">¿Eliminar {{ $item->name }}?</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    <h5 class="modal-title text-white">
+                                                                        ¿Eliminar {{ $item->name }}?</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body text-white">
                                                                     <p>¿Esta seguro que desea eliminar el amenitie?</p>
 
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                                                                    <a href="{{ route('admin.Amenities.delete',['id' => $item->id]) }}" class="btn btn-dark" >Si, eliminar</a>
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-bs-dismiss="modal">Cancelar
+                                                                    </button>
+                                                                    <a href="{{ route('admin.Amenities.delete',['id' => $item->id]) }}"
+                                                                       class="btn btn-dark">Si, eliminar</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -148,15 +176,15 @@
                                         </div>
                                     @endif
                                 </div>
-{{--                                <nav class="float-end mt-0" aria-label="Page navigation">--}}
-{{--                                    <ul class="pagination">--}}
-{{--                                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>--}}
-{{--                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>--}}
-{{--                                        <li class="page-item"><a class="page-link" href="#">2</a></li>--}}
-{{--                                        <li class="page-item"><a class="page-link" href="#">3</a></li>--}}
-{{--                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>--}}
-{{--                                    </ul>--}}
-{{--                                </nav>--}}
+                                {{--                                <nav class="float-end mt-0" aria-label="Page navigation">--}}
+                                {{--                                    <ul class="pagination">--}}
+                                {{--                                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>--}}
+                                {{--                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>--}}
+                                {{--                                        <li class="page-item"><a class="page-link" href="#">2</a></li>--}}
+                                {{--                                        <li class="page-item"><a class="page-link" href="#">3</a></li>--}}
+                                {{--                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>--}}
+                                {{--                                    </ul>--}}
+                                {{--                                </nav>--}}
                             </div>
                         </div>
                     </div>

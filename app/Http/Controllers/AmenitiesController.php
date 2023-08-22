@@ -47,6 +47,7 @@ class AmenitiesController extends Controller
 
         $amenities = new Amenities();
         $amenities->name = $request->name;
+        $amenities->icon = $request->svg;
         $amenities->status = $request->status;
 
         $amenities->save();
@@ -76,6 +77,7 @@ class AmenitiesController extends Controller
 
         $amenitie = Amenities::find($request->id);
         $amenitie->name = $request->name;
+        $amenitie->icon = $request->svg;
         $amenitie->status = $request->status;
 
         $amenitie->save();
