@@ -43,6 +43,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
+        toastr()->info('Ya no esta con una sesión activa ', '¡NOS VEMOS PRONTO!');
+
         return redirect('/');
     }
 }

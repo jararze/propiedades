@@ -49,6 +49,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+
+        toastr()->success('Usuario creado, usted ya está dentro del sistema. ', 'BIENVENIDO');
+
+
         return redirect(RouteServiceProvider::HOME);
     }
 }

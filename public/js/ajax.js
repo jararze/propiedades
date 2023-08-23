@@ -27,6 +27,7 @@ function addCompareList(property_id = null, user_id){
         success: function (response) {
             // alert(response.success)
             if(response.success === true){
+                let toastr;
                 toastr.success("Propiedad agregada a la lista de comparación");
             }else{
                 toastr.error("La propiedad ya esta agregada a su lista de comparacion");
