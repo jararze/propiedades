@@ -190,7 +190,7 @@
 
                         <div class="floorplan-inner content-widget">
                             <div class="title-box">
-                                <h4>Video</h4>
+                                <h4>Tour Virtual</h4>
                             </div>
                             @if(is_null($property->video))
                                 <h4>Sin Información</h4>

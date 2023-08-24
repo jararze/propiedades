@@ -16,6 +16,7 @@ $(document).ready(function () {
 });
 
 function addCompareList(property_id = null, user_id){
+    // alert($('meta[name="csrf-token"]').attr('content'))
     $.ajax({
         url: '/user/compare/add',
         type: 'POST',
@@ -27,9 +28,11 @@ function addCompareList(property_id = null, user_id){
         success: function (response) {
             // alert(response.success)
             if(response.success === true){
-                let toastr;
+                // let toastr;
+                // alert("Propiedad agregada a la lista de comparación")
                 toastr.success("Propiedad agregada a la lista de comparación");
             }else{
+                // alert("La propiedad ya esta agregada a su lista de comparacion")
                 toastr.error("La propiedad ya esta agregada a su lista de comparacion");
             }
         },
@@ -38,6 +41,7 @@ function addCompareList(property_id = null, user_id){
             const err = eval("(" + xhr.responseText + ")");
             if (error === "Unauthorized" || err.message === "Unauthenticated.") {
                 // alert("mal")
+                // alert("Sin autorizacion")
                 toastr.error("Sin autorización");
             }
         }
@@ -46,6 +50,7 @@ function addCompareList(property_id = null, user_id){
 
 
 function addWishlist(property_id = null) {
+    // alert($('meta[name="csrf-token"]').attr('content'))
     const user_id = document.getElementById(property_id).getAttribute("user_id");
 
     $.ajax({
@@ -59,9 +64,11 @@ function addWishlist(property_id = null) {
         success: function (response) {
             // alert(response.success)
             if(response.success === true){
-                toastr.success("Propiedad agregada a la lista de deseados");
+                // alert("Propiedad agregada a la lista de comparación")
+                toastr.success("Propiedad agregada a la lista de comparación");
             }else{
-                toastr.error("La propiedad ya esta agregada a su lista de deseados");
+                // alert("La propiedad ya esta agregada a su lista de comparacion")
+                toastr.error("La propiedad ya esta agregada a su lista de comparacion");
             }
         },
 
@@ -69,6 +76,7 @@ function addWishlist(property_id = null) {
             const err = eval("(" + xhr.responseText + ")");
             if (error === "Unauthorized" || err.message === "Unauthenticated.") {
                 // alert("mal")
+                // alert("Sin autorizacion")
                 toastr.error("Sin autorización");
             }
         }

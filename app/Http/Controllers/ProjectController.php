@@ -103,7 +103,7 @@ class ProjectController extends Controller
             'long_description' => ['required'],
         ]);
 
-        $code = IdGenerator::generate(['table' => 'properties', 'field' => 'code', 'length' => 10, 'prefix' => 'PY' . date('ym')]);
+        $code = IdGenerator::generate(['table' => 'properties', 'field' => 'code', 'length' => 10, 'prefix' => 'P' . date('ym')]);
         $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
 
         if ($request->file('thumbnail')) {

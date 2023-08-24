@@ -14,6 +14,7 @@
 
     <!-- Stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <link href="{{ asset('front/assets/css/font-awesome-all.css') }}" rel="stylesheet">
     <link href="{{ asset('front/assets/css/flaticon.css') }}" rel="stylesheet">
     <link href="{{ asset('front/assets/css/owl.css') }}" rel="stylesheet">
@@ -26,6 +27,7 @@
     <link href="{{ asset('front/assets/css/switcher-style.css') }}" rel="stylesheet">
     <link href="{{ asset('front/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('front/assets/css/responsive.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     @stack('styles')
 
     <title>{{ config('app.name', 'ProPropiedades') }}</title>
@@ -61,6 +63,8 @@
 <script src="{{ asset('front/assets/js/jQuery.style.switcher.min.js') }}"></script>
 <script src="{{ asset('front/assets/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('front/assets/js/nav-tool.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="{{ asset('js/share.js') }}"></script>
 
 @stack('script')
 <!-- main-js -->

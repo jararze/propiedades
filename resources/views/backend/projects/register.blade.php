@@ -29,6 +29,15 @@
                 $("#project_id").removeAttr("disabled");
             }
         });
+        $(document).on("change", "#propertytype_id", function (event){
+            if(this.value == 6){
+               $("#size").text("Tamaño terreno MIN (mt2)")
+               $("#size_max").text("Tamaño terreno MAX (mt2)")
+            }else{
+                $("#size").text("Tamaño terreno (mt2)")
+                $("#size_max").text("Tamaño contruido (mt2)")
+            }
+        })
     </script>
 @endpush
 <x-app-layout>
@@ -96,7 +105,7 @@
                                                                    class="mt-2"/>
                                                 </div>
                                                 <div class="col-4">
-                                                    <label for="size" class="form-label">Tamaño terreno (mt2)</label>
+                                                    <label for="size" id="size" class="form-label">Tamaño terreno (mt2)</label>
                                                     <input value="{{ old('size') }}" id="size" name="size" type="number"
                                                            step="any"
                                                            class="form-control"
@@ -104,7 +113,7 @@
                                                     <x-input-error :messages="$errors->get('size')" class="mt-2"/>
                                                 </div>
                                                 <div class="col-4">
-                                                    <label for="size_max" class="form-label">Tamaño contruido
+                                                    <label for="size_max" id="size_max" class="form-label">Tamaño contruido
                                                         (mt2)</label>
                                                     <input value="{{ old('size_max') }}" id="size_max" name="size_max"
                                                            type="number"
@@ -148,6 +157,7 @@
                                                         <option value="Venta">Venta</option>
                                                         <option value="Alquiler">Alquiler</option>
                                                         <option value="Anticretico">Anticretico</option>
+                                                        <option value="Roomie">Roomies</option>
                                                     </select>
                                                     <x-input-error :messages="$errors->get('property_status')"
                                                                    class="mt-2"/>
@@ -325,13 +335,13 @@
                                                                     Distancia </label>
                                                                 <input type="text" name="distance[]" id="distance"
                                                                        class="form-control"
-                                                                       placeholder="Distancia (Km)">
+                                                                       placeholder="Cuadras (#)">
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-2" style="padding-top: 30px;">
                                                             <a class="btn btn-success addeventmore"><i
                                                                     class="fa fa-plus-circle"
-                                                                    style="margin-left: 0 !important;">Agregar</i></a>
+                                                                    style="margin-left: 0 !important;"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -506,15 +516,15 @@
                                                         <label for="distance" class="form-label">
                                                             Distancia </label>
                                                         <input type="text" name="distance[]" id="distance"
-                                                               class="form-control" placeholder="Distancia (Km)">
+                                                               class="form-control" placeholder="Cuadras (#)">
                                                     </div>
                                                     <div class="form-group col-md-2" style="padding-top: 20px">
-                                                        <span class="btn btn-success btn-sm addeventmore"><i
+                                                        <span class="btn btn-success btn-sm addeventmore" style="float: left"><i
                                                                 class="fa fa-plus-circle"
-                                                                style="margin-left: 0 !important;">Agregar</i></span>
+                                                                style="margin-left: 0 !important;"></i></span>
                                                         <span class="btn btn-danger btn-sm removeeventmore"><i
                                                                 class="fa fa-minus-circle"
-                                                                style="margin-left: 0 !important;">Quitar</i></span>
+                                                                style="margin-left: 0 !important;"></i></span>
                                                     </div>
                                                 </div>
                                             </div>

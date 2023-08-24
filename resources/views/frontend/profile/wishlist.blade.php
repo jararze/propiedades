@@ -83,80 +83,8 @@
                                 @else
                                     @foreach($properties as $property)
                                         <div class="deals-block-one">
-                                            <div class="inner-box">
-                                                <div class="image-box">
-                                                    <figure class="image">
-                                                        <img
-                                                            src="{{ (!empty($property['PropAttributes']['thumbnail'])) ? url('upload/properties/' .  $property['PropAttributes']['code'] . "/" . $property['PropAttributes']['thumbnail']) : url('upload/No_Image_Available.jpg') }}"
-                                                            alt="{{ $property['PropAttributes']['name'] }}"
-                                                            style="width: 300px; height: 350px;">
-                                                    </figure>
-                                                    <div class="batch"><i class="icon-11"></i></div>
-                                                    <div class="buy-btn"><a
-                                                            href="{{ route('front.properties.inner', $property['PropAttributes']['id']) }}">{{ $property['PropAttributes']['property_status'] }}</a>
-                                                    </div>
-                                                </div>
-                                                <div class="lower-content">
-                                                    <div class="title-text"><h4><a
-                                                                href="{{ route('front.properties.inner', $property['PropAttributes']['id']) }}">{{ $property['PropAttributes']['name'] }}</a>
-                                                        </h4></div>
-                                                    <div class="price-box clearfix">
-                                                        <div class="price-info pull-left">
-                                                            <h6>Desde</h6>
-                                                            <h4>{{ number_format($property['PropAttributes']['max_price'], 0) }}
-                                                                $us</h4>
-                                                        </div>
-                                                        <div class="author-box pull-right">
-                                                            <figure class="author-thumb">
-                                                                <img
-                                                                    src="{{ (!empty($property['PropAttributes']['agent']['photo'])) ? url('upload/profiles/'.$property['PropAttributes']['agent']['photo']) : url('upload/No_Image_Available.jpg') }}"
-                                                                    alt="">
-                                                                <span>{{ $property['PropAttributes']['agent']['name'] }} {{ $property['PropAttributes']['agent']['lastname'] }}</span>
-                                                            </figure>
-                                                        </div>
-                                                    </div>
-                                                    <p>{{ Str::words($property['PropAttributes']['short_description'], 25, '...') }}</p>
-                                                    <ul class="more-details clearfix">
-                                                        <li>
-                                                            <i class="icon-14"></i>{{ $property['PropAttributes']['bedrooms'] }}
-                                                            Cuartos
-                                                        </li>
-                                                        <li>
-                                                            <i class="icon-15"></i>{{ $property['PropAttributes']['bathrooms'] }}
-                                                            Baños
-                                                        </li>
-                                                        <li>
-                                                            <i class="icon-16"></i>{{ $property['PropAttributes']['size'] }}
-                                                            Mt2
-                                                        </li>
-                                                    </ul>
-                                                    <div class="other-info-box clearfix">
-                                                        <div class="btn-box pull-left">
-                                                            <a href="{{ route('front.properties.inner', $property['PropAttributes']['id']) }}"
-                                                               class="theme-btn btn-two">Ver más</a>
-                                                        </div>
-                                                        <ul class="other-option pull-right clearfix">
-                                                            <li>{!! Share::page(Request::url())->facebook() !!}</li>
-                                                            <li>{!! Share::page(url()->current())->whatsapp() !!}</li>
-                                                            <li>{!! Share::page(url()->current())->telegram() !!}</li>
-                                                            <li>
-                                                                <form
-                                                                    action="{{ route('userProfile.wishlist.delete', $property->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    <input name="_method" type="hidden" value="DELETE">
-                                                                    {{--                                                                <input name="user_id" type="hidden" value="{{ $property->user_id }}">--}}
-                                                                    <button class="btn-danger show-alert-delete-box"
-                                                                            data-toggle="tooltip" title='Borrar'
-                                                                            type="submit" action=""><a href="#"><i
-                                                                                class="fa fa-ban"></i></a></button>
-                                                                </form>
-                                                                {{--                                                            <a href="{{ route('front.properties.inner', $property['PropAttributes']['id']) }}"><i--}}
-                                                                {{--                                                                    class="fa fa-ban"></i></a>--}}
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                            <div class="deals-block-one">
+                                                <x-property-horizontal-wish type="Destacada" :property="$property"></x-property-horizontal-wish>
                                             </div>
                                         </div>
                                     @endforeach

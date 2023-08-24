@@ -320,7 +320,7 @@
                                                         <div class="form-group col-md-2" style="padding-top: 30px;">
                                                             <a class="btn btn-success addeventmore"><i
                                                                     class="fa fa-plus-circle"
-                                                                    style="margin-left: 0 !important;">Agregar</i></a>
+                                                                    style="margin-left: 0 !important;"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -489,10 +489,10 @@
                                                     <div class="form-group col-md-2" style="padding-top: 20px">
                                                         <span class="btn btn-success btn-sm addeventmore"><i
                                                                 class="fa fa-plus-circle"
-                                                                style="margin-left: 0 !important;">Agregar</i></span>
+                                                                style="margin-left: 0 !important; float: left"></i></span>
                                                         <span class="btn btn-danger btn-sm removeeventmore"><i
                                                                 class="fa fa-minus-circle"
-                                                                style="margin-left: 0 !important;">Quitar</i></span>
+                                                                style="margin-left: 0 !important;"></i></span>
                                                     </div>
                                                 </div>
                                             </div>

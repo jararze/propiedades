@@ -15,7 +15,7 @@
 
     <li>
         <a href="{{ route('admin.configuration.index') }}">
-            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            <div class="parent-icon"><i class="bi bi-card-image"></i>
             </div>
             <div class="menu-title">Imagen Principal</div>
         </a>
@@ -26,7 +26,7 @@
 
     <li>
         <a href="{{ route('admin.configuration.index.menu') }}">
-            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            <div class="parent-icon"><i class="bi bi-info-circle-fill"></i>
             </div>
             <div class="menu-title">Cabecera/Pie Pagina</div>
         </a>
@@ -37,7 +37,7 @@
 
     <li>
         <a href="{{ route('admin.configuration.video.index') }}">
-            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            <div class="parent-icon"><i class="bi bi-camera-reels-fill"></i>
             </div>
             <div class="menu-title">Video</div>
         </a>
@@ -48,7 +48,7 @@
 
     <li>
         <a href="{{ route('admin.testimonies.index') }}">
-            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            <div class="parent-icon"><i class="bi bi-quote"></i>
             </div>
             <div class="menu-title">Testimonios</div>
         </a>
@@ -59,7 +59,7 @@
 
     <li>
         <a href="{{ route('admin.configuration.reasons.index') }}">
-            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            <div class="parent-icon"><i class="bi bi-emoji-smile-fill"></i>
             </div>
             <div class="menu-title">Razones</div>
         </a>
@@ -72,7 +72,7 @@
 
     <li>
         <a href="javascript:;" class="has-arrow">
-            <div class="parent-icon"><i class="bi bi-house"></i>
+            <div class="parent-icon"><i class="fa-solid fa-city"></i>
             </div>
             <div class="menu-title">Ciudades</div>
         </a>
@@ -85,7 +85,7 @@
 
     <li>
         <a href="javascript:;" class="has-arrow">
-            <div class="parent-icon"><i class="bi bi-house"></i>
+            <div class="parent-icon"><i class="bi bi-ubuntu"></i>
             </div>
             <div class="menu-title">Tipos de propiedades</div>
         </a>
@@ -156,7 +156,7 @@
 
     <li>
         <a href="javascript:;" class="has-arrow">
-            <div class="parent-icon"><i class="bi bi-building-add"></i>
+            <div class="parent-icon"><i class="fa-solid fa-building-shield"></i>
             </div>
             <div class="menu-title">Proyectos</div>
         </a>
@@ -183,7 +183,7 @@
 
     <li>
         <a href="javascript:;" class="has-arrow">
-            <div class="parent-icon"><i class="bi bi-building-add"></i>
+            <div class="parent-icon"><i class="fa-solid fa-users"></i>
             </div>
             <div class="menu-title">Potenciales clientes</div>
         </a>

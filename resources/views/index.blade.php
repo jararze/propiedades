@@ -1,10 +1,10 @@
 @push('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">--}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/color.css') }}">
 @endpush
 @push('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>--}}
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAX9rEY00ajicFc0JZbwK4i-3HOQMBV78"></script>
     {{--    <script src="{{ asset('front/assets/js/gmaps.js') }}"></script>--}}
 {{--    <script src="{{ asset('front/js/markerclusterer.js') }}"></script>--}}
@@ -13,7 +13,7 @@
     <script src="{{ asset('js/infobox.min.js') }}"></script>
     <script src="{{ asset('js/markerclusterer.js') }}"></script>
     <script src="{{ asset('js/maps.js') }}"></script>
-    <script src="{{ asset('js/share.js') }}"></script>
+{{--    <script src="{{ asset('js/share.js') }}"></script>--}}
     <script src="{{ asset('js/ajax.js') }}"></script>
     <script>
 

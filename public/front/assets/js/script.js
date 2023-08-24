@@ -335,8 +335,9 @@
 			loop:true,
 			margin:30,
 			nav:false,
-			smartSpeed: 500,
+			smartSpeed: 1500,
 			autoplay: 1000,
+            fluidSpeed: 1000,
 			navText: [ '<span class="far fa-angle-left"></span>', '<span class="far fa-angle-right"></span>' ],
 			responsive:{
 				0:{
