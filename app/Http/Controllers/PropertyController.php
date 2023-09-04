@@ -273,7 +273,7 @@ class PropertyController extends Controller
      */
     public function Edit(Request $request): RedirectResponse
     {
-//        dd($request);
+//        dd($request->request);
         $property = Property::find($request->id);
 
         if (!isset($request->featured)) {
@@ -289,6 +289,9 @@ class PropertyController extends Controller
 
         $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
 
+        $property->is_project = $request->is_project;
+        $property->units = $request->units;
+        $property->project_id = $request->project_id;
         $property->name = $request->name;
         $property->address = $request->address;
         $property->neighborhood = $request->neighborhood;

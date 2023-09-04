@@ -94,7 +94,6 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-
                                                 <div class="row g-3">
                                                     <div class="col-12 col-lg-12">
                                                         <div class="card shadow-none bg-light border">
@@ -110,8 +109,10 @@
                                                                             <label for="is_project" class="form-label">¿Proyecto?</label>
                                                                             <select class="form-select" id="is_project"
                                                                                     name="is_project">
-                                                                                <option value="0">No</option>
-                                                                                <option value="1">Si</option>
+                                                                                <option
+                                                                                    {{ $selectedTS = ($property->project_id == 0) ? "selected='selected'" : "" }} value="0">No</option>
+                                                                                <option
+                                                                                    {{ $selectedTS = ($property->project_id != 0) ? "selected='selected'" : "" }} value="1">Si</option>
                                                                             </select>
                                                                             <x-input-error :messages="$errors->get('is_project')"
                                                                                            class="mt-2"/>
@@ -120,18 +121,24 @@
                                                                     @if(count($projects) != 0)
                                                                         <div class="col-4">
                                                                             <label for="units" class="form-label">Unidades</label>
-                                                                            <input value="{{ old('units') }}" id="units" name="units" type="text"
+                                                                            <input value="{{ $property->units }}" id="units" name="units" type="text"
                                                                                    class="form-control"
-                                                                                   placeholder="Unidades" disabled>
+                                                                                   placeholder="Unidades">
                                                                             <x-input-error :messages="$errors->get('units')" class="mt-2"/>
                                                                         </div>
                                                                         <div class="col-6">
                                                                             <label for="project_id" class="form-label">Proyecto asociado</label>
                                                                             <select class="form-select" id="project_id"
-                                                                                    name="project_id" disabled>
+                                                                                    name="project_id">
                                                                                 @foreach($projects as $project)
+                                                                                    @php
+                                                                                        $selected = "";
+                                                                                        if($project->id == $property->project_id){
+                                                                                            $selected = "selected='selected'";
+                                                                                        }
+                                                                                    @endphp
                                                                                     <option
-                                                                                        value="{{ $project->id }}">{{ $project->name }}</option>
+                                                                                        value="{{ $project->id }}" {{ $selected }}>{{ $project->name }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                             <x-input-error :messages="$errors->get('project_id')"

@@ -574,6 +574,9 @@ class ProjectController extends Controller
         $countFacility = FacilityProperty::where('property_id', $id)->distinct()->get('facility_id');
         $agentPro = User::where('id', 22)->get();
         $allVideos = Property::select("id", "thumbnail", "video", "code", "name")->where('id', $id)->orWhere("project_id", $id)->get();
+        $totals = Property::where('project_id', $id)
+            ->selectRaw('SUM(units) as total_units, SUM(bedrooms) as total_bedrooms, SUM(bathrooms) as total_bathrooms, SUM(size) as total_size')
+            ->first();
 
         return view('project.index', [
             'property' => $property,
@@ -586,6 +589,7 @@ class ProjectController extends Controller
             'agentPro' => $agentPro,
             'unitss' => $units,
             'allVideos' => $allVideos,
+            'totals' => $totals,
         ]);
     }
 }

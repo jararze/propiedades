@@ -14,7 +14,7 @@
     @include("layouts.project.mainSlider")
 
     @include("layouts.project.mainMenu")
-
+{{--@dd($totals)--}}
     <div class="page_content_wrap scheme_default">
         <div class="content">
             <article class="post_item_single page">
@@ -77,7 +77,7 @@
                                                                             <div class="sc_skills_item">
                                                                                 <div class="sc_skills_total"
                                                                                      data-start="0"
-                                                                                     data-stop="{{ $units = ($property->units == null) ? 0 : $property->units }}"
+                                                                                     data-stop="{{ $units = ($totals->total_units == null) ? 0 : $totals->total_units }}"
                                                                                      data-step="13" data-max="12500"
                                                                                      data-speed="26"
                                                                                      data-duration="272" data-ed="">
@@ -93,7 +93,7 @@
                                                                         <div class="sc_skills_item_wrap">
                                                                             <div class="sc_skills_item">
                                                                                 <div class="sc_skills_total"
-                                                                                     data-start="0" data-stop="355"
+                                                                                     data-start="0" data-stop="{{ $bedrooms = ($totals->total_bedrooms == null) ? 0 : $totals->total_bedrooms }}"
                                                                                      data-step="13" data-max="1250"
                                                                                      data-speed="30"
                                                                                      data-duration="819" data-ed="">
@@ -110,15 +110,15 @@
                                                                         <div class="sc_skills_item_wrap">
                                                                             <div class="sc_skills_item">
                                                                                 <div class="sc_skills_total"
-                                                                                     data-start="0" data-stop="326"
+                                                                                     data-start="0" data-stop="{{ $badrooms = ($totals->total_bathrooms == null) ? 0 : $totals->total_bathrooms }}"
                                                                                      data-step="13" data-max="1250"
                                                                                      data-speed="15"
                                                                                      data-duration="376" data-ed="">
                                                                                     0
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="sc_skills_item_title">Metros
-                                                                                Cuadrados
+                                                                            <div class="sc_skills_item_title">
+                                                                                Baños
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -127,15 +127,14 @@
                                                                         <div class="sc_skills_item_wrap">
                                                                             <div class="sc_skills_item">
                                                                                 <div class="sc_skills_total"
-                                                                                     data-start="0" data-stop="1225"
+                                                                                     data-start="0" data-stop="{{ $size = ($totals->total_size == null) ? 0 : $totals->total_size }}"
                                                                                      data-step="13" data-max="1250"
                                                                                      data-speed="33"
                                                                                      data-duration="3110"
                                                                                      data-ed="">0
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="sc_skills_item_title">Habitantes
-                                                                                felices
+                                                                            <div class="sc_skills_item_title">Metros Cuadrados
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -576,36 +575,45 @@
                                                  data-trigger="hover" data-maxwidth="240" data-marginoffset=""
                                                  data-isdisplayall="off" data-displayednum="1">
                                                 {{--                                                <img src="{{url('upload/No_Image_Available.jpg')}}" alt=""/>--}}
+{{--@dd($facilities)--}}
                                                 <div class="cq-hotspots">
-                                                    <div class="hotspot-item pulse-white" data-top="31%"
-                                                         data-left="0%">
-                                                        <a href="#" class="cq-tooltip"
-                                                           data-tooltip="&lt;span class=&quot;translation-chunk&quot; data-align=&quot;0:10&quot;&gt;SOUTH BRIDGE&lt;/span&gt;"
-                                                           data-arrowposition="">
-                                                            <span></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="hotspot-item pulse-white" data-top="33%"
-                                                         data-left="35%">
-                                                        <a href="#" class="cq-tooltip" data-tooltip="NORTH BRIDGE"
-                                                           data-arrowposition="top">
-                                                            <span></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="hotspot-item pulse-white" data-top="36%"
-                                                         data-left="55%">
-                                                        <a href="#" class="cq-tooltip"
-                                                           data-tooltip="PARLAMENT HOUSE" data-arrowposition="top">
-                                                            <span></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="hotspot-item pulse-white" data-top="50%"
-                                                         data-left="94%">
-                                                        <a href="#" class="cq-tooltip" data-tooltip="PUBLIC LIBRARY"
-                                                           data-arrowposition="top">
-                                                            <span></span>
-                                                        </a>
-                                                    </div>
+                                                    @php $var = 5 @endphp
+                                                    @php $varL = 10 @endphp
+                                                    @foreach($facilities as $facility)
+                                                        <div class="hotspot-item pulse-white" data-top="{{ $var }}%"
+                                                             data-left="{{ $varL }}%">
+                                                            <a href="#" class="cq-tooltip"
+                                                               data-tooltip="{{ $facility['facilityName']['name'] }} / {{ $facility->name }}"
+                                                               data-arrowposition="">
+                                                                <span></span>
+                                                            </a>
+                                                        </div>
+                                                        @php $var = $var + 8 @endphp
+                                                        @php $varL = $varL + 15 @endphp
+                                                    @endforeach
+{{--                                                    <div class="hotspot-item pulse-white" data-top="33%"--}}
+{{--                                                         data-left="35%">--}}
+{{--                                                        <a href="#" class="cq-tooltip" data-tooltip="NORTH BRIDGE"--}}
+{{--                                                           data-arrowposition="top">--}}
+{{--                                                            <span></span>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="hotspot-item pulse-white" data-top="36%"--}}
+{{--                                                         data-left="55%">--}}
+{{--                                                        <a href="#" class="cq-tooltip"--}}
+{{--                                                           data-tooltip="PARLAMENT HOUSE" data-arrowposition="top">--}}
+{{--                                                            <span></span>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="hotspot-item pulse-white" data-top="50%"--}}
+{{--                                                         data-left="94%">--}}
+{{--                                                        <a href="#" class="cq-tooltip" data-tooltip="PUBLIC LIBRARY"--}}
+{{--                                                           data-arrowposition="top">--}}
+{{--                                                            <span></span>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -621,7 +629,7 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="columns_wrap">
-                                    <div class="column_container column-1_3" style="min-height: 700px !important;">
+                                    <div class="column_container column-1_2" style="min-height: 700px !important;">
                                         <div class="column-inner ph15p">
                                             <div class="height_large"></div>
                                             <div class="height_huge hide_on_mobile"></div>
@@ -664,29 +672,29 @@
                                             <div class="height_medium"></div>
                                         </div>
                                     </div>
-                                    <div class="column_container column-1_3" style="min-height: 700px !important;">
-                                        <div class="column-inner phn">
-                                            <a id="sc_anchor_contacts" class="sc_anchor sc_anchor_default"
-                                               title="Contacts" data-icon="icon-email" data-url=""></a>
+{{--                                    <div class="column_container column-1_3" style="min-height: 700px !important;">--}}
+{{--                                        <div class="column-inner phn">--}}
+{{--                                            <a id="sc_anchor_contacts" class="sc_anchor sc_anchor_default"--}}
+{{--                                               title="Contacts" data-icon="icon-email" data-url=""></a>--}}
 
 
-                                            <div id="sc_googlemap_1_wrap" class="sc_googlemap_wrap"
-                                                 style="min-height: 700px !important;">
-                                                <div id="sc_googlemap_1"
-                                                     class="sc_googlemap sc_googlemap_default h92vh" data-zoom="16"
-                                                     data-style="dark">
-                                                    <iframe frameborder="0"
-                                                            style="border: 0px; width: 100%; height: 100%;"
-                                                            src="https://maps.google.com/maps?t=m&amp;output=embed&amp;iwloc=near&amp;z=12&amp;"
-                                                            aria-label="">
-                                                    </iframe>
-                                                </div>
-                                            </div>
+{{--                                            <div id="sc_googlemap_1_wrap" class="sc_googlemap_wrap"--}}
+{{--                                                 style="min-height: 700px !important;">--}}
+{{--                                                <div id="sc_googlemap_1"--}}
+{{--                                                     class="sc_googlemap sc_googlemap_default h92vh" data-zoom="16"--}}
+{{--                                                     data-style="dark">--}}
+{{--                                                    <iframe frameborder="0"--}}
+{{--                                                            style="border: 0px; width: 100%; height: 100%;"--}}
+{{--                                                            src="https://maps.google.com/maps?t=m&amp;output=embed&amp;iwloc=near&amp;z=12&amp;"--}}
+{{--                                                            aria-label="">--}}
+{{--                                                    </iframe>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
 
 
-                                        </div>
-                                    </div>
-                                    <div class="column_container column-1_3" style="min-height: 700px !important;">
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+                                    <div class="column_container column-1_2" style="min-height: 700px !important;">
                                         <div class="column-inner ph20p">
                                             <div class="height_large"></div>
                                             <div class="height_huge hide_on_mobile"></div>

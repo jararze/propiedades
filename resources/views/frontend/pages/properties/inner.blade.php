@@ -231,7 +231,7 @@
                                                                 <div class="box clearfix">
                                                                     <div class="text pull-left">
                                                                         <h6>{{ $facility->name }}
-                                                                            <span>({{ $facility->distance }} km)</span>
+                                                                            <span>({{ $facility->distance }} cuadras)</span>
                                                                         </h6>
                                                                     </div>
                                                                 </div>
@@ -429,7 +429,7 @@
             </div>
             <div class="similar-content">
                 <div class="title">
-                    <h4>Similar Properties</h4>
+                    <h4>Propiedades similares</h4>
                 </div>
 {{--                <div class="row clearfix">--}}
 {{--                    <div class="col-lg-4 col-md-6 col-sm-12 feature-block">--}}
