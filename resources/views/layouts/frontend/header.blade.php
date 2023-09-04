@@ -9,7 +9,7 @@
         <div class="top-inner clearfix">
             <div class="left-column pull-left">
                 <ul class="info clearfix">
-                    <li><i class="fas fa-map-marker-alt"></i>{{  $categories[1]->value }} </li>
+{{--                    <li><i class="fas fa-map-marker-alt"></i>{{  $categories[1]->value }} </li>--}}
                     <li><i class="fas fa-clock"></i>{{  $categories[2]->value }}</li>
                     <li><i class="fas fa-phone"></i><a href="tel:+591{{  $categories[3]->value }}">{{  $categories[3]->value }}</a></li>
                 </ul>
@@ -33,7 +33,7 @@
                                 @csrf
                                 <a href="{{ route('logout') }}"
                                    onclick="event.preventDefault(); this.closest('form').submit();"><i
-                                        class="fa fa-sign-out"></i>Logout</a>
+                                        class="fa fa-sign-out"></i>Salir</a>
                             </form>
                         </li>
                         @php
