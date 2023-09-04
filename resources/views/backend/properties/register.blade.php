@@ -1,8 +1,28 @@
 @push('styles')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 @endpush
 @push('script')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="{{ asset('backend/assets/js/images.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/map.js') }}"></script>
+
     <script>
+
+        function toggle() {
+            var x = document.getElementById("map");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
         $(document).on("change", "#currency", function (event) {
             // alert(this.value);
             $(".currency_icon").text(this.value);
@@ -66,8 +86,7 @@
                                                             No hay proyectos registrados agregue uno <a href="">aquí</a>
                                                         </h4>
                                                     @else
-                                                        <label for="is_project" class="form-label">¿Es un
-                                                            proyecto?</label>
+                                                        <label for="is_project" class="form-label">¿Proyecto?</label>
                                                         <select class="form-select" id="is_project"
                                                                 name="is_project">
                                                             <option value="0">No</option>
@@ -86,8 +105,7 @@
                                                         <x-input-error :messages="$errors->get('units')" class="mt-2"/>
                                                     </div>
                                                     <div class="col-6">
-                                                        <label for="project_id" class="form-label">Selecciona el
-                                                            proyecto asociado</label>
+                                                        <label for="project_id" class="form-label">Proyecto asociado</label>
                                                         <select class="form-select" id="project_id"
                                                                 name="project_id" disabled>
                                                             @foreach($projects as $project)
@@ -236,6 +254,39 @@
                                                     </div>
                                                     <x-input-error :messages="$errors->get('max_price')" class="mt-2"/>
                                                 </div>
+                                                <div class="col-6">
+                                                    <label for="bedrooms" class="form-label"># Habitaciones</label>
+                                                    <input value="{{ old('bedrooms') }}" id="bedrooms" name="bedrooms"
+                                                           type="number" step="any"
+                                                           class="form-control"
+                                                           placeholder="# Habitaciones">
+                                                    <x-input-error :messages="$errors->get('bedrooms')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="bathrooms" class="form-label"># Baños</label>
+                                                    <input value="{{ old('bathrooms') }}" id="bathrooms"
+                                                           name="bathrooms" type="number" step="any"
+                                                           class="form-control"
+                                                           placeholder="# Baños">
+                                                    <x-input-error :messages="$errors->get('bathrooms')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="garage" class="form-label"># Garajes</label>
+                                                    <input value="{{ old('garage') }}" id="garage" name="garage"
+                                                           type="number" step="any"
+                                                           class="form-control"
+                                                           placeholder="# Garajes">
+                                                    <x-input-error :messages="$errors->get('garage')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="garage_size" class="form-label">Tamaño (mt2) </label>
+                                                    <input value="{{ old('garage_size') }}" id="garage_size"
+                                                           name="garage_size" type="number" step="any"
+                                                           class="form-control"
+                                                           placeholder="Tamaño Garaje">
+                                                    <x-input-error :messages="$errors->get('garage_size')"
+                                                                   class="mt-2"/>
+                                                </div>
                                                 <div class="col-12 col-lg-12">
                                                     <label for="thumbnail" class="form-label">Imagen Principal</label>
                                                     <div class="input-group">
@@ -314,7 +365,7 @@
                                                                     Distancia </label>
                                                                 <input type="text" name="distance[]" id="distance"
                                                                        class="form-control"
-                                                                       placeholder="Distancia (Km)">
+                                                                       placeholder="Distancia (Cuadras)">
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-2" style="padding-top: 30px;">
@@ -324,6 +375,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -334,39 +386,7 @@
                                     <div class="card shadow-none bg-light border">
                                         <div class="card-body">
                                             <div class="row g-3">
-                                                <div class="col-6">
-                                                    <label for="bedrooms" class="form-label"># Habitaciones</label>
-                                                    <input value="{{ old('bedrooms') }}" id="bedrooms" name="bedrooms"
-                                                           type="number" step="any"
-                                                           class="form-control"
-                                                           placeholder="# Habitaciones">
-                                                    <x-input-error :messages="$errors->get('bedrooms')" class="mt-2"/>
-                                                </div>
-                                                <div class="col-6">
-                                                    <label for="bathrooms" class="form-label"># Baños</label>
-                                                    <input value="{{ old('bathrooms') }}" id="bathrooms"
-                                                           name="bathrooms" type="number" step="any"
-                                                           class="form-control"
-                                                           placeholder="# Baños">
-                                                    <x-input-error :messages="$errors->get('bathrooms')" class="mt-2"/>
-                                                </div>
-                                                <div class="col-6">
-                                                    <label for="garage" class="form-label"># Garajes</label>
-                                                    <input value="{{ old('garage') }}" id="garage" name="garage"
-                                                           type="number" step="any"
-                                                           class="form-control"
-                                                           placeholder="# Garajes">
-                                                    <x-input-error :messages="$errors->get('garage')" class="mt-2"/>
-                                                </div>
-                                                <div class="col-6">
-                                                    <label for="garage_size" class="form-label">Tamaño (mt2) </label>
-                                                    <input value="{{ old('garage_size') }}" id="garage_size"
-                                                           name="garage_size" type="number" step="any"
-                                                           class="form-control"
-                                                           placeholder="Tamaño Garaje">
-                                                    <x-input-error :messages="$errors->get('garage_size')"
-                                                                   class="mt-2"/>
-                                                </div>
+
                                                 <div class="col-12">
                                                     <label for="video" class="form-label">Video (Youtube) </label>
                                                     <input value="{{ old('video') }}" id="video" name="video"
@@ -389,6 +409,12 @@
                                                            class="form-control"
                                                            placeholder="Longitud">
                                                     <x-input-error :messages="$errors->get('longitude')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button type="button" class="btn btn-primary" onclick="toggle()">Ver en el mapa</button>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div id="map"></div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-check">
@@ -418,7 +444,7 @@
                                                     <select id="agent_id" name="agent_id" class="form-select"
                                                             required {{ $blocked }}>
                                                         @foreach($agents as $agent)
-                                                            @php $selected2 = ($agent->id == Auth::user()->id) ? "selected='selected'" : ""; @endphp
+                                                            @php $selected2 = ($agent->id == 22) ? "selected='selected'" : ""; @endphp
                                                             <option
                                                                 value="{{ $agent->id }}" {{ $selected2 }}>{{ $agent->name }} {{ $agent->lastname }}</option>
                                                         @endforeach
@@ -484,7 +510,7 @@
                                                         <label for="distance" class="form-label">
                                                             Distancia </label>
                                                         <input type="text" name="distance[]" id="distance"
-                                                               class="form-control" placeholder="Distancia (Km)">
+                                                               class="form-control" placeholder="Distancia (Cuadras)">
                                                     </div>
                                                     <div class="form-group col-md-2" style="padding-top: 20px">
                                                         <span class="btn btn-success btn-sm addeventmore"><i

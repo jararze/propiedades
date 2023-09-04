@@ -1,12 +1,37 @@
 @push('styles')
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 @endpush
 @push('script')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="{{ asset('backend/assets/js/images.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/map.js') }}"></script>
     <script>
+        function toggle() {
+            var x = document.getElementById("map");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
         $(document).on("change", "#currency", function (event) {
             // alert(this.value);
             $(".currency_icon").text(this.value);
+        });
+        $(document).on("change", "#is_project", function (event) {
+            if (this.value == 0) {
+                $("#project_id").attr("disabled", true);
+                $("#units").attr("disabled", true);
+            } else {
+                $("#project_id").removeAttr("disabled");
+                $("#units").removeAttr("disabled");
+            }
         });
     </script>
 @endpush
@@ -69,6 +94,61 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
+
+                                                <div class="row g-3">
+                                                    <div class="col-12 col-lg-12">
+                                                        <div class="card shadow-none bg-light border">
+                                                            <div class="card-body">
+                                                                <div class="row g-3">
+                                                                    <div class="col-2">
+                                                                        @if(count($projects) == 0)
+                                                                            <h4 class="align-middle"
+                                                                                style="font-size: 15px; margin-top: 37px">
+                                                                                No hay proyectos registrados agregue uno <a href="">aquí</a>
+                                                                            </h4>
+                                                                        @else
+                                                                            <label for="is_project" class="form-label">¿Proyecto?</label>
+                                                                            <select class="form-select" id="is_project"
+                                                                                    name="is_project">
+                                                                                <option value="0">No</option>
+                                                                                <option value="1">Si</option>
+                                                                            </select>
+                                                                            <x-input-error :messages="$errors->get('is_project')"
+                                                                                           class="mt-2"/>
+                                                                        @endif
+                                                                    </div>
+                                                                    @if(count($projects) != 0)
+                                                                        <div class="col-4">
+                                                                            <label for="units" class="form-label">Unidades</label>
+                                                                            <input value="{{ old('units') }}" id="units" name="units" type="text"
+                                                                                   class="form-control"
+                                                                                   placeholder="Unidades" disabled>
+                                                                            <x-input-error :messages="$errors->get('units')" class="mt-2"/>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <label for="project_id" class="form-label">Proyecto asociado</label>
+                                                                            <select class="form-select" id="project_id"
+                                                                                    name="project_id" disabled>
+                                                                                @foreach($projects as $project)
+                                                                                    <option
+                                                                                        value="{{ $project->id }}">{{ $project->name }}</option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                            <x-input-error :messages="$errors->get('project_id')"
+                                                                                           class="mt-2"/>
+                                                                        </div>
+                                                                    @endif
+                                                                    <div class="col-12">
+                                                                        <h4 class="align-middle"
+                                                                            sstyle="font-size: 15px; margin-top: 37px">¿No
+                                                                            encuetras tu proyecto? Crealo <a href="">aquí</a></h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="row g-3">
                                                     <div class="col-12 col-lg-8">
                                                         <div class="card shadow-none bg-light border">
@@ -236,41 +316,6 @@
                                                                             :messages="$errors->get('max_price')"
                                                                             class="mt-2"/>
                                                                     </div>
-                                                                    <div class="col-12">
-                                                                        <label for="short_description"
-                                                                               class="form-label">Descripcion
-                                                                            Corta</label>
-                                                                        <input id="short_description"
-                                                                               name="short_description" type="text"
-                                                                               class="form-control"
-                                                                               placeholder="Descripcion Corta" required
-                                                                               value="{{ $property->short_description }}">
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('short_description')"
-                                                                            class="mt-2"/>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label for="long_description"
-                                                                               class="form-label">Descripcion</label>
-                                                                        <textarea id="long_description"
-                                                                                  name="long_description" type="text"
-                                                                                  class="form-control"
-                                                                                  placeholder="Descripcion"
-                                                                                  required> {{ $property->long_description }}</textarea>
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('long_description')"
-                                                                            class="mt-2"/>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-12 col-lg-4">
-                                                        <div class="card shadow-none bg-light border">
-                                                            <div class="card-body">
-                                                                <div class="row g-3">
                                                                     <div class="col-6">
                                                                         <label for="bedrooms" class="form-label">#
                                                                             Habitaciones</label>
@@ -320,6 +365,42 @@
                                                                             class="mt-2"/>
                                                                     </div>
                                                                     <div class="col-12">
+                                                                        <label for="short_description"
+                                                                               class="form-label">Descripcion
+                                                                            Corta</label>
+                                                                        <input id="short_description"
+                                                                               name="short_description" type="text"
+                                                                               class="form-control"
+                                                                               placeholder="Descripcion Corta" required
+                                                                               value="{{ $property->short_description }}">
+                                                                        <x-input-error
+                                                                            :messages="$errors->get('short_description')"
+                                                                            class="mt-2"/>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label for="long_description"
+                                                                               class="form-label">Descripcion</label>
+                                                                        <textarea id="long_description"
+                                                                                  name="long_description" type="text"
+                                                                                  class="form-control"
+                                                                                  placeholder="Descripcion"
+                                                                                  required> {{ $property->long_description }}</textarea>
+                                                                        <x-input-error
+                                                                            :messages="$errors->get('long_description')"
+                                                                            class="mt-2"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-12 col-lg-4">
+                                                        <div class="card shadow-none bg-light border">
+                                                            <div class="card-body">
+                                                                <div class="row g-3">
+
+                                                                    <div class="col-12">
                                                                         <label for="video" class="form-label">Video
                                                                             (Youtube) </label>
                                                                         <input id="video" name="video" type="text"
@@ -351,6 +432,12 @@
                                                                         <x-input-error
                                                                             :messages="$errors->get('longitude')"
                                                                             class="mt-2"/>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <button type="button" class="btn btn-primary" onclick="toggle()">Ver en el mapa</button>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div id="map"></div>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <div class="form-check">

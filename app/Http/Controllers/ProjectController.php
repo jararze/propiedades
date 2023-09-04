@@ -249,7 +249,7 @@ class ProjectController extends Controller
      */
     public function Edit(Request $request): RedirectResponse
     {
-//        dd($request);
+//        dd($request->request);
         $property = Property::find($request->id);
 
         if (!isset($request->featured)) {
@@ -276,12 +276,17 @@ class ProjectController extends Controller
         $property->lowest_price = $request->lowest_price;
         $property->max_price = $request->max_price;
         $property->size = $request->size;
+        $property->size_max = $request->size_max;
         $property->short_description = $request->short_description;
         $property->long_description = $request->long_description;
         $property->bedrooms = $request->bedrooms;
+        $property->bedrooms_max = $request->bedrooms_max;
         $property->bathrooms = $request->bathrooms;
+        $property->bathrooms_max = $request->bathrooms_max;
         $property->garage = $request->garage;
+        $property->garage_max = $request->garage_mx;
         $property->garage_size = $request->garage_size;
+        $property->garage_size_max = $request->garage_size_max;
         $property->video = $request->video;
         $property->latitude = $request->latitude;
         $property->longitude = $request->longitude;
@@ -292,6 +297,7 @@ class ProjectController extends Controller
         $property->updated_at = Carbon::now();
 
         $property->save();
+        toastr()->success('Proyecto Modificado, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', 'updated');
     }
 
@@ -317,6 +323,7 @@ class ProjectController extends Controller
         $property->thumbnail = $filename;
         $property->updated_at = Carbon::now();
         $property->save();
+        toastr()->success('Imagen modificada, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', 'image-updated');
     }
 
@@ -368,6 +375,7 @@ class ProjectController extends Controller
 
             }
         }
+        toastr()->success('Imagen@s subidas, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', 'updated-addMIages');
     }
 

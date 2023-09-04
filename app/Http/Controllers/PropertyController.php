@@ -30,11 +30,11 @@ class PropertyController extends Controller
      */
     public function index(): view
     {
-        if (Auth::user()->role == 'admin') {
+//        if (Auth::user()->role == 'admin') {
             $values = Property::where('is_project', "0")->get();
-        } else {
-            $values = Property::where('is_project', "0")->where('agent_id', Auth::user()->id)->get();
-        }
+//        } else {
+//            $values = Property::where('is_project', "0")->where('agent_id', Auth::user()->id)->get();
+//        }
 
         return view('backend.properties.index', [
             'values' => $values,
@@ -237,7 +237,7 @@ class PropertyController extends Controller
             }
         }
 
-
+        toastr()->success('Propiedad creada, satisfactoriamente', '!Bien!');
         return Redirect::route('admin.properties.register')->with('status', 'created');
 
     }
@@ -257,13 +257,14 @@ class PropertyController extends Controller
         $facility = Facility::orderBy('name', 'asc')->get();
         $multiImages = MultiImage::where('property_id', $idItem)->orderBy('name', 'asc')->get();
         $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('name', 'asc')->get();
+        $projects = Property::where('is_project', "1")->where('status', 1)->get();
 
         $property_aminities = explode(",", $property->amenities_id);
 
         $cities = City::orderBy('name', 'asc')->get();
 
 
-        return view('backend.properties.edit', compact('idItem', 'property', 'propertyType', 'amenities', 'agents', 'property_aminities', 'facilities', 'multiImages', 'facility', 'cities'));
+        return view('backend.properties.edit', compact('idItem', 'property', 'propertyType', 'amenities', 'agents', 'property_aminities', 'facilities', 'multiImages', 'facility', 'cities', 'projects'));
     }
 
     /**
@@ -315,6 +316,7 @@ class PropertyController extends Controller
         $property->updated_at = Carbon::now();
 
         $property->save();
+        toastr()->success('Propiedad modificada, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', 'updated');
     }
 
@@ -340,6 +342,7 @@ class PropertyController extends Controller
         $property->thumbnail = $filename;
         $property->updated_at = Carbon::now();
         $property->save();
+        toastr()->success('Imagen modificada, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', 'image-updated');
     }
 
@@ -359,7 +362,7 @@ class PropertyController extends Controller
         } else {
             $message = "Error";
         }
-
+        toastr()->success('Imagen eliminada, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', $message);
 
     }
@@ -391,6 +394,7 @@ class PropertyController extends Controller
 
             }
         }
+        toastr()->success('Imagenes agregadas, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', 'updated-addMIages');
     }
 
@@ -421,7 +425,7 @@ class PropertyController extends Controller
                 'updated_at' => Carbon::now()
             ]);
 
-
+            toastr()->success('Comodidad agregada, satisfactoriamente', '!Bien!');
             return redirect()->back()->with('status', 'add-newFacility');
         }
 
@@ -441,7 +445,7 @@ class PropertyController extends Controller
         } else {
             $message = "Error";
         }
-
+        toastr()->success('Comodidad eliminada, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', $message);
 
     }
@@ -457,6 +461,7 @@ class PropertyController extends Controller
         $property->updated_at = Carbon::now();
 
         $property->save();
+        toastr()->success('Amenitie modificado, satisfactoriamente', '!Bien!');
         return redirect()->back()->with('status', 'updated-amenities');
     }
 
@@ -480,6 +485,8 @@ class PropertyController extends Controller
             rmdir($dirname2);
             rmdir($dirname);
         }
+        toastr()->success('Propiedad eliminada, satisfactoriamente', '!Bien!');
+
 
         return redirect()->back()->with('status', 'eliminated');
 
