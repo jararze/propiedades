@@ -35,21 +35,6 @@
                                     <input class="form-control ps-5" type="text" placeholder="Buscar">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-6 col-md-3">
-                                <select class="form-select">
-                                    <option>Estatus</option>
-                                    <option>Activas</option>
-                                    <option>No Activas</option>
-                                    <option>Mostrar Todos</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-6 col-md-3">
-                                <select class="form-select">
-                                    <option>Mostrar 10</option>
-                                    <option>Mostrar 30</option>
-                                    <option>Mostrar 50</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -150,15 +135,7 @@
                             @endif
 
                         </div>
-                        {{--                        <nav class="float-end" aria-label="Page navigation">--}}
-                        {{--                            <ul class="pagination">--}}
-                        {{--                                <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>--}}
-                        {{--                                <li class="page-item active"><a class="page-link" href="#">1</a></li>--}}
-                        {{--                                <li class="page-item"><a class="page-link" href="#">2</a></li>--}}
-                        {{--                                <li class="page-item"><a class="page-link" href="#">3</a></li>--}}
-                        {{--                                <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>--}}
-                        {{--                            </ul>--}}
-                        {{--                        </nav>--}}
+                        {{ $values->links('vendor.pagination.bootstrap-5') }}
                     </div>
                 </div>
             </div>

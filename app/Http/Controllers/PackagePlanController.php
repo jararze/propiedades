@@ -19,7 +19,7 @@ class PackagePlanController extends Controller
      */
     public function index(): view
     {
-        $values = PackagePlan::latest()->get();
+        $values = PackagePlan::orderBy('id', 'ASC')->paginate(10);
         return view('backend.packages.index', [
             'values' => $values,
         ]);
@@ -31,7 +31,7 @@ class PackagePlanController extends Controller
      */
     public function create(): view
     {
-        $values = PackagePlan::latest()->get();
+        $values = PackagePlan::orderBy('id', 'ASC')->get();
         return view('backend.packages.register', [
             'values' => $values,
         ]);
@@ -53,6 +53,7 @@ class PackagePlanController extends Controller
         $package->credits = $request->credits;
         $package->amount = $request->amount;
         $package->status = $request->status;
+        $package->front_display = $request->front_display;
 
         $package->save();
         return Redirect::route('admin.packages.register')->with('status', 'created');
@@ -66,7 +67,7 @@ class PackagePlanController extends Controller
 //        dd($item);
         $idProper = $id;
         $package = PackagePlan::find($idProper);
-        $types = PackagePlan::latest()->get();
+        $types = PackagePlan::orderBy('id', 'ASC')->get();
         return view('backend.packages.edit', compact('idProper', 'types', 'package'));
     }
 
@@ -86,6 +87,7 @@ class PackagePlanController extends Controller
         $package->credits = $request->credits;
         $package->amount = $request->amount;
         $package->status = $request->status;
+        $package->front_display = $request->front_display;
 
         $package->save();
 
@@ -112,14 +114,14 @@ class PackagePlanController extends Controller
             ->where('users.id', Auth::user()->id)
             ->select('package_plans.name', 'package_plans.credits', 'package_plans.amount')
             ->first();
-        $propertyXagent = Property::where('agent_id', Auth::user()->id)->get();
+        $propertyXagent = Property::where('created_by', Auth::user()->id)->get();
         $propertyXagent = $propertyXagent->count();
 
         $name = $package->name;
         $credits = $package->credits;
         $amount = $package->amount;
 
-        $values = PackagePlan::orderBy("id", "asc")->get();
+        $values = PackagePlan::orderBy("id", "asc")->where('front_display', "1")->get();
         return view('backend.packages.choose', [
             'values' => $values,
             'package_name' => $name,
@@ -162,7 +164,7 @@ class PackagePlanController extends Controller
     public function indexApproval(): view
     {
 //        $values = User::where("package_status", "inactive")->get();
-        $values = User::orderBy("package_status", "desc")->get();
+        $values = User::orderBy("package_status", "desc")->paginate(10);
         return view('backend.packages.users.approval', [
             'values' => $values,
         ]);

@@ -177,6 +177,12 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
 
     Route::get('admin/posible/users/index', [PotencialBuyerController::class, 'index'])->name('admin.possible.users.index');
 
+    Route::get('/admin/properties/inactives', [PropertyController::class, 'inactives'])->name('admin.properties.inactives');
+    Route::post('/admin/properties/activate', [PropertyController::class, 'activate'])->name('admin.properties.activate');
+    Route::get('/admin/properties/delete', [PropertyController::class, 'destroy'])->name('admin.properties.delete');
+    Route::get('/admin/properties/sale', [PropertyController::class, 'sale'])->name('admin.properties.sale');
+    Route::post('/admin/properties/sold/status', [PropertyController::class, 'propertieChangeStatus'])->name('admin.properties.sold.status');
+
 });
 
 Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function () {
@@ -198,7 +204,10 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function
     Route::post('/admin/properties/add/facility', [PropertyController::class, 'addFacility'])->name('admin.properties.add.facility');
     Route::post('/admin/properties/delete/facility', [PropertyController::class, 'deleteFacility'])->name('admin.properties.delete.facility');
     Route::post('/admin/properties/edit/amenities', [PropertyController::class, 'editAmenities'])->name('admin.properties.edit.amenities');
-    Route::get('/admin/properties/delete', [PropertyController::class, 'destroy'])->name('admin.properties.delete');
+
+    Route::get('/admin/properties/own', [PropertyController::class, 'own'])->name('admin.properties.own');
+    Route::get('/admin/properties/sold', [PropertyController::class, 'sold'])->name('admin.properties.sold');
+
 
 
 

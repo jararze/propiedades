@@ -3,7 +3,7 @@
         $rolee = Auth::user()->role;
     @endphp
     <div class="sidebar-header">
-        <div>
+        <div class="toggle-iconn ms-auto">
             <img src="{{ asset('backend/assets/images/logo/PROpiedades_03.png') }}" class="logo-icon" alt="logo icon">
         </div>
         <div>

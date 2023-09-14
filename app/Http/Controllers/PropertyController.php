@@ -31,7 +31,7 @@ class PropertyController extends Controller
     public function index(): view
     {
 //        if (Auth::user()->role == 'admin') {
-            $values = Property::where('is_project', "0")->get();
+        $values = Property::where('is_project', "0")->orderBy('updated_at', 'desc')->where('status', "1")->paginate(10);
 //        } else {
 //            $values = Property::where('is_project', "0")->where('agent_id', Auth::user()->id)->get();
 //        }
@@ -41,13 +41,75 @@ class PropertyController extends Controller
         ]);
     }
 
+    public function own(): view
+    {
+        $values = Property::where('is_project', "0")->where('created_by', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('backend.properties.own', [
+            'values' => $values,
+        ]);
+    }
+    public function sale(): view
+    {
+        $values = Property::where('is_project', "0")->where('status_for_what', "1")->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('backend.properties.sale', [
+            'values' => $values,
+        ]);
+    }
+
+    public function inactives(): view
+    {
+        $values = Property::where('is_project', "0")->where('status', '0')->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('backend.properties.inactives', [
+            'values' => $values,
+        ]);
+    }
+
+    public function sold(Request $request): RedirectResponse
+    {
+//        dd($request->id);
+        $property = Property::find($request->id);
+        $property->status_for_what = "1";
+        $property->updated_at = Carbon::now();
+
+        $property->save();
+        toastr()->success('Solicitud enviada para sacar del mercado', '!Proceso!');
+        return redirect()->back()->with('status', 'updated-amenities');
+    }
+    public function propertieChangeStatus(Request $request): RedirectResponse
+    {
+//        dd($request->id);
+        $property = Property::find($request->id);
+        $property->status_for_what = "2";
+        $property->updated_at = Carbon::now();
+
+        $property->save();
+        toastr()->success('Propiedad fuera de mercado, estará 3 días habiles con el cartel de vendida/alquilada etc', '!Proceso!');
+        return redirect()->back()->with('status', 'updated-amenities');
+    }
+
+    public function activate(Request $request): RedirectResponse
+    {
+//        dd($request->inactiveid);
+        $property = Property::find($request->inactiveid);
+        $property->status = "1";
+        $property->updated_at = Carbon::now();
+
+        $property->save();
+        toastr()->success('Propiedad activada', '!Bien!');
+        return redirect()->back()->with('status', 'updated-amenities');
+    }
+
+
     /**
      * Display the page with the form to create the item.
      * @throws \Exception
      */
     public function create(): view
     {
-        $propertyXagent = Property::where('agent_id', Auth::user()->id)->get();
+        $propertyXagent = Property::where('created_by', Auth::user()->id)->get();
         $propertyXagent = $propertyXagent->count();
 
 
@@ -79,7 +141,7 @@ class PropertyController extends Controller
                         'cities' => $cities,
                     ]);
                 } else {
-                    $values = PackagePlan::orderBy('id', 'asc')->get();
+                    $values = PackagePlan::orderBy('id', 'asc')->where('front_display', '1')->get();
                     return view('backend.properties.more.credits', [
                         'package_name' => $name,
                         'package_credits' => $credits,
@@ -131,7 +193,7 @@ class PropertyController extends Controller
         ]);
 
         $code = IdGenerator::generate(['table' => 'properties', 'field' => 'code', 'length' => 10, 'prefix' => 'P' . date('ym')]);
-        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
+        $age_id = (Auth::user()->role === 'agent') ? '22' : $request->agent_id;
 
         if ($request->file('thumbnail')) {
             $file = $request->file('thumbnail');
@@ -190,7 +252,7 @@ class PropertyController extends Controller
             'thumbnail' => $filename,
             'agent_id' => $age_id,
             'created_by' => Auth::user()->id,
-            'status' => $request->status,
+            'status' => '0',
             'amenities_id' => $amenities_list,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -246,11 +308,21 @@ class PropertyController extends Controller
     /**
      * Display the form to edit .
      */
-    public function EditView($id): view
+    public function EditView($id)
     {
-//        dd($item);
         $idItem = $id;
         $property = Property::find($idItem);
+        if (!isset($property)) {
+            abort(404);
+        }
+
+        if (Auth::user()->role == 'agent') {
+            if (Auth::user()->id != $property->created_by) {
+                toastr()->error('No tiene permisos , para ingresar', '!Cuidado!');
+                return redirect()->back();
+            }
+        }
+
         $propertyType = PropertyType::where('status', 1)->orderBy('type_name', 'asc')->get();
         $amenities = Amenities::where('status', 1)->orderBy('name', 'asc')->get();
         $facilities = FacilityProperty::where('property_id', $idItem)->orderBy('name', 'asc')->get();
@@ -287,7 +359,7 @@ class PropertyController extends Controller
             $hot_var = $request->hot;
         }
 
-        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
+//        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
 
         $property->is_project = $request->is_project;
         $property->units = $request->units;
@@ -314,7 +386,7 @@ class PropertyController extends Controller
         $property->longitude = $request->longitude;
         $property->featured = $featured_var;
         $property->hot = $hot_var;
-        $property->agent_id = $age_id;
+//        $property->agent_id = $age_id;
         $property->status = $request->status;
         $property->updated_at = Carbon::now();
 
@@ -589,7 +661,7 @@ class PropertyController extends Controller
             })
             ->orderBy('id', 'desc')
             ->filter(request(['search', 'city', 'property_type', 'neighborhoods', 'garage', 'bedrooms', 'bathrooms']))
-            ->paginate(4)
+            ->paginate(6)
             ->withQueryString();
 
         $types = PropertyType::where('status', 1)->orderBy('id', 'asc')->get();

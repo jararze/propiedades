@@ -5,10 +5,19 @@
     <link rel="stylesheet"
           href="{{ asset('backend/assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 
 @endpush
 @push('script')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="{{ asset('backend/assets/js/images.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/map.js') }}"></script>
     <script src="{{ asset ('backend/assets/plugins/datetimepicker/js/legacy.js') }}"></script>
     <script src="{{ asset ('backend/assets/plugins/datetimepicker/js/picker.js') }}"></script>
     <script src="{{ asset ('backend/assets/plugins/datetimepicker/js/picker.time.js') }}"></script>
@@ -18,6 +27,14 @@
         src="{{ asset ('backend/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js') }}"></script>
     <script src="{{ asset ('backend/assets/js/form-date-time-pickes.js') }}"></script>
     <script>
+        function toggle() {
+            var x = document.getElementById("map");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
         $(document).on("change", "#currency", function (event) {
             // alert(this.value);
             $(".currency_icon").text(this.value);
@@ -124,9 +141,13 @@
                                                 </div>
                                                 <div class="col-12 col-lg-3">
                                                     <label for="city" class="form-label">Ciudad</label>
-                                                    <input value="{{ old('city') }}" id="city" name="city" type="text"
-                                                           class="form-control"
-                                                           placeholder="Ciudad">
+                                                    <select class="form-select" id="city"
+                                                            name="city">
+                                                        @foreach($cities as $city)
+                                                            <option
+                                                                value="{{ $city->name }}">{{ $city->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                     <x-input-error :messages="$errors->get('city')" class="mt-2"/>
                                                 </div>
                                                 <div class="col-12 col-lg-3">
@@ -280,81 +301,7 @@
                                                     <x-input-error :messages="$errors->get('long_description')"
                                                                    class="mt-2"/>
                                                 </div>
-                                                <div class="col-12">
-                                                    <label for="video" class="form-label">Video (Youtube) </label>
-                                                    <input value="{{ old('video') }}" id="video" name="video"
-                                                           type="text" class="form-control"
-                                                           placeholder="https://youtube.com">
-                                                    <x-input-error :messages="$errors->get('video')" class="mt-2"/>
-                                                </div>
-                                                <div class="col-6">
-                                                    <label for="latitude" class="form-label">Latitud </label>
-                                                    <input value="{{ old('latitude') }}" id="latitude" name="latitude"
-                                                           type="number" step="any"
-                                                           class="form-control"
-                                                           placeholder="Latitud">
-                                                    <x-input-error :messages="$errors->get('latitude')" class="mt-2"/>
-                                                </div>
-                                                <div class="col-6">
-                                                    <label for="longitude" class="form-label">Longitud </label>
-                                                    <input value="{{ old('longitude') }}" id="longitude"
-                                                           name="longitude" type="number" step="any"
-                                                           class="form-control"
-                                                           placeholder="Longitud">
-                                                    <x-input-error :messages="$errors->get('longitude')" class="mt-2"/>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="row add_item">
-                                                        <div class="col-md-4">
-                                                            <div class="mb-3">
-                                                                <label for="facility_name" class="form-label">Servicios
-                                                                    cercanos </label>
-                                                                <select name="facility_id[]" id="facility_name"
-                                                                        class="form-select">
-                                                                    <option value="NH">Servicio</option>
-                                                                    @foreach($facilities as $facility)
-                                                                        <option
-                                                                            value="{{ $facility->id }}">{{ $facility->name }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="mb-3">
-                                                                <label for="nameFac" class="form-label">
-                                                                    Nombre del lugar </label>
-                                                                <input type="text" name="nameFac[]" id="nameFac"
-                                                                       class="form-control"
-                                                                       placeholder="Nombre del lugar">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="mb-3">
-                                                                <label for="distance" class="form-label">
-                                                                    Distancia </label>
-                                                                <input type="text" name="distance[]" id="distance"
-                                                                       class="form-control"
-                                                                       placeholder="Cuadras (#)">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-md-2" style="padding-top: 30px;">
-                                                            <a class="btn btn-success addeventmore"><i
-                                                                    class="fa fa-plus-circle"
-                                                                    style="margin-left: 0 !important;"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-
-                                <div class="col-12 col-lg-4">
-                                    <div class="card shadow-none bg-light border">
-                                        <div class="card-body">
-                                            <div class="row g-3">
                                                 <div class="col-6">
                                                     <label for="bedrooms" class="form-label"># Habitaciones Min</label>
                                                     <input value="{{ old('bedrooms') }}" id="bedrooms" name="bedrooms"
@@ -422,6 +369,88 @@
                                                                    class="mt-2"/>
                                                 </div>
 
+
+                                                <div class="col-12">
+                                                    <div class="row add_item">
+                                                        <div class="col-md-4">
+                                                            <div class="mb-3">
+                                                                <label for="facility_name" class="form-label">Servicios
+                                                                    cercanos </label>
+                                                                <select name="facility_id[]" id="facility_name"
+                                                                        class="form-select">
+                                                                    <option value="NH">Servicio</option>
+                                                                    @foreach($facilities as $facility)
+                                                                        <option
+                                                                            value="{{ $facility->id }}">{{ $facility->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="mb-3">
+                                                                <label for="nameFac" class="form-label">
+                                                                    Nombre del lugar </label>
+                                                                <input type="text" name="nameFac[]" id="nameFac"
+                                                                       class="form-control"
+                                                                       placeholder="Nombre del lugar">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="mb-3">
+                                                                <label for="distance" class="form-label">
+                                                                    Distancia </label>
+                                                                <input type="text" name="distance[]" id="distance"
+                                                                       class="form-control"
+                                                                       placeholder="Cuadras (#)">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-2" style="padding-top: 30px;">
+                                                            <a class="btn btn-success addeventmore"><i
+                                                                    class="fa fa-plus-circle"
+                                                                    style="margin-left: 0 !important;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 col-lg-4">
+                                    <div class="card shadow-none bg-light border">
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col-12">
+                                                    <label for="video" class="form-label">Video (Youtube) </label>
+                                                    <input value="{{ old('video') }}" id="video" name="video"
+                                                           type="text" class="form-control"
+                                                           placeholder="https://youtube.com">
+                                                    <x-input-error :messages="$errors->get('video')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="latitude" class="form-label">Latitud </label>
+                                                    <input value="{{ old('latitude') }}" id="latitude" name="latitude"
+                                                           type="number" step="any"
+                                                           class="form-control"
+                                                           placeholder="Latitud">
+                                                    <x-input-error :messages="$errors->get('latitude')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="longitude" class="form-label">Longitud </label>
+                                                    <input value="{{ old('longitude') }}" id="longitude"
+                                                           name="longitude" type="number" step="any"
+                                                           class="form-control"
+                                                           placeholder="Longitud">
+                                                    <x-input-error :messages="$errors->get('longitude')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button type="button" class="btn btn-primary" onclick="toggle()">Ver en el mapa</button>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div id="map"></div>
+                                                </div>
                                                 <div class="col-6">
                                                     <div class="form-check">
                                                         <label class="form-check-label" for="featured">
@@ -442,7 +471,10 @@
                                                     </div>
                                                     <x-input-error :messages="$errors->get('hot')" class="mt-2"/>
                                                 </div>
-                                                <div class="col-12">
+                                                @php
+                                                    $display   = (Auth::user()->role === 'agent') ? "display:none" : "";
+                                                @endphp
+                                                <div class="col-12" style="{{ $display }}">
                                                     <label for="agent_id" class="form-label">Agente</label>
                                                     @php
                                                         $blocked   = (Auth::user()->role === 'agent') ? "disabled" : "";

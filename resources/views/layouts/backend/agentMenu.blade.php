@@ -38,7 +38,8 @@
             <div class="menu-title">Propiedades</div>
         </a>
         <ul>
-            <li><a href="{{ route('admin.properties.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
+            <li><a href="{{ route('admin.properties.index') }}"><i class="bi bi-circle"></i>Todas</a></li>
+            <li><a href="{{ route('admin.properties.own') }}"><i class="bi bi-circle"></i>Mias</a></li>
             <li><a href="{{ route('admin.properties.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
         </ul>
     </li>

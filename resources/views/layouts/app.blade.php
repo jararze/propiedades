@@ -38,7 +38,7 @@
 
 
 <!--start wrapper-->
-<div class="wrapper">
+<div class="wrapper toggled">
     <!--start top header-->
     @include('layouts.backend.header')
 

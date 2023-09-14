@@ -67,7 +67,7 @@
                         <div class="d-flex align-items-center">
                             <div class="">
                                 <p class="mb-1">Creditos usados</p>
-                                <h4 class="mb-0">{{ $propertyXagent }}</h4>
+                                <h4 class="mb-0">{{ $propertyXagent }} <a style="font-size: 14px" href="">Ver creditos usados</a></h4>
                             </div>
                             <div class="ms-auto widget-icon bg-light-success text-success">
                                 <i class="bi bi-currency-dollar"></i>

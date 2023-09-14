@@ -2,6 +2,28 @@
 
 
 <div class="inner-box">
+    @if($property->status_for_what == "2")
+        <div class="soldOut">
+            <h1>
+                @php
+                    switch ($property->property_status) {
+                        case "Venta":
+                            echo "Vendida";
+                            break;
+                            case "Alquiler":
+                            echo "Alquilada";
+                            break;
+                            case "Anticretico":
+                            echo "Tomada";
+                            break;
+                            case "Roomie":
+                            echo "Roomie tomada";
+                            break;
+                    }
+                @endphp
+            </h1>
+        </div>
+    @endif
     <div class="image-box">
         <figure class="image">
             <img
@@ -15,9 +37,15 @@
         </div>
     </div>
     <div class="lower-content">
-        <div class="title-text"><h4><a
-                    href="{{ route('front.properties.inner', $property['PropAttributes']['id']) }}">{{ $property['PropAttributes']['name'] }}</a>
-            </h4></div>
+        <div class="title-text">
+            <h4>
+                @if($property->status_for_what == "2")
+                    {{ $property['PropAttributes']['name'] }}
+                @else
+                    <a href="{{ route('front.properties.inner', $property['PropAttributes']['id']) }}">{{ $property['PropAttributes']['name'] }}</a>
+                @endif
+            </h4
+            ></div>
         <div class="price-box clearfix">
             <div class="price-info pull-left">
                 <h6>Desde</h6>

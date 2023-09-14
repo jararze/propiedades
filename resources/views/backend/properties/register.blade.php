@@ -436,7 +436,10 @@
                                                     </div>
                                                     <x-input-error :messages="$errors->get('hot')" class="mt-2"/>
                                                 </div>
-                                                <div class="col-12">
+                                                @php
+                                                    $display   = (Auth::user()->role === 'agent') ? "display:none" : "";
+                                                @endphp
+                                                <div class="col-12" style="{{ $display }}">
                                                     <label for="agent_id" class="form-label">Agente</label>
                                                     @php
                                                         $blocked   = (Auth::user()->role === 'agent') ? "disabled" : "";
@@ -451,14 +454,14 @@
                                                     </select>
                                                     <x-input-error :messages="$errors->get('agent_id')" class="mt-2"/>
                                                 </div>
-                                                <div class="col-12">
-                                                    <label for="status" class="form-label">Estado</label>
-                                                    <select id="status" name="status" class="form-select" required>
-                                                        <option value="1">Publicado</option>
-                                                        <option value="0">No activo</option>
-                                                    </select>
-                                                    <x-input-error :messages="$errors->get('status')" class="mt-2"/>
-                                                </div>
+{{--                                                <div class="col-12">--}}
+{{--                                                    <label for="status" class="form-label">Estado</label>--}}
+{{--                                                    <select id="status" name="status" class="form-select" required>--}}
+{{--                                                        <option value="1">Publicado</option>--}}
+{{--                                                        <option value="0">No activo</option>--}}
+{{--                                                    </select>--}}
+{{--                                                    <x-input-error :messages="$errors->get('status')" class="mt-2"/>--}}
+{{--                                                </div>--}}
                                                 <div class="col-12">
                                                     <h5>Amenities</h5>
                                                     <div class="category-list">

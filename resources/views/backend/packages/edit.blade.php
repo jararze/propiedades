@@ -71,6 +71,14 @@
                                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                                     </div>
                                     <div class="col-12">
+                                        <label for="front_display" class="form-label">Mostrar en pantalla</label>
+                                        <select id="front_display" name="front_display" class="form-select">
+                                            <option {{ $optionSelected = ($package->front_display == 1) ? "selected='selected'" : "" }} value="1">Si</option>
+                                            <option {{ $optionSelected = ($package->front_display == 0) ? "selected='selected'" : "" }} value="0">No</option>
+                                        </select>
+                                        <x-input-error :messages="$errors->get('front_display')" class="mt-2" />
+                                    </div>
+                                    <div class="col-12">
                                         <div class="d-grid">
                                             <button type="submit" class="btn btn-primary">Modificar</button>
                                         </div>

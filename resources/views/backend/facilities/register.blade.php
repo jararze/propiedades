@@ -55,6 +55,12 @@
                                         <x-input-error :messages="$errors->get('icon')" class="mt-2" />
                                     </div>
                                     <div class="col-12">
+                                        <p  style="margin-bottom: 0 !important">
+                                            Puedes buscar iconos <a target="_blank" href="https://fontawesome.com/icons">aquí</a>
+                                            o por <a target="_blank" href="https://icons.getbootstrap.com/">aquí</a>
+                                        </p>
+                                    </div>
+                                    <div class="col-12">
                                         <label for="status" class="form-label">Estatus</label>
                                         <select id="status" name="status" class="form-select">
                                             <option value="1">Activo</option>
@@ -156,15 +162,7 @@
                                         </div>
                                     @endif
                                 </div>
-{{--                                <nav class="float-end mt-0" aria-label="Page navigation">--}}
-{{--                                    <ul class="pagination">--}}
-{{--                                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>--}}
-{{--                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>--}}
-{{--                                        <li class="page-item"><a class="page-link" href="#">2</a></li>--}}
-{{--                                        <li class="page-item"><a class="page-link" href="#">3</a></li>--}}
-{{--                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>--}}
-{{--                                    </ul>--}}
-{{--                                </nav>--}}
+
                             </div>
                         </div>
                     </div>

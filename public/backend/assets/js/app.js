@@ -26,7 +26,7 @@ $(function() {
 	})
 
 
-	$(".toggle-icon").click(function() {
+	$(".toggle-iconn").click(function() {
 		$(".wrapper").hasClass("toggled") ? ($(".wrapper").removeClass("toggled"), $(".sidebar-wrapper").unbind("hover")) : ($(".wrapper").addClass("toggled"), $(".sidebar-wrapper").hover(function() {
 			$(".wrapper").addClass("sidebar-hovered")
 		}, function() {

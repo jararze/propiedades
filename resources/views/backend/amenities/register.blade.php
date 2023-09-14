@@ -56,6 +56,11 @@
                                         <x-input-error :messages="$errors->get('svg')" class="mt-2"/>
                                     </div>
                                     <div class="col-12">
+                                        <p  style="margin-bottom: 0 !important">
+                                            Puedes buscar iconos <a target="_blank" href="https://www.svgrepo.com/">aquí</a>
+                                        </p>
+                                    </div>
+                                    <div class="col-12">
                                         <label for="status" class="form-label">Estatus</label>
                                         <select id="status" name="status" class="form-select">
                                             <option value="1">Activo</option>

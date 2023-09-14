@@ -16,7 +16,7 @@ class PropertyTypeController extends Controller
      */
     public function index(): view
     {
-        $values = PropertyType::latest()->get();
+        $values = PropertyType::latest()->paginate(10);
         return view('backend.typeProperties.index', [
             'values' => $values,
         ]);

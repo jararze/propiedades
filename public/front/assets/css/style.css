@@ -9914,3 +9914,24 @@ div#mCSB_1_container {
 .search-field .top-search .search-btn button i {
     margin-right: 8px;
 }
+
+.soldOut {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    text-align: center;
+    margin: auto;
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    background: rgba(76, 175, 80, 0.3)
+}
+
+.soldOut h1{
+    text-transform: uppercase;
+    /*color: white*/
+}

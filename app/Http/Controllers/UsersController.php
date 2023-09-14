@@ -21,7 +21,7 @@ class UsersController extends Controller
      */
     public function index(): view
     {
-        $values = User::latest()->get();
+        $values = User::latest()->paginate(10);
         return view('backend.users.index', [
             'values' => $values,
         ]);

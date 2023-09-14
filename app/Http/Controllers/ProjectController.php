@@ -28,7 +28,7 @@ class ProjectController extends Controller
      */
     public function index(): view
     {
-        $values = Property::where('is_project', "1")->get();
+        $values = Property::where('is_project', "1")->orderBy("id", "desc")->paginate(10);
         return view('backend.projects.index', [
             'values' => $values,
         ]);
@@ -40,7 +40,7 @@ class ProjectController extends Controller
      */
     public function create(): view
     {
-        $propertyXagent = Property::where('agent_id', Auth::user()->id)->get();
+        $propertyXagent = Property::where('created_by', Auth::user()->id)->get();
         $propertyXagent = $propertyXagent->count();
 
 
@@ -61,12 +61,14 @@ class ProjectController extends Controller
                     $facilities = Facility::orderBy('name', 'asc')->get();
                     $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('name', 'asc')->get();
                     $projects = Property::where('is_project', "1")->where('status', 1)->get();
+                    $cities = City::orderBy('name', 'asc')->get();
                     return view('backend.projects.register', [
                         'propertyTypes' => $propertyType,
                         'amenities' => $amenities,
                         'agents' => $agents,
                         'facilities' => $facilities,
                         'projects' => $projects,
+                        'cities' => $cities,
                     ]);
                 }else{
                     $values = PackagePlan::orderBy('id', 'asc')->get();
@@ -104,7 +106,7 @@ class ProjectController extends Controller
         ]);
 
         $code = IdGenerator::generate(['table' => 'properties', 'field' => 'code', 'length' => 10, 'prefix' => 'P' . date('ym')]);
-        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
+        $age_id = (Auth::user()->role === 'agent') ? '22' : $request->agent_id;
 
         if ($request->file('thumbnail')) {
             $file = $request->file('thumbnail');
@@ -215,7 +217,7 @@ class ProjectController extends Controller
                 $facilities->save();
             }
         }
-
+        toastr()->success('Proyecto creado, satisfactoriamente', '!Bien!');
 
         return Redirect::route('admin.project.register')->with('status', 'created');
 
@@ -239,8 +241,10 @@ class ProjectController extends Controller
 
         $property_aminities = explode(",", $property->amenities_id);
 
+        $cities = City::orderBy('name', 'asc')->get();
 
-        return view('backend.projects.edit', compact('idItem', 'property', 'propertyType', 'amenities', 'agents', 'property_aminities', 'facilities', 'multiImages', 'facility'));
+
+        return view('backend.projects.edit', compact('idItem', 'property', 'propertyType', 'amenities', 'agents', 'property_aminities', 'facilities', 'multiImages', 'facility', 'cities'));
     }
 
     /**
@@ -263,7 +267,7 @@ class ProjectController extends Controller
             $hot_var = $request->hot;
         }
 
-        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
+//        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
 
         $property->name = $request->name;
         $property->address = $request->address;
@@ -292,7 +296,7 @@ class ProjectController extends Controller
         $property->longitude = $request->longitude;
         $property->featured = $featured_var;
         $property->hot = $hot_var;
-        $property->agent_id = $age_id;
+//        $property->agent_id = $age_id;
         $property->status = $request->status;
         $property->updated_at = Carbon::now();
 

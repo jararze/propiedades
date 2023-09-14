@@ -5,9 +5,19 @@
     <link rel="stylesheet"
           href="{{ asset('backend/assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 @endpush
 @push('script')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="{{ asset('backend/assets/js/images.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/map.js') }}"></script>
     <script src="{{ asset ('backend/assets/plugins/datetimepicker/js/legacy.js') }}"></script>
     <script src="{{ asset ('backend/assets/plugins/datetimepicker/js/picker.js') }}"></script>
     <script src="{{ asset ('backend/assets/plugins/datetimepicker/js/picker.time.js') }}"></script>
@@ -17,6 +27,14 @@
         src="{{ asset ('backend/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js') }}"></script>
     <script src="{{ asset ('backend/assets/js/form-date-time-pickes.js') }}"></script>
     <script>
+        function toggle() {
+            var x = document.getElementById("map");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
         $(document).on("change", "#currency", function (event) {
             // alert(this.value);
             $(".currency_icon").text(this.value);
@@ -28,6 +46,15 @@
                 $("#project_id").removeAttr("disabled");
             }
         });
+        $(document).on("change", "#propertytype_id", function (event){
+            if(this.value == 6){
+                $("#size").text("Tamaño terreno MIN (mt2)")
+                $("#size_max").text("Tamaño terreno MAX (mt2)")
+            }else{
+                $("#size").text("Tamaño terreno (mt2)")
+                $("#size_max").text("Tamaño contruido (mt2)")
+            }
+        })
     </script>
 @endpush
 
@@ -150,10 +177,15 @@
                                                                     <div class="col-12 col-lg-3">
                                                                         <label for="city"
                                                                                class="form-label">Ciudad</label>
-                                                                        <input id="city" name="city" type="text"
-                                                                               class="form-control"
-                                                                               placeholder="Ciudad"
-                                                                               value="{{ $property->city }}">
+                                                                        <select class="form-select" id="city"
+                                                                                name="city">
+                                                                            @foreach($cities as $city)
+                                                                                @php
+                                                                                    $selected2 = ($city->name == $property->city) ? 'selected' : '';
+                                                                                @endphp
+                                                                                <option {{ $selected2 }} value="{{ $city->name }}">{{ $city->name }}
+                                                                            @endforeach
+                                                                        </select>
                                                                         <x-input-error :messages="$errors->get('city')"
                                                                                        class="mt-2"/>
                                                                     </div>
@@ -324,28 +356,6 @@
                                                                             :messages="$errors->get('long_description')"
                                                                             class="mt-2"/>
                                                                     </div>
-
-                                                                    <div class="col-12">
-                                                                        <label for="video" class="form-label">Video
-                                                                            (Youtube) </label>
-                                                                        <input id="video" name="video" type="text"
-                                                                               class="form-control"
-                                                                               placeholder="https://youtube.com"
-                                                                               value="{{ $property->video }}">
-                                                                        <x-input-error :messages="$errors->get('video')"
-                                                                                       class="mt-2"/>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-12 col-lg-4">
-                                                        <div class="card shadow-none bg-light border">
-                                                            <div class="card-body">
-                                                                <div class="row g-3">
                                                                     <div class="col-6">
                                                                         <label for="bedrooms" class="form-label">#
                                                                             Habitaciones Min</label>
@@ -443,6 +453,61 @@
                                                                             class="mt-2"/>
                                                                     </div>
 
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-12 col-lg-4">
+                                                        <div class="card shadow-none bg-light border">
+                                                            <div class="card-body">
+                                                                <div class="row g-3">
+
+                                                                    <div class="col-12">
+                                                                        <label for="video" class="form-label">Video
+                                                                            (Youtube) </label>
+                                                                        <input id="video" name="video" type="text"
+                                                                               class="form-control"
+                                                                               placeholder="https://youtube.com"
+                                                                               value="{{ $property->video }}">
+                                                                        <x-input-error :messages="$errors->get('video')"
+                                                                                       class="mt-2"/>
+                                                                    </div>
+
+                                                                    <div class="col-6">
+                                                                        <label for="latitude"
+                                                                               class="form-label">Latitud </label>
+                                                                        <input id="latitude" name="latitude"
+                                                                               type="number" step="any"
+                                                                               class="form-control"
+                                                                               placeholder="Latitud"
+                                                                               value="{{ $property->latitude }}">
+                                                                        <x-input-error
+                                                                            :messages="$errors->get('latitude')"
+                                                                            class="mt-2"/>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <label for="longitude" class="form-label">Longitud </label>
+                                                                        <input id="longitude" name="longitude"
+                                                                               type="number" step="any"
+                                                                               class="form-control"
+                                                                               placeholder="Longitud"
+                                                                               value="{{ $property->longitude }}">
+                                                                        <x-input-error
+                                                                            :messages="$errors->get('longitude')"
+                                                                            class="mt-2"/>
+                                                                    </div>
+
+                                                                    <div class="col-12">
+                                                                        <button type="button" class="btn btn-primary" onclick="toggle()">Ver en el mapa</button>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div id="map"></div>
+                                                                    </div>
+
                                                                     <div class="col-6">
                                                                         <div class="form-check">
                                                                             <label class="form-check-label"
@@ -485,53 +550,31 @@
                                                                                        class="mt-2"/>
                                                                     </div>
 
-                                                                    <div class="col-6">
-                                                                        <label for="latitude"
-                                                                               class="form-label">Latitud </label>
-                                                                        <input id="latitude" name="latitude"
-                                                                               type="number" step="any"
-                                                                               class="form-control"
-                                                                               placeholder="Latitud"
-                                                                               value="{{ $property->latitude }}">
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('latitude')"
-                                                                            class="mt-2"/>
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <label for="longitude" class="form-label">Longitud </label>
-                                                                        <input id="longitude" name="longitude"
-                                                                               type="number" step="any"
-                                                                               class="form-control"
-                                                                               placeholder="Longitud"
-                                                                               value="{{ $property->longitude }}">
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('longitude')"
-                                                                            class="mt-2"/>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label for="agent_id"
-                                                                               class="form-label">Agente</label>
-                                                                        @php
-                                                                            $blocked   = (Auth::user()->role === 'agent') ? "disabled" : "";
-                                                                        @endphp
-                                                                        <select id="agent_id" name="agent_id"
-                                                                                class="form-select"
-                                                                                required {{ $blocked }}>
-                                                                            @foreach($agents as $agent)
-                                                                                @php
-                                                                                    $selected2 = "";
-                                                                                    if($agent->id == $property->agent_id){
-                                                                                        $selected2 = "selected='selected'";
-                                                                                    }
-                                                                                @endphp
-                                                                                <option {{  $selected2 }}
-                                                                                        value="{{ $agent->id }}">{{ $agent->name }} {{ $agent->lastname }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('agent_id')"
-                                                                            class="mt-2"/>
-                                                                    </div>
+
+{{--                                                                    <div class="col-12">--}}
+{{--                                                                        <label for="agent_id"--}}
+{{--                                                                               class="form-label">Agente</label>--}}
+{{--                                                                        @php--}}
+{{--                                                                            $blocked   = (Auth::user()->role === 'agent') ? "disabled" : "";--}}
+{{--                                                                        @endphp--}}
+{{--                                                                        <select id="agent_id" name="agent_id"--}}
+{{--                                                                                class="form-select"--}}
+{{--                                                                                required {{ $blocked }}>--}}
+{{--                                                                            @foreach($agents as $agent)--}}
+{{--                                                                                @php--}}
+{{--                                                                                    $selected2 = "";--}}
+{{--                                                                                    if($agent->id == $property->agent_id){--}}
+{{--                                                                                        $selected2 = "selected='selected'";--}}
+{{--                                                                                    }--}}
+{{--                                                                                @endphp--}}
+{{--                                                                                <option {{  $selected2 }}--}}
+{{--                                                                                        value="{{ $agent->id }}">{{ $agent->name }} {{ $agent->lastname }}</option>--}}
+{{--                                                                            @endforeach--}}
+{{--                                                                        </select>--}}
+{{--                                                                        <x-input-error--}}
+{{--                                                                            :messages="$errors->get('agent_id')"--}}
+{{--                                                                            class="mt-2"/>--}}
+{{--                                                                    </div>--}}
                                                                     <div class="col-12">
                                                                         <label for="status"
                                                                                class="form-label">Estado</label>

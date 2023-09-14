@@ -487,48 +487,27 @@
                                                                         <x-input-error :messages="$errors->get('hot')"
                                                                                        class="mt-2"/>
                                                                     </div>
-                                                                    <div class="col-12">
-                                                                        <label for="agent_id"
-                                                                               class="form-label">Agente</label>
-                                                                        @php
-                                                                            $blocked   = (Auth::user()->role === 'agent') ? "disabled" : "";
-                                                                        @endphp
-                                                                        <select id="agent_id" name="agent_id"
-                                                                                class="form-select"
-                                                                                required {{ $blocked }}>
-                                                                            @foreach($agents as $agent)
-                                                                                @php
-                                                                                    $selected2 = "";
-                                                                                    if($agent->id == $property->agent_id){
-                                                                                        $selected2 = "selected='selected'";
-                                                                                    }
-                                                                                @endphp
-                                                                                <option {{  $selected2 }}
-                                                                                        value="{{ $agent->id }}">{{ $agent->name }} {{ $agent->lastname }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('agent_id')"
-                                                                            class="mt-2"/>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label for="status"
-                                                                               class="form-label">Estado</label>
-                                                                        <select id="status" name="status"
-                                                                                class="form-select" required>
-                                                                            <option
-                                                                                {{ $selectedTS = ($property->status == 1) ? "selected='selected'" : "" }} value="1">
-                                                                                Publicado
-                                                                            </option>
-                                                                            <option
-                                                                                {{ $selectedTS = ($property->status == 0) ? "selected='selected'" : "" }} value="0">
-                                                                                No activo
-                                                                            </option>
-                                                                        </select>
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('status')"
-                                                                            class="mt-2"/>
-                                                                    </div>
+                                                                    @if(Auth::user()->role == 'admin')
+                                                                        <div class="col-12">
+                                                                            <label for="status"
+                                                                                   class="form-label">Estado</label>
+                                                                            <select id="status" name="status"
+                                                                                    class="form-select" required>
+                                                                                <option
+                                                                                    {{ $selectedTS = ($property->status == 1) ? "selected='selected'" : "" }} value="1">
+                                                                                    Publicado
+                                                                                </option>
+                                                                                <option
+                                                                                    {{ $selectedTS = ($property->status == 0) ? "selected='selected'" : "" }} value="0">
+                                                                                    No activo
+                                                                                </option>
+                                                                            </select>
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('status')"
+                                                                                class="mt-2"/>
+                                                                        </div>
+                                                                    @endif
+
                                                                 </div><!--end row-->
                                                             </div>
                                                         </div>

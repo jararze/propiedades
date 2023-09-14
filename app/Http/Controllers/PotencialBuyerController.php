@@ -13,7 +13,7 @@ class PotencialBuyerController extends Controller
 {
     public function index(): view
     {
-//        $values = Validation::orderBy('created_at', 'desc')->get();
+//        $values = Validation::orderBy('created_at', 'desc')->and()->Property_message::all()->get();
 //        foreach ($values as $posible) {
 //            $countUser = User::where('email', $posible->email)->get();
 //            $property = Property::where('id', $posible->property_id)->get();
@@ -44,13 +44,15 @@ class PotencialBuyerController extends Controller
         $propertyNames = Property::whereIn('id', $values->pluck('property_id'))->pluck('name', 'id');
         $userNames = User::whereIn('email', $values->pluck('email'))->pluck('name', 'email');
         $userLastNames = User::whereIn('email', $values->pluck('email'))->pluck('lastname', 'email');
+//        dd($userEmails);
 
         $matrix = $values->map(function ($posible) use ($userEmails, $propertyNames, $userNames, $userLastNames) {
+//            dd($posible);
             $isUser = $userEmails->get($posible->email, 0);
             $userName = $userNames->get($posible->email, '');
             $userLastName = $userLastNames->get($posible->email, '');
 
-            return [
+            $query = [
                 'id' => $posible->id,
                 'property_id' => $posible->property_id,
                 'email' => $posible->email,
@@ -59,7 +61,15 @@ class PotencialBuyerController extends Controller
                 'property_name' => $propertyNames->get($posible->property_id, ''),
                 'user_name' => $isUser ? $userName . ' ' . $userLastName : '-',
             ];
+
+            $sql = $posible->toSql();
+//            dd($sql);
+
+            return $query;
+
         });
+
+//        dd($matrix);
 
         return view('backend.users.potential.index', [
             'values' => $matrix,

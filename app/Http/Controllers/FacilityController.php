@@ -18,7 +18,7 @@ class FacilityController extends Controller
      */
     public function index(): view
     {
-        $values = Facility::latest()->get();
+        $values = Facility::latest()->paginate(10);
         return view('backend.facilities.index', [
             'values' => $values,
         ]);

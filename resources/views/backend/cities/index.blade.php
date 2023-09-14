@@ -93,15 +93,7 @@
                             @endif
 
                         </div>
-{{--                        <nav class="float-end" aria-label="Page navigation">--}}
-{{--                            <ul class="pagination">--}}
-{{--                                <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>--}}
-{{--                                <li class="page-item active"><a class="page-link" href="#">1</a></li>--}}
-{{--                                <li class="page-item"><a class="page-link" href="#">2</a></li>--}}
-{{--                                <li class="page-item"><a class="page-link" href="#">3</a></li>--}}
-{{--                                <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </nav>--}}
+                        {{ $values->links('vendor.pagination.bootstrap-5') }}
                     </div>
                 </div>
             </div>
