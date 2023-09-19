@@ -128,7 +128,7 @@
                                     <span>{{ $bathrooms = (isset($property->bathrooms)) ? $property->bathrooms : "S/I" }}</span>
                                 </li>
                                 <li>Precio: <span>{{ number_format($property->max_price, 0) }} $us</span></li>
-                                <li>Year Built: <span>01 April, 2019</span></li>
+{{--                                <li>Year Built: <span>01 April, 2019</span></li>--}}
                                 <li>Tipo: <span>{{ $property['type']['type_name'] }}</span></li>
                                 <li>A la: <span>{{ $property->property_status }}</span></li>
                                 <li>Garaje:

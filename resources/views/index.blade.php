@@ -13,8 +13,19 @@
     <script src="{{ asset('js/infobox.min.js') }}"></script>
     <script src="{{ asset('js/markerclusterer.js') }}"></script>
     <script src="{{ asset('js/maps.js') }}"></script>
+{{--    <script src="{{ asset('js/maps2.js') }}"></script>--}}
 {{--    <script src="{{ asset('js/share.js') }}"></script>--}}
     <script src="{{ asset('js/ajax.js') }}"></script>
+
+<script>
+    var latitude = 40.7344458;
+    var longitude = -73.86704922;
+    var mapElement = "map-homepage";
+    var mapDefaultZoom = 13;
+    var mapAutoZoom = false;
+    heroMap(latitude,longitude, mapElement, mapDefaultZoom, mapAutoZoom);
+</script>
+
     <script>
 
         !function (e) {
