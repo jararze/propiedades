@@ -74,6 +74,9 @@
 <script src="{{ asset('front/assets/js/jQuery.style.switcher.min.js') }}"></script>
 <script src="{{ asset('front/assets/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('front/assets/js/nav-tool.js') }}"></script>
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="{{ asset('js/share.js') }}"></script>
 

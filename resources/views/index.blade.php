@@ -213,6 +213,7 @@
                         ]
                     }
                 );
+
                 e(".listing-item-container").on("mouseover", function () {
                         if (void 0 !== e(this).data("marker-id")) {
                             var t = e(this).data("marker-id") - 1, o = f[t].div;
@@ -602,7 +603,7 @@
     @include('frontend.components.cta')
 
 {{--    @include('frontend.components.news')--}}
-{{----}}
-{{--    @include('frontend.components.download')--}}
+
+    @include('frontend.components.download')
 
 </x-front-layout>

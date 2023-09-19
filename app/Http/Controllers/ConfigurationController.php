@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertising;
 use App\Models\Configuration;
 use App\Models\Property;
 use Carbon\Carbon;
@@ -184,5 +185,54 @@ class ConfigurationController extends Controller
 
         return redirect()->back()->with('status', 'updated');
     }
+
+    public function indexAdvertising(): view
+    {
+        $advertising = Advertising::where('id', 1)->get();
+
+        return view('backend.configuration.advertising', ['values' => $advertising]);
+    }
+
+
+    public function updateAdvertising(Request $request): RedirectResponse
+    {
+//        $request->validate([
+//            'title' => 'required',
+//            'banner' => 'required',
+//            'image' => 'required',
+//        ]);
+
+        $file = $request->file('thumbnail');
+        $filename = date('YmdHi') . $file->getClientOriginalName();
+        $filePath = 'upload/configuration/advertising/' . $filename;
+
+
+        Image::make($file)->resize(1000, 800)->save(public_path($filePath));
+
+
+        if (file_exists(public_path('upload/configuration/advertising/' . $request->old_img))) {
+            unlink(public_path('upload/configuration/advertising/' . $request->old_img));
+        }
+
+//        dd($request);
+
+        $advertising = Advertising::where('id', 1)->firstOrFail();
+        $advertising->title = $request->title;
+        $advertising->banner = $request->banner;
+        $advertising->image = $filename;
+        $advertising->button1 = $request->button1;
+        $advertising->button1_icon = $request->button1_icon;
+        $advertising->button1_link = $request->button1_link;
+        $advertising->button2 = $request->button2;
+        $advertising->button2_icon = $request->button2_icon;
+        $advertising->button2_link = $request->button2_link;
+        $advertising->created_at = Carbon::now();
+        $advertising->updated_at = Carbon::now();
+        $advertising->save();
+
+
+        return redirect()->back()->with('status', 'updated');
+    }
+
 
 }

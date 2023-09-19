@@ -7,7 +7,7 @@
   }
 
   .main-header .outer-box .btn-box{
-    display: none;
+    /*display: none;*/
   }
 
   .page-content .left-column, .page-content .right-column{
@@ -18,7 +18,7 @@
   .page-content .item-shorting .left-column{
     float: left;
     width: auto;
-  } 
+  }
 
   .page-content .item-shorting .right-column{
     float: right;
@@ -41,7 +41,7 @@
 
 @media only screen and (max-width: 1399px){
 
-  
+
 
 }
 
@@ -75,7 +75,7 @@
     float: none;
   }
 
-  .header-top .social-links, 
+  .header-top .social-links,
   .header-top .sign-box{
     float: none;
     display: inline-block;

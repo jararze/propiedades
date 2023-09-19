@@ -116,6 +116,9 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::get('admin/configuration/reasons/index', [ConfigurationController::class, 'indexReasons'])->name('admin.configuration.reasons.index');
     Route::post('admin/configuration/reasons/update', [ConfigurationController::class, 'updateReasons'])->name('admin.configuration.reasons.update');
 
+    Route::get('admin/configuration/advertising/index', [ConfigurationController::class, 'indexAdvertising'])->name('admin.configuration.advertising.index');
+    Route::post('admin/configuration/advertising/update', [ConfigurationController::class, 'updateAdvertising'])->name('admin.configuration.advertising.update');
+
 
     Route::get('/admin/testimonies/all', [TestimonyController::class, 'index'])->name('admin.testimonies.index');
     Route::get('/admin/testimonies/register', [TestimonyController::class, 'create'])->name('admin.testimonies.register');

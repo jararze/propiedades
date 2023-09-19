@@ -3474,8 +3474,9 @@ div#mCSB_1_container {
 }
 
 .download-section .image-box .image {
-    position: absolute;
-    bottom: -82px;
+    margin: 50px 0
+    /*position: absolute;*/
+    /*bottom: -82px;*/
 }
 
 .download-section .image-box .image-1 {

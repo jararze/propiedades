@@ -73,11 +73,11 @@
                         <i class="icon-bar"></i>
                     </div>
                     <nav class="main-menu navbar-expand-md navbar-light">
-                        <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
+                        <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent" style="position: relative; float: left">
                             <ul class="navigation clearfix">
                                 <li class="@if($currenturl == '/'){{ 'current' }} @endif"><a href="{{ route('index') }}"><span>Inicio</span></a></li>
                                 <li class="@if($currenturl == 'about'){{ 'current' }} @endif"><a href="{{ route('about') }}"><span>Nosotros</span></a></li>
-                                <li class="@if($currenturl == ''){{ 'current' }} @endif"><a href=""><span>Agentes</span></a></li>
+{{--                                <li class="@if($currenturl == ''){{ 'current' }} @endif"><a href=""><span>Agentes</span></a></li>--}}
                                 <li class="@if($currenturl == route("front.project.index")){{ 'current' }} @endif"><a href="{{ route("front.project.index") }}"><span>Proyectos</span></a></li>
                                 <li class="dropdown"><a href="{{ route("front.properties.index", 'allProperties') }}"><span>Propiedades</span></a>
                                     <ul>
@@ -89,12 +89,13 @@
                                 </li>
 {{--                                <li><a href=""><span>Blog</span></a></li>--}}
                                 <li class="@if($currenturl === 'contact'){{ 'current' }} @endif"><a href="/contact"><span>Contacto</span></a></li>
+{{--                                <li><a class="theme-btn btn-one" sstyle="background-color: red" href="{{ route("admin.properties.register") }}"><span>+</span>Contruye con nosotros</a></li>--}}
                             </ul>
                         </div>
+                        <div class="btn-box" style="position: relative; float: right; top: 10px">
+                            <a class="theme-btn btn-one" href="https://www.facebook.com/egroupconstructora" target="_blank"><span>+</span>Contruye con nosotros</a>
+                        </div>
                     </nav>
-                </div>
-                <div class="btn-box">
-                    <a class="theme-btn btn-one" href="{{ route("admin.properties.register") }}"><span>+</span>Agregar propiedad</a>
                 </div>
             </div>
         </div>
@@ -114,9 +115,7 @@
                         <!--Keep This Empty / Menu will come through Javascript-->
                     </nav>
                 </div>
-                <div class="btn-box">
-                    <a class="theme-btn btn-one" href="{{ route("admin.properties.register") }}"><span>+</span>Agregar propiedad</a>
-                </div>
+
             </div>
         </div>
     </div>

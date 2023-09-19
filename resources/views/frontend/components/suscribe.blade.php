@@ -3,20 +3,18 @@
     <div class="pattern-layer" style="background-image: url({{asset('front/assets/images/shape/shape-2.png')}});"></div>
     <div class="auto-container">
         <div class="row clearfix">
-            <div class="col-lg-6 col-md-6 col-sm-12 text-column">
+            <div class="col-lg-10 col-md-10 col-sm-12 text-column">
                 <div class="text">
-                    <span>Suscribete</span>
-                    <h2>Suscríbase a nuestro boletín para recibir las últimas noticias y ofertas.</h2>
+                    <span>Contruye con nosotros</span>
+                    <h2>Soluciones integrales de arquitectura, diseño y construcción cuya misión es superar los
+                        limites</h2>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 form-column">
+            <div class="col-lg-2 col-md-2 col-sm-12 form-column">
                 <div class="form-inner">
-                    <form action="contact.html" method="post" class="subscribe-form">
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Ingresa tu email" required="">
-                            <button type="submit">Suscribete ahora</button>
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <img style="height: 120px; width: 120px" src="{{ asset('/front/images/292196813_558709175889553_7615542674390461912_n.jpg') }}" alt="">
+                    </div>
                 </div>
             </div>
         </div>

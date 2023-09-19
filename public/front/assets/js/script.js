@@ -218,7 +218,7 @@
 			nav:true,
 			smartSpeed: 1000,
 			autoplay: 500,
-			navText: [ '<span class="fas fa-algle-left"></span>', '<span class="fas fa-algle-left-right"></span>' ],
+			navText: [ '<span class="fa-solid fa-angles-left"></span>', '<span class="fa-solid fa-angles-right"></span>' ],
 			responsive:{
 				0:{
 					items:1
@@ -248,7 +248,7 @@
 			nav:true,
 			smartSpeed: 1000,
 			autoplay: 500,
-			navText: [ '<span class="far fa-angle-left"></span>', '<span class="far fa-angle-right"></span>' ],
+			navText: [ '<span class="fa-solid fa-angles-left"></span>', '<span class="fa-solid fa-angles-right"></span>' ],
 			responsive:{
 				0:{
 					items:1
@@ -278,7 +278,7 @@
 			nav:true,
 			smartSpeed: 500,
 			autoplay: 5000,
-			navText: [ '<span class="fas fa-angle-left"></span>', '<span class="fas fa-angle-right"></span>' ],
+			navText: [ '<span class="fa-solid fa-angles-left"></span>', '<span class="fa-solid fa-angles-right"></span>' ],
 			responsive:{
 				0:{
 					items:1
@@ -307,7 +307,7 @@
 			nav:true,
 			smartSpeed: 500,
 			autoplay: 5000,
-			navText: [ '<span class="fas fa-angle-left"></span>', '<span class="fas fa-angle-right"></span>' ],
+			navText: [ '<span class="fa-solid fa-angles-left"></span>', '<span class="fa-solid fa-angles-right"></span>' ],
 			responsive:{
 				0:{
 					items:1
@@ -338,7 +338,7 @@
 			smartSpeed: 1500,
 			autoplay: 1000,
             fluidSpeed: 1000,
-			navText: [ '<span class="far fa-angle-left"></span>', '<span class="far fa-angle-right"></span>' ],
+			navText: [ '<span class="fa-solid fa-angles-left"></span>', '<span class="fa-solid fa-angles-right"></span>' ],
 			responsive:{
 				0:{
 					items:1
@@ -371,7 +371,7 @@
 			nav:true,
 			smartSpeed: 500,
 			autoplay: 5000,
-			navText: [ '<span class="far fa-angle-left"></span>', '<span class="far fa-angle-right"></span>' ],
+			navText: [ '<span class="fa-solid fa-angles-left"></span>', '<span class="fa-solid fa-angles-right"></span>' ],
 			responsive:{
 				0:{
 					items:1
@@ -404,7 +404,7 @@
     		active: true,
 			smartSpeed: 1000,
 			autoplay: 6000,
-            navText: [ '<span class="far fa-angle-left"></span>', '<span class="far fa-angle-right"></span>' ],
+            navText: [ '<span class="fa-solid fa-angles-left"></span>', '<span class="fa-solid fa-angles-right"></span>' ],
             responsive:{
                 0:{
                     items:1

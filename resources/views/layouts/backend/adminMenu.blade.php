@@ -66,6 +66,16 @@
     </li>
 
 
+
+    <li>
+        <a href="{{ route('admin.configuration.advertising.index') }}">
+            <div class="parent-icon"><i class="bi bi-tv"></i>
+            </div>
+            <div class="menu-title">Publicidad</div>
+        </a>
+    </li>
+
+
     <li class="menu-label">Configuraciones</li>
 
 

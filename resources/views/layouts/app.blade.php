@@ -32,10 +32,23 @@
     @stack('styles')
 
     <title>{{ config('app.name', 'ProPropiedades') }}</title>
+    <style>
+        #loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.75) url("{{ asset('front/images/Gear-0.4s-357px.gif') }}") no-repeat center center;
+            z-index: 99999;
+        }
+    </style>
 </head>
 
 <body>
-
+<div id='loader'></div>
 
 <!--start wrapper-->
 <div class="wrapper toggled">
@@ -84,7 +97,13 @@
 <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
 
-
+<script>
+    $(function() {
+        $( "form" ).submit(function() {
+            $('#loader').show();
+        });
+    });
+</script>
 
 </body>
 
