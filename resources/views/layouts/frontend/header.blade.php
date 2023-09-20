@@ -81,10 +81,10 @@
                                 <li class="@if($currenturl == route("front.project.index")){{ 'current' }} @endif"><a href="{{ route("front.project.index") }}"><span>Proyectos</span></a></li>
                                 <li class="dropdown"><a href="{{ route("front.properties.index", 'allProperties') }}"><span>Propiedades</span></a>
                                     <ul>
-                                        <li><a href="">Venta</a></li>
-                                        <li><a href="">Alquiler</a></li>
-                                        <li><a href="">Roomie</a></li>
-                                        <li><a href="">Anticretico</a></li>
+                                        <li><a href="/properties/filter?tipo=Venta&search=&city=Ciudad&property_type=Todos">Venta</a></li>
+                                        <li><a href="/properties/filter?tipo=Alquiler&search=&city=Ciudad&property_type=Todos">Alquiler</a></li>
+                                        <li><a href="/properties/filter?tipo=Roomie&search=&city=Ciudad&property_type=Todos">Roomie</a></li>
+                                        <li><a href="/properties/filter?tipo=Anticretico&search=&city=Ciudad&property_type=Todos">Anticretico</a></li>
                                     </ul>
                                 </li>
 {{--                                <li><a href=""><span>Blog</span></a></li>--}}

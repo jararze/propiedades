@@ -164,7 +164,7 @@ class PackagePlanController extends Controller
     public function indexApproval(): view
     {
 //        $values = User::where("package_status", "inactive")->get();
-        $values = User::orderBy("package_status", "desc")->paginate(10);
+        $values = User::orderBy("id", "desc")->paginate(15);
         return view('backend.packages.users.approval', [
             'values' => $values,
         ]);

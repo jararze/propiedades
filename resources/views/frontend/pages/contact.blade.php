@@ -107,8 +107,8 @@
                         <div
                             class="google-map"
                             id="contact-google-map"
-                            data-map-lat="-16.54440921178635"
-                            data-map-lng="-68.07913396216127"
+                            data-map-lat="{{  $config[12]->value }}"
+                            data-map-lng="{{  $config[13]->value }}"
                             data-icon-path="{{ asset('front/assets/images/icons/map-marker.png')}}"
                             data-map-title="Pro Propiedades La Paz Bolivia"
                             data-map-zoom="15"

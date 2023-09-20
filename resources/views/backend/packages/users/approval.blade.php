@@ -55,7 +55,7 @@
                                     @foreach($values as $key => $item)
                                         <tr>
                                             <td>#{{ $item->id }}</td>
-                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->name }} {{ $item->lastname }}</td>
                                             <td>{{ $item['package_list']['name'] }} ({{ $item['package_list']['credits'] }})</td>
                                             <td>{{ $item['package_list']['amount'] }} Bs.</td>
                                             <td>

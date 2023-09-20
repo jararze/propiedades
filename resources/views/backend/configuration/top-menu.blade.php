@@ -138,6 +138,30 @@
                                                                                 :messages="$errors->get('tiktok')"
                                                                                 class="mt-2"/>
                                                                         </div>
+                                                                        <div class="col-12 col-lg-12">
+                                                                            <label for="latitude" class="form-label">Latitud
+                                                                            </label>
+                                                                            <input id="latitude" name="latitude" type="text"
+                                                                                   class="form-control"
+                                                                                   placeholder="Latitud"
+                                                                                   value="{{ $values["latitude"]->value }}"
+                                                                            >
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('latitude')"
+                                                                                class="mt-2"/>
+                                                                        </div>
+                                                                        <div class="col-12 col-lg-12">
+                                                                            <label for="longitude" class="form-label">Longitud
+                                                                            </label>
+                                                                            <input id="longitude" name="longitude" type="text"
+                                                                                   class="form-control"
+                                                                                   placeholder="Longitud"
+                                                                                   value="{{ $values["longitude"]->value }}"
+                                                                            >
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('longitude')"
+                                                                                class="mt-2"/>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

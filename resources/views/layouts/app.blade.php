@@ -51,7 +51,7 @@
 <div id='loader'></div>
 
 <!--start wrapper-->
-<div class="wrapper toggled">
+<div class="wrapper">
     <!--start top header-->
     @include('layouts.backend.header')
 
@@ -94,7 +94,7 @@
 
 @stack('script')
 <!--app-->
-<script src="{{ asset('backend/assets/js/app2.js') }}"></script>
+<script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
 
 <script>
