@@ -101,52 +101,72 @@
                                                     <label for="name">Nombre</label>
                                                     <input class="valid required" name="name" type="text" id="name"
                                                            value="{{ Auth::user()->name }}">
+                                                    <x-input-error :messages="$errors->get('name')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="lastname">Apellido</label>
                                                     <input class="required" name="lastname" type="text" id="lastname"
                                                            value="{{ Auth::user()->lastname }}">
+                                                    <x-input-error :messages="$errors->get('lastname')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="username">Nombre de usuario</label>
                                                     <input class="required" name="username" type="text" id="username"
                                                            value="{{ Auth::user()->username }}">
+                                                    <x-input-error :messages="$errors->get('username')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="email">Email *</label>
                                                     <input class="email required valid" name="email" type="email"
                                                            id="email"
                                                            value="{{ Auth::user()->email }}" disabled>
+                                                    <x-input-error :messages="$errors->get('email')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="address">Direccion</label>
                                                     <input class="digits" name="address" type="text" id="address"
                                                            value="{{ Auth::user()->address }}">
+                                                    <x-input-error :messages="$errors->get('address')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="jobtitle">Posición / Cargo</label>
                                                     <input class="digits" name="jobtitle" type="text" id="jobtitle"
                                                            value="{{ Auth::user()->jobtitle }}">
+                                                    <x-input-error :messages="$errors->get('jobtitle')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="phone">Telefono</label>
                                                     <input class="digits" name="phone" type="text" id="phone"
                                                            value="{{ Auth::user()->phone }}">
+                                                    <x-input-error :messages="$errors->get('phone')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="city">Ciudad</label>
                                                     <input class="url" name="city" type="text" id="city"
                                                            value="{{ Auth::user()->city }}">
+                                                    <x-input-error :messages="$errors->get('city')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="country">Pais</label>
                                                     <input class="url" name="country" type="text" id="country"
                                                            value="{{ Auth::user()->country }}">
+                                                    <x-input-error :messages="$errors->get('country')"
+                                                                   class="mt-2"/>
                                                 </div>
                                                 <div class="form-option">
                                                     <label for="aboutme">Sobre Mi</label>
                                                     <textarea name="aboutme" id="aboutme" rows="3"
                                                               cols="30">{{ Auth::user()->aboutme }}</textarea>
+                                                    <x-input-error :messages="$errors->get('aboutme')"
+                                                                   class="mt-2"/>
                                                 </div>
                                             </div>
                                         </div>

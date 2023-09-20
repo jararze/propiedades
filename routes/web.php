@@ -6,6 +6,7 @@ use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\PackagePlanController;
 use App\Http\Controllers\PotencialBuyerController;
 use App\Http\Controllers\ProfileController;
@@ -32,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 //    return view('project.index');
 //});
 
-
+Route::get('/show-map', [MapController::class, 'index'] );
 // Vistas usuario sin loguearse
 
 Route::controller(FrontendController::class)->group(function () {

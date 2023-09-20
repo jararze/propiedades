@@ -6,6 +6,7 @@ var optimizedDatabaseLoading = 0;
 function heroMap(_latitude,_longitude, element, mapDefaultZoom, mapAutoZoom){
 
     if( document.getElementById(element) !== null ){
+        // alert(element)
 
         // Create google map first -------------------------------------------------------------------------------------
 

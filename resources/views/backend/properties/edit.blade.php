@@ -836,7 +836,7 @@
                                                             <input type="text" name="distance"
                                                                    id="distance"
                                                                    class="form-control"
-                                                                   placeholder="Distancia (Km)"
+                                                                   placeholder="Distancia (Cuadras)"
                                                                    required>
                                                             <x-input-error
                                                                 :messages="$errors->get('distance')"
@@ -889,7 +889,7 @@
                                                                             </td>
                                                                             <td>{{ $facility['facilityName']['name'] }}</td>
                                                                             <td>{{ $facility->name }}</td>
-                                                                            <td>{{ $facility->distance }} KM</td>
+                                                                            <td>{{ $facility->distance }} Cuadras</td>
                                                                             <td>
                                                                                 <div
                                                                                     class="d-flex align-items-center gap-3 fs-6">
