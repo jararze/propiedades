@@ -139,6 +139,18 @@
                                                                                 class="mt-2"/>
                                                                         </div>
                                                                         <div class="col-12 col-lg-12">
+                                                                            <label for="instagram" class="form-label">Instagram
+                                                                            </label>
+                                                                            <input id="instagram" name="instagram" type="text"
+                                                                                   class="form-control"
+                                                                                   placeholder="Tiktok"
+                                                                                   value="{{ $values["top-menu-instagram"]->value }}"
+                                                                            >
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('instagram')"
+                                                                                class="mt-2"/>
+                                                                        </div>
+                                                                        <div class="col-12 col-lg-12">
                                                                             <label for="latitude" class="form-label">Latitud
                                                                             </label>
                                                                             <input id="latitude" name="latitude" type="text"

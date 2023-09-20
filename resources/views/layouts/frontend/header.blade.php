@@ -18,6 +18,8 @@
                 <ul class="social-links clearfix">
                     <li><a href="{{  $categories[4]->value }}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
                     <li><a href="{{  $categories[5]->value }}" target="_blank"><i class="fab fa-tiktok"></i></a></li>
+                    <li><a href="{{  $categories[14]->value }}" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+
                 </ul>
                 <div class="sign-box">
                     <ul class="social-links clearfix">

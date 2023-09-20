@@ -52,7 +52,7 @@ class ConfigurationController extends Controller
 
     public function indexMenu(): view
     {
-        $configurations = Configuration::whereIn('name', ['top-menu-address', 'top-menu-jobHours', 'top-menu-phone', 'top-menu-facebook', 'top-menu-tiktok', 'top-menu-email', 'top-menu-about', 'latitude', 'longitude'])
+        $configurations = Configuration::whereIn('name', ['top-menu-address', 'top-menu-jobHours', 'top-menu-phone', 'top-menu-facebook', 'top-menu-tiktok', 'top-menu-email', 'top-menu-about', 'latitude', 'longitude', 'top-menu-instagram'])
             ->get()
             ->keyBy('name');
 
@@ -73,6 +73,7 @@ class ConfigurationController extends Controller
             'about' => 'required',
             'facebook' => 'required',
             'tiktok' => 'required',
+            'instagram' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
         ]);
@@ -101,6 +102,11 @@ class ConfigurationController extends Controller
 
         Configuration::where('name', 'top-menu-tiktok')->update([
             'value' => $request->tiktok,
+            'updated_at' => $now,
+        ]);
+
+        Configuration::where('name', 'top-menu-instagram')->update([
+            'value' => $request->instagram,
             'updated_at' => $now,
         ]);
 
