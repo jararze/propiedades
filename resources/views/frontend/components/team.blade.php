@@ -3,7 +3,7 @@
     <div class="pattern-layer" style="background-image: url({{ asset('front/assets/images/shape/shape-1.png') }});"></div>
     <div class="auto-container">
         <div class="sec-title">
-            <h5>Nuesrtros Agentes</h5>
+            <h5>Nuestros Agentes</h5>
             <h2>Conoce a nuestros excelentes agentes</h2>
         </div>
         <div class="single-item-carousel owl-carousel owl-theme owl-dots-none nav-style-one">

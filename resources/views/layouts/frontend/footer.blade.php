@@ -24,12 +24,10 @@
                         </div>
                         <div class="widget-content">
                             <ul class="links-list class">
-                                <li><a href="">Nosotros</a></li>
-                                <li><a href="">Agentes</a></li>
-                                <li><a href="">Proyectos</a></li>
-                                <li><a href="">Propiedades</a></li>
-                                <li><a href="">Blog</a></li>
-                                <li><a href="">Contactanos</a></li>
+                                <li><a href="{{ route('about') }}">Nosotros</a></li>
+                                <li><a href="{{ route("front.project.index") }}">Proyectos</a></li>
+                                <li><a href="{{ route("front.properties.index", 'allProperties') }}">Propiedades</a></li>
+                                <li><a href="/contact">Contactanos</a></li>
                             </ul>
                         </div>
                     </div>

@@ -387,7 +387,9 @@ class PropertyController extends Controller
         $property->featured = $featured_var;
         $property->hot = $hot_var;
 //        $property->agent_id = $age_id;
-        $property->status = $request->status;
+        if(Auth::user()->role != 'agent'){
+            $property->status = $request->status;
+        }
         $property->updated_at = Carbon::now();
 
         $property->save();

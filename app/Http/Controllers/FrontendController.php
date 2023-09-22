@@ -26,7 +26,7 @@ class FrontendController extends Controller
         }
         $featuredProperties = Property::where('featured', 1)->orderBy('id', 'desc')->where('status', 1)->take(3)->get();
         $hotProperties = Property::where('hot', 1)->where('status', 1)->orderBy('id', 'desc')->take(3)->get();
-        $agents = User::where('status', 'active')->where('role', 'agent')->orderBy('id', 'desc')->get();
+        $agents = User::where('status', 'active')->where('role', 'agent')->whereNot('id', 22)->orderBy('id', 'desc')->get();
         $confPrincipalImage = Configuration::where('name', 'principal-image')->firstOrFail();
         $properties = Property::where("status", 1)->where('is_project', "0")->get();
         $configuration = Configuration::all();

@@ -77,22 +77,35 @@
                             <h2>Contáctanos</h2>
                         </div>
                         <div class="form-inner">
-                            <form method="post" action="sendemail.php" id="contact-form">
+                            <form method="post" action="{{ route() }}" id="contact-form">
                                 <div class="row clearfix">
                                     <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                        <input type="text" name="name" placeholder="Nombre" required="">
+                                        <input value="{{ old('name') }}" id="name" name="name" type="text"
+                                               class="form-control"
+                                               placeholder="Nombre" required>
+                                        <x-input-error :messages="$errors->get('name')" class="mt-2"/>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                        <input type="email" name="email" placeholder="Correo" required="">
+                                        <input value="{{ old('email') }}" id="email" name="email" type="text"
+                                               class="form-control"
+                                               placeholder="Email" required>
+                                        <x-input-error :messages="$errors->get('email')" class="mt-2"/>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                        <input type="text" name="phone" placeholder="Telefono" required="">
+                                        <input value="{{ old('phone') }}" id="phone" name="phone" type="text"
+                                               class="form-control"
+                                               placeholder="Telefono" required>
+                                        <x-input-error :messages="$errors->get('phone')" class="mt-2"/>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                        <input type="text" name="subject" placeholder="Asunto" required="">
+                                        <input value="{{ old('subject') }}" id="subject" name="subject" type="text"
+                                               class="form-control"
+                                               placeholder="Asunto" required>
+                                        <x-input-error :messages="$errors->get('subject')" class="mt-2"/>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                        <textarea name="message" placeholder="Mensaje"></textarea>
+                                        <textarea name="message" placeholder="Mensaje">{{ old('subject') }}</textarea>
+                                        <x-input-error :messages="$errors->get('message')" class="mt-2"/>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
                                         <button class="theme-btn btn-one" type="submit" name="submit-form">Enviar mensaje</button>

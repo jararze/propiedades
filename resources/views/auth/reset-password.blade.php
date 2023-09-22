@@ -28,14 +28,14 @@
                                                            class="mt-2"/>
                                         </div>
                                         <div class="col-12">
-                                            <label for="password" class="form-label">Email</label>
+                                            <label for="password" class="form-label">Contraseña</label>
                                             <input name="password" type="password" class="form-control form-control-lg radius-30" id="password" placeholder="Password" required autofocus>
                                             <x-input-error :messages="$errors->get('password')"
                                                            class="mt-2"/>
                                         </div>
                                         <div class="col-12">
-                                            <label for="password_confirmation" class="form-label">Email</label>
-                                            <input name="password_confirmation" type="password" class="form-control form-control-lg radius-30" id="password_confirmation" placeholder="Email" required autofocus>
+                                            <label for="password_confirmation" class="form-label">Verificar Contraseña</label>
+                                            <input name="password_confirmation" type="password" class="form-control form-control-lg radius-30" id="password_confirmation" placeholder="Contraseña" required autofocus>
                                             <x-input-error :messages="$errors->get('password_confirmation')"
                                                            class="mt-2"/>
                                         </div>
