@@ -59,7 +59,7 @@
                             <p>{{  $config[1]->value }}</p>
                         </div>
                     </div>
-                </div>
+                 </div>
             </div>
         </div>
     </section>
@@ -77,7 +77,8 @@
                             <h2>Contáctanos</h2>
                         </div>
                         <div class="form-inner">
-                            <form method="post" action="{{ route() }}" id="contact-form">
+                            <form method="post" action="{{ route('maincontact') }}" id="contact-form">
+                                @csrf
                                 <div class="row clearfix">
                                     <div class="col-lg-6 col-md-6 col-sm-12 form-group">
                                         <input value="{{ old('name') }}" id="name" name="name" type="text"
@@ -104,7 +105,7 @@
                                         <x-input-error :messages="$errors->get('subject')" class="mt-2"/>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                        <textarea name="message" placeholder="Mensaje">{{ old('subject') }}</textarea>
+                                        <textarea name="message" placeholder="Mensaje" required>{{ old('subject') }}</textarea>
                                         <x-input-error :messages="$errors->get('message')" class="mt-2"/>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">

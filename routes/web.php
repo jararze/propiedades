@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/show-map', [MapController::class, 'index'] );
+Route::get('/map', [MapController::class, 'map'] );
 // Vistas usuario sin loguearse
 
 Route::controller(FrontendController::class)->group(function () {
@@ -43,6 +44,8 @@ Route::controller(FrontendController::class)->group(function () {
     Route::get('/about', 'about')->name('about');
 
     Route::get('/contact', 'contact')->name('contact');
+
+    Route::post('/contact', 'maincontact')->name('maincontact');
 
     Route::get('/user/signin', 'userSignin')->name('user.signin');
 
@@ -180,6 +183,7 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::post('/admin/packages/users/edit/info', [PackagePlanController::class, 'EditPackage'])->name('admin.packages.users.edit.info');
 
     Route::get('admin/posible/users/index', [PotencialBuyerController::class, 'index'])->name('admin.possible.users.index');
+    Route::get('admin/posible/users/contact', [PotencialBuyerController::class, 'contact'])->name('admin.possible.users.contact');
 
     Route::get('/admin/properties/inactives', [PropertyController::class, 'inactives'])->name('admin.properties.inactives');
     Route::post('/admin/properties/activate', [PropertyController::class, 'activate'])->name('admin.properties.activate');

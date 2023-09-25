@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Configuration;
+use App\Models\ContactForm;
 use App\Models\Property;
 use App\Models\PropertyType;
 use App\Models\Testimony;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class FrontendController extends Controller
@@ -24,6 +27,7 @@ class FrontendController extends Controller
         foreach ($types as $type) {
             $num[$type->id] = count(Property::where('propertytype_id', $type->id)->get());
         }
+        $property = Property::where('is_project', "0")->where('status', 1)->whereNotNull('latitude')->whereNotNull('longitude')->get();
         $featuredProperties = Property::where('featured', 1)->orderBy('id', 'desc')->where('status', 1)->take(3)->get();
         $hotProperties = Property::where('hot', 1)->where('status', 1)->orderBy('id', 'desc')->take(3)->get();
         $agents = User::where('status', 'active')->where('role', 'agent')->whereNot('id', 22)->orderBy('id', 'desc')->get();
@@ -46,6 +50,7 @@ class FrontendController extends Controller
             'properties' => $properties,
             'configuration' => $configuration,
             'testimonies' => $testimonies,
+            'locations'=>$property
         ]);
     }
 
@@ -67,6 +72,33 @@ class FrontendController extends Controller
     public function contact(): View
     {
         return view('frontend.pages.contact');
+    }
+
+
+    public function maincontact(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email'],
+            'phone' => ['required' ],
+            'subject' => ['required'],
+            'message' => ['required'],
+        ]);
+
+        ContactForm::insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        toastr()->success('Mensaje enviado, satisfactoriamente', '!Bien!');
+        return redirect()->back();
+
+
     }
 
 

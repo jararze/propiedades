@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactForm;
 use App\Models\Property;
 use App\Models\User;
 use App\Models\Validation;
@@ -13,38 +14,11 @@ class PotencialBuyerController extends Controller
 {
     public function index(): view
     {
-//        $values = Validation::orderBy('created_at', 'desc')->and()->Property_message::all()->get();
-//        foreach ($values as $posible) {
-//            $countUser = User::where('email', $posible->email)->get();
-//            $property = Property::where('id', $posible->property_id)->get();
-//            if($countUser->count() > 0){
-//                $is_user = $countUser[0]['id'];
-//                $user_name = $countUser[0]['name'] . " " . $countUser[0]['lastname'];
-//            }else{
-//                $is_user = 0;
-//                $user_name = "";
-//            }
-//            $matrix[] = array(
-//                'id' => $posible->id,
-//                'property_id' => $posible->property_id,
-//                'email' => $posible->email,
-//                'phone' => $posible->phone,
-//                'is_user' => $is_user,
-//                'property_name' => $property[0]['name'],
-//                'user_name' => $user_name,
-//            );
-//
-//        }
-//        return view('backend.users.potential.index', [
-//            'values' => $matrix,
-//        ]);
-
         $values = Validation::orderBy('created_at', 'desc')->get();
         $userEmails = User::whereIn('email', $values->pluck('email'))->pluck('id', 'email');
         $propertyNames = Property::whereIn('id', $values->pluck('property_id'))->pluck('name', 'id');
         $userNames = User::whereIn('email', $values->pluck('email'))->pluck('name', 'email');
         $userLastNames = User::whereIn('email', $values->pluck('email'))->pluck('lastname', 'email');
-//        dd($userEmails);
 
         $matrix = $values->map(function ($posible) use ($userEmails, $propertyNames, $userNames, $userLastNames) {
 //            dd($posible);
@@ -63,16 +37,24 @@ class PotencialBuyerController extends Controller
             ];
 
             $sql = $posible->toSql();
-//            dd($sql);
 
             return $query;
 
         });
 
-//        dd($matrix);
-
         return view('backend.users.potential.index', [
             'values' => $matrix,
         ]);
     }
+
+
+
+    public function contact()
+    {
+        $contact = ContactForm::orderBy('response', 'desc')->paginate(20);
+        return view('backend.users.potential.contact', [
+            'values' => $contact,
+        ]);
+    }
+
 }
