@@ -17,7 +17,7 @@ class CityController extends Controller
      */
     public function index(): view
     {
-        $values = City::latest()->paginate(10);
+        $values = City::latest()->get();
         return view('backend.cities.index', [
             'values' => $values,
         ]);

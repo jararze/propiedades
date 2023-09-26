@@ -1,8 +1,10 @@
 @push('styles')
-
+    <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet"/>
 @endpush
 @push('script')
-
+    <script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/table-datatable.js') }}"></script>
 @endpush
 <x-app-layout>
     <!--start content-->
@@ -21,13 +23,7 @@
             </div>
             <div class="ms-auto">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Acciones</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Menu</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-                        <a class="dropdown-item" href="{{ route('admin.TypesProperties.register') }}">Añadir tipo de propiedad</a>
-                        <a class="dropdown-item" href="{{ route('admin.TypesProperties.index') }}">Lista de tipos de propiedades</a>
-                    </div>
+                    <a class="btn btn-primary" href="{{ route('admin.TypesProperties.register') }}">Añadir tipo de propiedad</a>
                 </div>
             </div>
         </div>
@@ -42,7 +38,7 @@
                                 <div class="ms-auto position-relative">
                                     <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i
                                             class="bi bi-search"></i></div>
-                                    <input class="form-control ps-5" type="text" placeholder="Buscar">
+                                    <input class="form-control ps-5" type="text" name="search"  placeholder="Buscar" id="searchbox">
                                 </div>
                             </div>
                         </div>
@@ -50,7 +46,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             @if(!$values->isEmpty())
-                                <table class="table align-middle">
+                                <table id="example3" class="table table-striped table-bordered">
                                     <thead class="table-light">
                                     <tr>
                                         <th>ID</th>
@@ -120,7 +116,7 @@
                             @endif
 
                         </div>
-                        {{ $values->links('vendor.pagination.bootstrap-5') }}
+{{--                        {{ $values->links('vendor.pagination.bootstrap-5') }}--}}
                     </div>
                 </div>
             </div>

@@ -47,6 +47,6 @@
 <script src="{{ asset('errors/assets/js/particles.min.js') }}"></script>
 <script src="{{ asset('errors/assets/js/app.js') }}"></script>
 <!-- Theme js-->
-<script src="{{ asset('errors/assets/js/script.js') }}"></script>
+<script src="{{ asset('errors/assets/js/script2.js') }}"></script>
 </body>
 </html>

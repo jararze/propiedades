@@ -82,7 +82,7 @@
 
 @stack('script')
 <!-- main-js -->
-<script src="{{ asset('front/assets/js/script.js') }}"></script>
+<script src="{{ asset('front/assets/js/script2.js') }}"></script>
 
 </body>
 </html>

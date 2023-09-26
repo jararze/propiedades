@@ -28,7 +28,7 @@ class ProjectController extends Controller
      */
     public function index(): view
     {
-        $values = Property::where('is_project', "1")->orderBy("id", "desc")->paginate(10);
+        $values = Property::where('is_project', "1")->orderBy("id", "desc")->get();
         return view('backend.projects.index', [
             'values' => $values,
         ]);

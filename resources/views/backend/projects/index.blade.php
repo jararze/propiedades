@@ -1,8 +1,10 @@
 @push('styles')
-
+    <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet"/>
 @endpush
 @push('script')
-
+    <script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/table-datatable.js') }}"></script>
 @endpush
 <x-app-layout>
     <!--start content-->
@@ -21,13 +23,7 @@
             </div>
             <div class="ms-auto">
                 <div class="btn-group">
-{{--                    <button type="button" class="btn btn-primary">Acciones</button>--}}
-{{--                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Menu</span>--}}
-{{--                    </button>--}}
-{{--                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">--}}
-                        <a class="btn btn-primary" href="{{ route('admin.project.register') }}">Añadir</a>
-{{--                        <a class="dropdown-item" href="{{ route('admin.project.index') }}">Listar</a>--}}
-{{--                    </div>--}}
+                    <a class="btn btn-primary" href="{{ route('admin.project.register') }}">Añadir</a>
                 </div>
             </div>
         </div>
@@ -43,7 +39,8 @@
                                     <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i
                                             class="bi bi-search"></i></div>
                                     <label>
-                                        <input class="form-control ps-5" type="text" placeholder="Buscar Proyectos">
+                                        <input class="form-control ps-5" name="search" type="text" id="searchbox"
+                                               placeholder="Buscar">
                                     </label>
                                 </div>
                             </div>
@@ -52,7 +49,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             @if(!$values->isEmpty())
-                                <table class="table align-middle">
+                                <table id="example3" class="table table-striped table-bordered">
                                     <thead class="table-light">
                                     <tr>
                                         <th>ID</th>
@@ -70,41 +67,57 @@
                                     @foreach($values as $key => $item)
                                         <tr>
                                             <td>#{{ $item->code }}</td>
-                                            <td><img src="{{ (!empty($item->thumbnail)) ? url('upload/properties/'.$item->code.'/'.$item->thumbnail) : url('upload/No_Image_Available.jpg') }}" class="product-img-2" alt="product img"></td>
+                                            <td><img
+                                                    src="{{ (!empty($item->thumbnail)) ? url('upload/properties/'.$item->code.'/'.$item->thumbnail) : url('upload/No_Image_Available.jpg') }}"
+                                                    class="product-img-2" alt="product img"></td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item['type']['type_name'] }}</td>
                                             <td>{{ $item->property_status }}</td>
                                             <td>{{ $item->city }}</td>
                                             <td>{{ $item['createdBy']['name'] }} {{ $item['createdBy']['lastname'] }}</td>
+                                            {{--                                            <td>{{ $item->created_by }}</td>--}}
                                             <td>
                                                 @if($item->status == 1)
-                                                    <span class="badge bg-light-success text-success w-100">Activo</span>
+                                                    <span
+                                                        class="badge bg-light-success text-success w-100">Activo</span>
                                                 @else
-                                                    <span class="badge bg-light-danger text-danger w-100">Inactivo</span>
+                                                    <span
+                                                        class="badge bg-light-danger text-danger w-100">Inactivo</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center gap-3 fs-6">
-                                                    <a href="{{ route('admin.project.edit',['id' => $item->id]) }}" class="text-warning" data-bs-toggle="tooltip"
-                                                       data-bs-placement="bottom" title="" data-bs-original-title="Edit info"
+                                                    <a href="{{ route('admin.project.edit',['id' => $item->id]) }}"
+                                                       class="text-warning" data-bs-toggle="tooltip"
+                                                       data-bs-placement="bottom" title=""
+                                                       data-bs-original-title="Edit info"
                                                        aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
-                                                    <a href="" class="text-danger" data-bs-toggle="modal" data-bs-target="#exampleDangerModal{{ $item->id }}"><i class="bi bi-trash-fill"></i></a>
+                                                    <a href="" class="text-danger" data-bs-toggle="modal"
+                                                       data-bs-target="#exampleDangerModal{{ $item->id }}"><i
+                                                            class="bi bi-trash-fill"></i></a>
                                                 </div>
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="exampleDangerModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal fade" id="exampleDangerModal{{ $item->id }}"
+                                                     tabindex="-1" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg modal-dialog-centered">
                                                         <div class="modal-content bg-danger">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title text-white">¿Eliminar {{ $item->name }}?</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                <h5 class="modal-title text-white">
+                                                                    ¿Eliminar {{ $item->name }}?</h5>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body text-white">
                                                                 <p>¿Esta seguro que desea eliminar la propiedad?</p>
 
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                                                                <a href="{{ route('admin.project.delete',['id' => $item->id]) }}" class="btn btn-dark" >Si, eliminar</a>
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-bs-dismiss="modal">Cancelar
+                                                                </button>
+                                                                <a href="{{ route('admin.project.delete',['id' => $item->id]) }}"
+                                                                   class="btn btn-dark">Si, eliminar</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -130,22 +143,13 @@
                                 @endif
                             @else
                                 <h2>No hay proyectos para mostrar.</h2>
-                                <h4 style="margin-top: 20px"><a href="{{ route("admin.project.register") }}">Agrega un proyecto ahora</a></h4>
+                                <h4 style="margin-top: 20px"><a href="{{ route("admin.project.register") }}">Agrega un
+                                        proyecto ahora</a></h4>
                             @endif
 
                         </div>
 
-                        {{ $values->links('vendor.pagination.bootstrap-5') }}
-
-{{--                                                <nav class="float-end" aria-label="Page navigation">--}}
-{{--                                                    <ul class="pagination">--}}
-{{--                                                        <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>--}}
-{{--                                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>--}}
-{{--                                                        <li class="page-item"><a class="page-link" href="#">2</a></li>--}}
-{{--                                                        <li class="page-item"><a class="page-link" href="#">3</a></li>--}}
-{{--                                                        <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>--}}
-{{--                                                    </ul>--}}
-{{--                                                </nav>--}}
+                        {{--                        {{ $values->links('vendor.pagination.bootstrap-5') }}--}}
                     </div>
                 </div>
             </div>

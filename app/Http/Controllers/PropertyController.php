@@ -30,11 +30,7 @@ class PropertyController extends Controller
      */
     public function index(): view
     {
-//        if (Auth::user()->role == 'admin') {
-        $values = Property::where('is_project', "0")->orderBy('updated_at', 'desc')->where('status', "1")->paginate(10);
-//        } else {
-//            $values = Property::where('is_project', "0")->where('agent_id', Auth::user()->id)->get();
-//        }
+        $values = Property::where('is_project', "0")->orderBy('updated_at', 'desc')->where('status', "1")->get();
 
         return view('backend.properties.index', [
             'values' => $values,
@@ -43,7 +39,7 @@ class PropertyController extends Controller
 
     public function own(): view
     {
-        $values = Property::where('is_project', "0")->where('created_by', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+        $values = Property::where('is_project', "0")->where('created_by', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 
         return view('backend.properties.own', [
             'values' => $values,
@@ -51,7 +47,7 @@ class PropertyController extends Controller
     }
     public function sale(): view
     {
-        $values = Property::where('is_project', "0")->where('status_for_what', "1")->orderBy('created_at', 'desc')->paginate(10);
+        $values = Property::where('is_project', "0")->where('status_for_what', "1")->orderBy('created_at', 'desc')->get();
 
         return view('backend.properties.sale', [
             'values' => $values,
@@ -60,7 +56,7 @@ class PropertyController extends Controller
 
     public function inactives(): view
     {
-        $values = Property::where('is_project', "0")->where('status', '0')->orderBy('created_at', 'desc')->paginate(10);
+        $values = Property::where('is_project', "0")->where('status', '0')->orderBy('created_at', 'desc')->get();
 
         return view('backend.properties.inactives', [
             'values' => $values,
@@ -199,7 +195,7 @@ class PropertyController extends Controller
             $file = $request->file('thumbnail');
             @mkdir(public_path('upload/properties/' . $code));
             $filename = date('YmdHi') . $file->getClientOriginalName();
-            Image::make($file)->resize(370, 250)->save('upload/properties/' . $code . '/' . $filename);
+            Image::make($file)->resize(370, 250)->insert(public_path('PROpiedades_03.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $code . '/' . $filename);
         } else {
             $filename = NULL;
         }

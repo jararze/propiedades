@@ -191,6 +191,9 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::get('/admin/properties/sale', [PropertyController::class, 'sale'])->name('admin.properties.sale');
     Route::post('/admin/properties/sold/status', [PropertyController::class, 'propertieChangeStatus'])->name('admin.properties.sold.status');
 
+
+
+
 });
 
 Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function () {

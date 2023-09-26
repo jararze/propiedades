@@ -12,6 +12,9 @@ class Property extends Model
     protected $guarded = [];
 
 
+
+
+
     public function scopeFilter($query, array $filters)
     {
         $query->when(isset($filters['search']), function ($query) use ($filters) {
@@ -70,6 +73,8 @@ class Property extends Model
     {
         return $this->belongsTo(FacilityProperty::class, 'property_id', 'id');
     }
+
+
 
 
 }

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FacilityRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Facility;
+use App\Models\Property;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -21,7 +23,10 @@ class UsersController extends Controller
      */
     public function index(): view
     {
-        $values = User::latest()->paginate(10);
+        $values =  User::leftJoin('properties', 'properties.created_by', '=', 'users.id')
+            ->select('users.*', DB::raw('COUNT(properties.id) AS property_count'))
+            ->groupBy('users.id', 'users.name')
+            ->get();
         return view('backend.users.index', [
             'values' => $values,
         ]);

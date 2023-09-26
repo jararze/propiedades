@@ -1,8 +1,10 @@
 @push('styles')
-
+    <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet"/>
 @endpush
 @push('script')
-
+    <script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/table-datatable.js') }}"></script>
 @endpush
 <x-app-layout>
     <!--start content-->
@@ -21,13 +23,7 @@
             </div>
             <div class="ms-auto">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Acciones</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Menu</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-                        <a class="dropdown-item" href="{{ route('admin.users.register') }}">Añadir</a>
-                        <a class="dropdown-item" href="{{ route('admin.users.index') }}">Listar</a>
-                    </div>
+                    <a class="btn btn-primary" href="{{ route('admin.users.register') }}">Añadir</a>
                 </div>
             </div>
         </div>
@@ -43,7 +39,8 @@
                                     <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i
                                             class="bi bi-search"></i></div>
                                     <label>
-                                        <input class="form-control ps-5" type="text" placeholder="Buscar Usuarios" />
+                                        <input class="form-control ps-5" name="search" type="text" id="searchbox"
+                                               placeholder="Buscar">
                                     </label>
                                 </div>
                             </div>
@@ -52,7 +49,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             @if(!$values->isEmpty())
-                                <table class="table align-middle">
+                                <table id="example3" class="table table-striped table-bordered">
                                     <thead class="table-light">
                                     <tr>
                                         <th>ID</th>
@@ -62,6 +59,7 @@
                                         <th>Correo</th>
                                         <th>Telefono</th>
                                         <th>Rol</th>
+                                        <th>Propiedades</th>
                                         <th>Estatus</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -84,6 +82,7 @@
                                                     Usuario
                                                 @endif
                                             </td>
+                                            <td><span class="badge bg-light-info text-info w-100">{{ $user->property_count }}</span></td>
                                             <td>
                                                 @if($user->status == 'active')
                                                     <span class="badge bg-light-success text-success w-100">Activo</span>
@@ -96,7 +95,11 @@
                                                     <a href="{{ route('admin.users.edit',['id' => $user->id]) }}" class="text-warning" data-bs-toggle="tooltip"
                                                        data-bs-placement="bottom" title="" data-bs-original-title="Edit info"
                                                        aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
-                                                    <a href="" class="text-danger" data-bs-toggle="modal" data-bs-target="#exampleDangerModal{{ $user->id }}"><i class="bi bi-trash-fill"></i></a>
+                                                    @if($user->property_count != "0")
+                                                        <span class="badge bg-light-danger text-danger w-100">Tiene propiedades activas, </br> por favor elimine primero las propiedades</span>
+                                                    @else
+                                                        <a href="" class="text-danger" data-bs-toggle="modal" data-bs-target="#exampleDangerModal{{ $user->id }}"><i class="bi bi-trash-fill"></i></a>
+                                                    @endif
                                                 </div>
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="exampleDangerModal{{ $user->id }}" tabindex="-1" aria-hidden="true">
@@ -141,7 +144,7 @@
                             @endif
 
                         </div>
-                        {{ $values->links('vendor.pagination.bootstrap-5') }}
+{{--                        {{ $values->links('vendor.pagination.bootstrap-5') }}--}}
                     </div>
                 </div>
             </div>

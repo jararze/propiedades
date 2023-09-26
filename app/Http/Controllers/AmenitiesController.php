@@ -16,7 +16,7 @@ class AmenitiesController extends Controller
      */
     public function index(): view
     {
-        $values = Amenities::latest()->paginate(7);
+        $values = Amenities::latest()->get();
         return view('backend.amenities.index', [
             'values' => $values,
         ]);

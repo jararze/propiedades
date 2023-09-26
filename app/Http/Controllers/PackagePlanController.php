@@ -19,7 +19,7 @@ class PackagePlanController extends Controller
      */
     public function index(): view
     {
-        $values = PackagePlan::orderBy('id', 'ASC')->paginate(10);
+        $values = PackagePlan::orderBy('id', 'ASC')->get();
         return view('backend.packages.index', [
             'values' => $values,
         ]);
@@ -164,7 +164,7 @@ class PackagePlanController extends Controller
     public function indexApproval(): view
     {
 //        $values = User::where("package_status", "inactive")->get();
-        $values = User::orderBy("id", "desc")->paginate(15);
+        $values = User::orderBy("id", "desc")->get();
         return view('backend.packages.users.approval', [
             'values' => $values,
         ]);

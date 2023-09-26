@@ -1,8 +1,10 @@
 @push('styles')
-
+    <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet"/>
 @endpush
 @push('script')
-
+    <script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/table-datatable.js') }}"></script>
 @endpush
 <x-app-layout>
     <!--start content-->
@@ -28,7 +30,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             @if(!$values->isEmpty())
-                                <table class="table align-middle">
+                                <table id="example3" class="table table-striped table-bordered">
                                     <thead class="table-light">
                                     <tr>
                                         <th>ID</th>
@@ -93,7 +95,7 @@
                             @endif
 
                         </div>
-                        {{ $values->links('vendor.pagination.bootstrap-5') }}
+{{--                        {{ $values->links('vendor.pagination.bootstrap-5') }}--}}
                     </div>
                 </div>
             </div>
