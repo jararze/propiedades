@@ -110,9 +110,9 @@
                                                                             <select class="form-select" id="is_project"
                                                                                     name="is_project">
                                                                                 <option
-                                                                                    {{ $selectedTS = ($property->project_id == 0) ? "selected='selected'" : "" }} value="0">No</option>
+                                                                                    {{ $selectedTS = ($property->is_project == 0) ? "selected='selected'" : "" }} value="0">No</option>
                                                                                 <option
-                                                                                    {{ $selectedTS = ($property->project_id != 0) ? "selected='selected'" : "" }} value="1">Si</option>
+                                                                                    {{ $selectedTS = ($property->is_project != 0) ? "selected='selected'" : "" }} value="1">Si</option>
                                                                             </select>
                                                                             <x-input-error :messages="$errors->get('is_project')"
                                                                                            class="mt-2"/>

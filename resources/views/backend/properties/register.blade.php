@@ -67,7 +67,6 @@
                             <div class="d-sm-flex align-items-center">
                                 <h5 class="mb-2 mb-sm-0">Agregar una nueva propiedad</h5>
                                 <div class="ms-auto">
-                                    <button type="button" class="btn btn-secondary">Grabar borrador</button>
                                     <button type="submit" class="btn btn-primary">Publicar ahora</button>
                                 </div>
                             </div>

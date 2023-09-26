@@ -195,7 +195,7 @@ class PropertyController extends Controller
             $file = $request->file('thumbnail');
             @mkdir(public_path('upload/properties/' . $code));
             $filename = date('YmdHi') . $file->getClientOriginalName();
-            Image::make($file)->resize(370, 250)->insert(public_path('PROpiedades_03.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $code . '/' . $filename);
+            Image::make($file)->resize(370, 250)->insert(public_path('watermarker.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $code . '/' . $filename);
         } else {
             $filename = NULL;
         }
@@ -260,7 +260,7 @@ class PropertyController extends Controller
             @mkdir(public_path('upload/properties/' . $code . '/multipleImages/'));
             foreach ($multiple_images as $image) {
                 $filenames = date('YmdHi') . $image->getClientOriginalName();
-                Image::make($image)->resize(770, 520)->save('upload/properties/' . $code . '/multipleImages/' . $filenames);
+                Image::make($image)->resize(770, 520)->insert(public_path('watermarker.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $code . '/multipleImages/' . $filenames);
 
                 MultiImage::insert([
                     'property_id' => $property_id,
@@ -408,7 +408,7 @@ class PropertyController extends Controller
         if (is_null($property->thumbnail)) {
             @mkdir(public_path('upload/properties/' . $property->code));
         }
-        Image::make($file)->resize(370, 250)->save('upload/properties/' . $property->code . '/' . $filename);
+        Image::make($file)->resize(370, 250)->insert(public_path('watermarker.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $property->code . '/' . $filename);
         if (file_exists(public_path('upload/properties/' . $property->code . '/' . $request->old_img))) {
             @unlink(public_path('upload/properties/' . $property->code . '/' . $request->old_img));
         }
@@ -456,7 +456,7 @@ class PropertyController extends Controller
             @mkdir(public_path('upload/properties/' . $property->code . '/multipleImages/'));
             foreach ($multiple_images as $image) {
                 $filenames = date('YmdHi') . $image->getClientOriginalName();
-                Image::make($image)->resize(770, 520)->save('upload/properties/' . $property->code . '/multipleImages/' . $filenames);
+                Image::make($image)->resize(770, 520)->insert(public_path('watermarker.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $property->code . '/multipleImages/' . $filenames);
 
                 MultiImage::insert([
                     'property_id' => $property->id,
@@ -724,10 +724,6 @@ class PropertyController extends Controller
             'bathrooms' => $bathrooms,
             'counts' => $counts,
             'amenities' => $amenities,
-//            'count_sale' => $count_sale,
-//            'count_alquiler' => $count_alquiler,
-//            'count_anticretico' => $count_anticretico,
-//            'count_roomis' => $count_roomis,
         ]);
 
     }
