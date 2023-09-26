@@ -10,7 +10,7 @@
 @push('script')
     <script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/table-datatable.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/table-datatable3.js') }}"></script>
 @endpush
 <x-app-layout>
     <!--start content-->
