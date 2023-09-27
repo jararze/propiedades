@@ -186,6 +186,7 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::get('admin/posible/users/contact', [PotencialBuyerController::class, 'contact'])->name('admin.possible.users.contact');
 
     Route::get('/admin/properties/inactives', [PropertyController::class, 'inactives'])->name('admin.properties.inactives');
+    Route::get('/admin/properties/cancelled', [PropertyController::class, 'cancelled'])->name('admin.properties.cancelled');
     Route::post('/admin/properties/activate', [PropertyController::class, 'activate'])->name('admin.properties.activate');
     Route::get('/admin/properties/delete', [PropertyController::class, 'destroy'])->name('admin.properties.delete');
     Route::get('/admin/properties/sale', [PropertyController::class, 'sale'])->name('admin.properties.sale');

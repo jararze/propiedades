@@ -11,20 +11,22 @@
                         alt=""></figure>
                 <h6>{{ $property['agent']['name'] }} {{ $property['agent']['lastname'] }}</h6>
             </div>
-            <ul class="rating clearfix pull-left">
-                <li><i class="icon-39"></i></li>
-                <li><i class="icon-39"></i></li>
-                <li><i class="icon-39"></i></li>
-                <li><i class="icon-39"></i></li>
-                <li><i class="icon-40"></i></li>
-            </ul>
+            @if($property->status_for_what == 2)
+                <div class="right-column pull-right clearfix">
+                    <div class="price-inner clearfix">
+                        <ul class="category clearfix pull-left">
+                            <li><a href="#">Fuera del mercado</a></li>
+                        </ul>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="right-column pull-right clearfix">
         <div class="price-inner clearfix">
             <ul class="category clearfix pull-left">
-                <li><a href="property-details.html">{{ $property['type']['type_name'] }}</a></li>
-                <li><a href="property-details.html">{{ $property->property_status }}</a></li>
+                <li><a href="#">{{ $property['type']['type_name'] }}</a></li>
+                <li><a href="#">{{ $property->property_status }}</a></li>
             </ul>
             <div class="price-box pull-right">
                 <h3>{{ number_format($property->max_price, 0) }} $us</h3>
@@ -33,9 +35,10 @@
         <ul class="other-option pull-right clearfix">
             <li>{!! Share::page(url()->current(), 'Your share text can be placed here')->whatsapp() !!}</li>
             <li>
-                <a href="whatsapp://send?text=Mira esta propiedad!%0a%0a{!! $property->name !!}%0a%0a{!! $currenturl !!}" target="_blank" data-action="share/whatsapp/share"> <i class="icon-37"></i></a></li>
-{{--                <a href="whatsapp://send?text=https%3A%2F%2F127.0.0.1%3A8000%2Fproperties%2Finner%2F5" target="_blank" data-action="share/whatsapp/share"> <i class="icon-37"></i></a></li>--}}
-            <li><a href="property-details.html"><i class="icon-38"></i></a></li>
+                <a href="whatsapp://send?text=Mira esta propiedad!%0a%0a{!! $property->name !!}%0a%0a{!! $currenturl !!}"
+                   target="_blank" data-action="share/whatsapp/share"> <i class="icon-37"></i></a></li>
+            {{--                <a href="whatsapp://send?text=https%3A%2F%2F127.0.0.1%3A8000%2Fproperties%2Finner%2F5" target="_blank" data-action="share/whatsapp/share"> <i class="icon-37"></i></a></li>--}}
+            <li><a href="#"><i class="icon-38"></i></a></li>
             <input type="hidden" id="CSRF" value="{{csrf_token()}}">
             <li>
                 <a href="javascript:;"

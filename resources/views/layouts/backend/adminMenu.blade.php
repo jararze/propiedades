@@ -186,7 +186,8 @@
             <li><a href="{{ route('admin.properties.index') }}"><i class="bi bi-circle"></i>Todas</a></li>
             <li><a href="{{ route('admin.properties.own') }}"><i class="bi bi-circle"></i>Mias</a></li>
             <li><a href="{{ route('admin.properties.inactives') }}"><i class="bi bi-circle"></i>Inactivas</a></li>
-            <li><a href="{{ route('admin.properties.sale') }}"><i class="bi bi-circle"></i>Fuera de mercado</a></li>
+            <li><a href="{{ route('admin.properties.sale') }}"><i class="bi bi-circle"></i>Vendidas/Alquiladas/Etc</a></li>
+            <li><a href="{{ route('admin.properties.cancelled') }}"><i class="bi bi-circle"></i>Canceladas</a></li>
             <li><a href="{{ route('admin.properties.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
         </ul>
     </li>

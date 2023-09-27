@@ -47,7 +47,7 @@ class PropertyController extends Controller
     }
     public function sale(): view
     {
-        $values = Property::where('is_project', "0")->where('status_for_what', "1")->orderBy('created_at', 'desc')->get();
+        $values = Property::where('is_project', "0")->where('status_for_what', "1")->orWhere('status_for_what', "2")->orderBy('created_at', 'desc')->get();
 
         return view('backend.properties.sale', [
             'values' => $values,
@@ -59,6 +59,14 @@ class PropertyController extends Controller
         $values = Property::where('is_project', "0")->where('status', '0')->orderBy('id', 'DESC')->get();
 
         return view('backend.properties.inactives', [
+            'values' => $values,
+        ]);
+    }
+    public function cancelled(): view
+    {
+        $values = Property::where('is_project', "0")->where('status', '2')->orderBy('id', 'DESC')->get();
+
+        return view('backend.properties.cancelled', [
             'values' => $values,
         ]);
     }
@@ -76,13 +84,13 @@ class PropertyController extends Controller
     }
     public function propertieChangeStatus(Request $request): RedirectResponse
     {
-//        dd($request->id);
+        $var = ($request->status_for_what == "1") ? "2" : "0";
         $property = Property::find($request->id);
-        $property->status_for_what = "2";
+        $property->status_for_what = $var;
         $property->updated_at = Carbon::now();
-
         $property->save();
-        toastr()->success('Propiedad fuera de mercado, estará 3 días habiles con el cartel de vendida/alquilada etc', '!Proceso!');
+        $msg = ($request->status_for_what == "1") ? 'Propiedad fuera de mercado, estará 3 días hábiles con el cartel de vendida/alquilada, etc' : "Propiedad activada y puesta en el mercado nuevamente";
+        toastr()->success($msg, '!Proceso!');
         return redirect()->back()->with('status', 'updated-amenities');
     }
 

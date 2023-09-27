@@ -19,7 +19,8 @@ $(function () {
                 infoFiltered: '(Filtrado de _MAX_ datos totales)',
                 lengthMenu: 'Mostrar _MENU_ datos por pagina',
                 zeroRecords: 'Nada encontrado - lo sentimos'
-            }
+            },
+            order: [[1, 'desc']]
 
         });
 

@@ -79,9 +79,12 @@
                                                 @if($item->status == 1)
                                                     <span
                                                         class="badge bg-light-success text-success w-100">Activo</span>
+                                                @elseif($item->status == 2)
+                                                    <span
+                                                        class="badge bg-light-danger text-danger w-100">Cancelada</span>
                                                 @else
                                                     <span
-                                                        class="badge bg-light-danger text-danger w-100">Inactivo</span>
+                                                        class="badge bg-light-info text-info w-100">Inactivo</span>
                                                 @endif
                                             </td>
                                             <td>

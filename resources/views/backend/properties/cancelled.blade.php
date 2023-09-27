@@ -1,8 +1,10 @@
 @push('styles')
-
+    <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet"/>
 @endpush
 @push('script')
-
+    <script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/table-datatable3.js') }}"></script>
 @endpush
 <x-app-layout>
     <!--start content-->
@@ -15,7 +17,7 @@
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Propiedades</li>
+                        <li class="breadcrumb-item active" aria-current="page">Canceladas</li>
                     </ol>
                 </nav>
             </div>
@@ -31,6 +33,13 @@
             <div class="col-12 col-lg-12 d-flex">
                 <div class="card w-100">
                     <div class="card-header py-3">
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 me-auto">
+                                <div class="ms-auto position-relative">
+                                    <h2>Propiedades Canceladas</h2>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row g-3">
                             <div class="col-lg-4 col-md-6 me-auto">
                                 <div class="ms-auto position-relative">
@@ -74,62 +83,57 @@
                                             <td>{{ $item->city }}</td>
                                             <td>{{ $item['createdBy']['name'] }} {{ $item['createdBy']['lastname'] }}</td>
                                             <td>
-                                                @if($item->status_for_what == 1)
+                                                @if($item->status == 1)
                                                     <a href=""><span
-                                                            class="badge bg-light-info text-info w-100">Pendiente Aprobacion</span></a>
+                                                            class="badge bg-light-success text-success w-100">Activo</span></a>
                                                 @else
-                                                    <a href=""><span
-                                                            class="badge bg-light-danger text-danger w-100">Fuera de mercado</span></a>
+                                                    <form action="{{ route('admin.properties.activate') }}"
+                                                          method="POST">
+                                                        @csrf
+                                                        <label>Cancelada</label> <br />
+                                                        <input name="inactiveid" type="hidden" value="{{ $item->id }}">
+                                                        <button class="badge bg-light-danger text-danger w-100"
+                                                                type="submit">Activar
+                                                        </button>
+                                                    </form>
+
                                                 @endif
                                             </td>
                                             <td>
 
-
                                                 <div class="d-flex align-items-center gap-3 fs-6">
-                                                    <button type="button"
-                                                            class="badge bg-light-{{ $var = (($item->status_for_what == 1) ? "info" : "danger") }} text-{{ $var = (($item->status_for_what == 1) ? "info" : "danger") }} w-100"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#exampleDangerModal{{ $item->id }}"><i
-                                                            class="bi bi-radioactive"></i> {{ $var = (($item->status_for_what == 1) ? "Aprobar" : "Ingresar") }}
-                                                    </button>
+                                                    <a href="{{ route('admin.properties.edit',['id' => $item->id]) }}"
+                                                       class="text-warning" data-bs-toggle="tooltip"
+                                                       data-bs-placement="bottom" title=""
+                                                       data-bs-original-title="Edit info"
+                                                       aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
+                                                    <a href="" class="text-danger" data-bs-toggle="modal"
+                                                       data-bs-target="#exampleDangerModal{{ $item->id }}"><i
+                                                            class="bi bi-trash-fill"></i></a>
                                                 </div>
 
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="exampleDangerModal{{ $item->id }}"
                                                      tabindex="-1" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                        <div class="modal-content bg-info">
+                                                        <div class="modal-content bg-danger">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title text-white">
-                                                                    @if($item->status_for_what == 1)
-                                                                        ¿Sacar del mercado {{ $item->name }}?
-                                                                    @else
-                                                                        ¿Ingresar nuevamente la propiedad {{ $item->name }}?
-                                                                    @endif
-                                                                </h5>
+                                                                    ¿Eliminar {{ $item->name }}?</h5>
                                                                 <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body text-white">
-                                                                <p>¿Esta seguro que aprobaras poner a la venta,
-                                                                    anticretico o ya alquilada la propiedad?</p>
+                                                                <p>¿Esta seguro que desea eliminar la propiedad?</p>
 
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-light"
                                                                         data-bs-dismiss="modal">Cancelar
                                                                 </button>
-                                                                <form
-                                                                    action="{{ route('admin.properties.sold.status') }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    <input name="id" type="hidden" value="{{ $item->id }}">
-                                                                    <input name="status_for_what" type="hidden" value="{{ $item->status_for_what }}">
-                                                                    <button class="btn btn-dark"
-                                                                            type="submit">Si, proceder
-                                                                    </button>
-                                                                </form>
+                                                                <a href="{{ route('admin.properties.delete',['id' => $item->id]) }}"
+                                                                   class="btn btn-dark">Si, eliminar</a>
                                                             </div>
                                                         </div>
                                                     </div>

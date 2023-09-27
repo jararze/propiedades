@@ -119,22 +119,22 @@
                             </div>
                             <ul class="list clearfix">
                                 <li>Código: <span>{{ $property->code }}</span></li>
-                                <li>Tamaño propiedad: <span>{{ $size = (isset($property->size)) ? $property->size : "S/I" }} mt2</span>
+                                <li>Tamaño propiedad: <span>{{ $size = (isset($property->size)) ? $property->size : "0" }} mt2</span>
                                 </li>
                                 <li>Habitaciones:
-                                    <span>{{ $bedrooms = (isset($property->bedrooms)) ? $property->bedrooms : "S/I" }}</span>
+                                    <span>{{ $bedrooms = (isset($property->bedrooms)) ? $property->bedrooms : "0" }}</span>
                                 </li>
                                 <li>Baños:
-                                    <span>{{ $bathrooms = (isset($property->bathrooms)) ? $property->bathrooms : "S/I" }}</span>
+                                    <span>{{ $bathrooms = (isset($property->bathrooms)) ? $property->bathrooms : "0" }}</span>
                                 </li>
                                 <li>Precio: <span>{{ number_format($property->max_price, 0) }} $us</span></li>
 {{--                                <li>Year Built: <span>01 April, 2019</span></li>--}}
                                 <li>Tipo: <span>{{ $property['type']['type_name'] }}</span></li>
                                 <li>A la: <span>{{ $property->property_status }}</span></li>
                                 <li>Garaje:
-                                    <span>{{ $garage = (isset($property->garage)) ? $property->garage : "S/I" }}</span>
+                                    <span>{{ $garage = (isset($property->garage)) ? $property->garage : "0" }}</span>
                                 </li>
-                                <li>Tamaño Garaje: <span>{{ $garage_size = (isset($property->garage_size)) ? $property->garage_size : "S/I" }} mt2</span>
+                                <li>Tamaño Garaje: <span>{{ $garage_size = (isset($property->garage_size)) ? $property->garage_size : "0" }} mt2</span>
                                 </li>
                             </ul>
                         </div>
@@ -161,13 +161,13 @@
                             </div>
                             <ul class="info clearfix">
                                 <li style="width: 100%"><span>Dirección:</span> {{ $property->address }}</li>
-                                <li><span>Ciudad:</span> {{ $city = isset($property->city) ? $property->city : "S/I" }}
+                                <li><span>Ciudad:</span> {{ $city = isset($property->city) ? $property->city : "0" }}
                                 </li>
                                 <li>
-                                    <span>País:</span> {{ $country = isset($property->country) ? $property->country : "S/I" }}
+                                    <span>País:</span> {{ $country = isset($property->country) ? $property->country : "0" }}
                                 </li>
                                 <li>
-                                    <span>Zona:</span> {{ $neighborhood = isset($property->neighborhood) ? $property->neighborhood : "S/I" }}
+                                    <span>Zona:</span> {{ $neighborhood = isset($property->neighborhood) ? $property->neighborhood : "0" }}
                                 </li>
                             </ul>
                             <div class="google-map-area">
