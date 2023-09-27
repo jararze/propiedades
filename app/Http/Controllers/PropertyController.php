@@ -571,15 +571,15 @@ class PropertyController extends Controller
     public function propertiesFilter($filter): view
     {
         if ($filter == 'featuredProperties') {
-            $properties = Property::where('status', 1)->where('featured', 1)->orderBy('id', 'desc')->paginate(4);
+            $properties = Property::where('status', 1)->where('featured', 1)->orderBy('id', 'desc')->paginate(6);
         } elseif ($filter == 'hotProperties') {
-            $properties = Property::where('status', 1)->where('hot', 1)->orderBy('id', 'desc')->paginate(4);
+            $properties = Property::where('status', 1)->where('hot', 1)->orderBy('id', 'desc')->paginate(6);
         } elseif ($filter == 'allProperties') {
-            $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(4);
+            $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(6);
         } elseif ($filter == 'hotFeaturedProperties') {
-            $properties = Property::where('status', 1)->where('hot', 1)->orWhere('featured', 1)->orderBy('id', 'desc')->paginate(4);
+            $properties = Property::where('status', 1)->where('hot', 1)->orWhere('featured', 1)->orderBy('id', 'desc')->paginate(6);
         } else {
-            $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(4);
+            $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(6);
         }
 
         $types = PropertyType::where('status', 1)->orderBy('id', 'asc')->get();

@@ -740,7 +740,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{ $featuredProperties->links('vendor.pagination.bootstrap-5') }}
+                        {{ $featuredProperties->links('vendor.pagination.custom') }}
 {{--                        <div class="pagination-wrapper">--}}
 {{--                            <ul class="pagination clearfix">--}}
 {{--                                <li><a href="property-list.html" class="current">1</a></li>--}}

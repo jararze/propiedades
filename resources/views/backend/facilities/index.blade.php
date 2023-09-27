@@ -114,7 +114,7 @@
                             @endif
 
                         </div>
-{{--                        {{ $values->links('vendor.pagination.bootstrap-5') }}--}}
+{{--                        {{ $values->links('vendor.pagination.custom') }}--}}
                     </div>
                 </div>
             </div>
