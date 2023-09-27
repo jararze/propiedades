@@ -1,5 +1,6 @@
 @push('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <style>
         #map {
             height: 400px;
@@ -8,7 +9,8 @@
     </style>
 @endpush
 @push('script')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="{{ asset('backend/assets/js/images.js') }}"></script>
     <script src="{{ asset('backend/assets/js/map.js') }}"></script>
     <script>
@@ -20,6 +22,7 @@
                 x.style.display = "none";
             }
         }
+
         $(document).on("change", "#currency", function (event) {
             // alert(this.value);
             $(".currency_icon").text(this.value);
@@ -103,31 +106,41 @@
                                                                         @if(count($projects) == 0)
                                                                             <h4 class="align-middle"
                                                                                 style="font-size: 15px; margin-top: 37px">
-                                                                                No hay proyectos registrados agregue uno <a href="">aquí</a>
+                                                                                No hay proyectos registrados agregue uno
+                                                                                <a href="">aquí</a>
                                                                             </h4>
                                                                         @else
                                                                             <label for="is_project" class="form-label">¿Proyecto?</label>
                                                                             <select class="form-select" id="is_project"
                                                                                     name="is_project">
                                                                                 <option
-                                                                                    {{ $selectedTS = ($property->is_project == 0) ? "selected='selected'" : "" }} value="0">No</option>
+                                                                                    {{ $selectedTS = ($property->is_project == 0) ? "selected='selected'" : "" }} value="0">
+                                                                                    No
+                                                                                </option>
                                                                                 <option
-                                                                                    {{ $selectedTS = ($property->is_project != 0) ? "selected='selected'" : "" }} value="1">Si</option>
+                                                                                    {{ $selectedTS = ($property->is_project != 0) ? "selected='selected'" : "" }} value="1">
+                                                                                    Si
+                                                                                </option>
                                                                             </select>
-                                                                            <x-input-error :messages="$errors->get('is_project')"
-                                                                                           class="mt-2"/>
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('is_project')"
+                                                                                class="mt-2"/>
                                                                         @endif
                                                                     </div>
                                                                     @if(count($projects) != 0)
                                                                         <div class="col-4">
                                                                             <label for="units" class="form-label">Unidades</label>
-                                                                            <input value="{{ $property->units }}" id="units" name="units" type="text"
+                                                                            <input value="{{ $property->units }}"
+                                                                                   id="units" name="units" type="text"
                                                                                    class="form-control"
                                                                                    placeholder="Unidades">
-                                                                            <x-input-error :messages="$errors->get('units')" class="mt-2"/>
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('units')"
+                                                                                class="mt-2"/>
                                                                         </div>
                                                                         <div class="col-6">
-                                                                            <label for="project_id" class="form-label">Proyecto asociado</label>
+                                                                            <label for="project_id" class="form-label">Proyecto
+                                                                                asociado</label>
                                                                             <select class="form-select" id="project_id"
                                                                                     name="project_id">
                                                                                 @foreach($projects as $project)
@@ -141,14 +154,17 @@
                                                                                         value="{{ $project->id }}" {{ $selected }}>{{ $project->name }}</option>
                                                                                 @endforeach
                                                                             </select>
-                                                                            <x-input-error :messages="$errors->get('project_id')"
-                                                                                           class="mt-2"/>
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('project_id')"
+                                                                                class="mt-2"/>
                                                                         </div>
                                                                     @endif
                                                                     <div class="col-12">
                                                                         <h4 class="align-middle"
-                                                                            sstyle="font-size: 15px; margin-top: 37px">¿No
-                                                                            encuetras tu proyecto? Crealo <a href="">aquí</a></h4>
+                                                                            sstyle="font-size: 15px; margin-top: 37px">
+                                                                            ¿No
+                                                                            encuetras tu proyecto? Crealo <a href="">aquí</a>
+                                                                        </h4>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -215,7 +231,8 @@
                                                                                 @php
                                                                                     $selected2 = ($city->name == $property->city) ? 'selected' : '';
                                                                                 @endphp
-                                                                                <option {{ $selected2 }} value="{{ $city->name }}">{{ $city->name }}
+                                                                                <option
+                                                                                    {{ $selected2 }} value="{{ $city->name }}">{{ $city->name }}
                                                                             @endforeach
                                                                         </select>
                                                                         <x-input-error :messages="$errors->get('city')"
@@ -279,12 +296,19 @@
                                                                             class="mt-2"/>
                                                                     </div>
                                                                     <div class="col-12 col-lg-4">
-                                                                        <label for="currency" class="form-label">Moneda</label>
+                                                                        <label for="currency"
+                                                                               class="form-label">Moneda</label>
                                                                         <div class="input-group">
                                                                             <select class="form-select" id="currency"
                                                                                     name="currency">
-                                                                                <option {{ $selectedCR = ($property->currency == 'Bs') ? "selected='selected'" : "" }} value="Bs">Bolivianos</option>
-                                                                                <option {{ $selectedCR = ($property->currency == '$us') ? "selected='selected'" : "" }} value="$us">Dolares</option>
+                                                                                <option
+                                                                                    {{ $selectedCR = ($property->currency == 'Bs') ? "selected='selected'" : "" }} value="Bs">
+                                                                                    Bolivianos
+                                                                                </option>
+                                                                                <option
+                                                                                    {{ $selectedCR = ($property->currency == '$us') ? "selected='selected'" : "" }} value="$us">
+                                                                                    Dolares
+                                                                                </option>
                                                                             </select>
                                                                             <x-input-error
                                                                                 :messages="$errors->get('currency')"
@@ -302,7 +326,8 @@
                                                                                    placeholder="Precio minimo"
                                                                                    required
                                                                                    value="{{ $property->lowest_price }}">
-                                                                            <span class="input-group-text currency_icon">{{ $Moneda = ($property->currency == 'Bs') ? "Bs" : '$us' }}</span>
+                                                                            <span
+                                                                                class="input-group-text currency_icon">{{ $Moneda = ($property->currency == 'Bs') ? "Bs" : '$us' }}</span>
                                                                             <x-input-error
                                                                                 :messages="$errors->get('lowest_price')"
                                                                                 class="mt-2"/>
@@ -317,7 +342,8 @@
                                                                                    class="form-control"
                                                                                    placeholder="Precio Máximo" required
                                                                                    value="{{ $property->max_price }}">
-                                                                            <span class="input-group-text currency_icon">{{ $Moneda = ($property->currency == 'Bs') ? "Bs" : '$us' }}</span>
+                                                                            <span
+                                                                                class="input-group-text currency_icon">{{ $Moneda = ($property->currency == 'Bs') ? "Bs" : '$us' }}</span>
                                                                         </div>
                                                                         <x-input-error
                                                                             :messages="$errors->get('max_price')"
@@ -441,53 +467,59 @@
                                                                             class="mt-2"/>
                                                                     </div>
                                                                     <div class="col-12">
-                                                                        <button type="button" class="btn btn-primary" onclick="toggle()">Ver en el mapa</button>
+                                                                        <button type="button" class="btn btn-primary"
+                                                                                onclick="toggle()">Ver en el mapa
+                                                                        </button>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div id="map"></div>
                                                                     </div>
-                                                                    <div class="col-6">
-                                                                        <div class="form-check">
-                                                                            <label class="form-check-label"
-                                                                                   for="featured">
-                                                                                Destacado
-                                                                            </label>
-                                                                            @php
-                                                                                $checked = "";
-                                                                                if($property->featured == 1){
-                                                                                    $checked = "checked";
-                                                                                }
-                                                                            @endphp
-                                                                            <input class="form-check-input"
-                                                                                   {{ $checked }}
-                                                                                   name="featured" type="checkbox"
-                                                                                   value="1" id="featured">
-                                                                        </div>
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('featured')"
-                                                                            class="mt-2"/>
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <div class="form-check">
-                                                                            <label class="form-check-label" for="hot">
-                                                                                Hot
-                                                                            </label>
-                                                                            @php
-                                                                                $checked = "";
-                                                                                if($property->hot
-                                                                                 == 1){
-                                                                                    $checked = "checked";
-                                                                                }
-                                                                            @endphp
-                                                                            <input class="form-check-input" name="hot"
-                                                                                   {{ $checked }}
-                                                                                   type="checkbox"
-                                                                                   value="1" id="hot">
-                                                                        </div>
-                                                                        <x-input-error :messages="$errors->get('hot')"
-                                                                                       class="mt-2"/>
-                                                                    </div>
                                                                     @if(Auth::user()->role == 'admin')
+                                                                        <div class="col-6">
+                                                                            <div class="form-check">
+                                                                                <label class="form-check-label"
+                                                                                       for="featured">
+                                                                                    Destacado
+                                                                                </label>
+                                                                                @php
+                                                                                    $checked = "";
+                                                                                    if($property->featured == 1){
+                                                                                        $checked = "checked";
+                                                                                    }
+                                                                                @endphp
+                                                                                <input class="form-check-input"
+                                                                                       {{ $checked }}
+                                                                                       name="featured" type="checkbox"
+                                                                                       value="1" id="featured">
+                                                                            </div>
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('featured')"
+                                                                                class="mt-2"/>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <div class="form-check">
+                                                                                <label class="form-check-label"
+                                                                                       for="hot">
+                                                                                    Hot
+                                                                                </label>
+                                                                                @php
+                                                                                    $checked = "";
+                                                                                    if($property->hot
+                                                                                     == 1){
+                                                                                        $checked = "checked";
+                                                                                    }
+                                                                                @endphp
+                                                                                <input class="form-check-input"
+                                                                                       name="hot"
+                                                                                       {{ $checked }}
+                                                                                       type="checkbox"
+                                                                                       value="1" id="hot">
+                                                                            </div>
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('hot')"
+                                                                                class="mt-2"/>
+                                                                        </div>
+
                                                                         <div class="col-12">
                                                                             <label for="status"
                                                                                    class="form-label">Estado</label>
@@ -499,7 +531,11 @@
                                                                                 </option>
                                                                                 <option
                                                                                     {{ $selectedTS = ($property->status == 0) ? "selected='selected'" : "" }} value="0">
-                                                                                    No activo
+                                                                                    Inactivo
+                                                                                </option>
+                                                                                <option
+                                                                                    {{ $selectedTS = ($property->status == 2) ? "selected='selected'" : "" }} value="2">
+                                                                                    Cancelada
                                                                                 </option>
                                                                             </select>
                                                                             <x-input-error
@@ -808,7 +844,7 @@
                                                                 <option value="NH">Servicio</option>
                                                                 @foreach($facility as $facilit)
                                                                     <option
-                                                                        value="{{ $facilit->id }}" >{{ $facilit->name }}
+                                                                        value="{{ $facilit->id }}">{{ $facilit->name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -897,7 +933,8 @@
                                                                                         type="submit"
                                                                                         class="text-danger"
                                                                                         data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="bottom" title=""
+                                                                                        data-bs-placement="bottom"
+                                                                                        title=""
                                                                                         data-bs-original-title="Delete"
                                                                                         aria-label="Delete"
                                                                                         style="border: 0px !important; background: transparent !important;">

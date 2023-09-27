@@ -8,8 +8,10 @@
                         <div class="category-block-one">
                             <div class="inner-box">
                                 <div class="icon-box"><i class="{{ $property->type_icon }}"></i></div>
-                                <h5><a href="/properties/filter?property_type={{ $property->id }}">{{ $property->type_name }}</a></h5>
-                                <span>{{ $count[$property->id] }}</span>
+                                <h5>
+                                    <a href="/properties/filter?property_type={{ $property->id }}">{{ $property->type_name }}</a>
+                                </h5>
+                                <a href="/properties/filter?property_type={{ $property->id }}"><span>{{ $count[$property->id] }}</span></a>
                             </div>
                         </div>
                     </li>

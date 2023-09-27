@@ -56,7 +56,7 @@ class PropertyController extends Controller
 
     public function inactives(): view
     {
-        $values = Property::where('is_project', "0")->where('status', '0')->orderBy('created_at', 'desc')->get();
+        $values = Property::where('is_project', "0")->where('status', '0')->orderBy('id', 'DESC')->get();
 
         return view('backend.properties.inactives', [
             'values' => $values,
@@ -194,6 +194,7 @@ class PropertyController extends Controller
         if ($request->file('thumbnail')) {
             $file = $request->file('thumbnail');
             @mkdir(public_path('upload/properties/' . $code));
+            @mkdir(public_path('upload/properties/' . $code . '/multipleImages/'));
             $filename = date('YmdHi') . $file->getClientOriginalName();
             Image::make($file)->resize(370, 250)->insert(public_path('watermarker.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $code . '/' . $filename);
         } else {
@@ -203,12 +204,12 @@ class PropertyController extends Controller
         if (!isset($request->featured)) {
             $featured_var = 0;
         } else {
-            $featured_var = $request->featured;
+            $featured_var = (Auth::user()->role === 'agent') ? '0' : $request->featured;
         }
         if (!isset($request->hot)) {
             $hot_var = 0;
         } else {
-            $hot_var = $request->hot;
+            $hot_var = (Auth::user()->role === 'agent') ? '0' : $request->hot;
         }
 
         if (isset($request->amenities_id)) {

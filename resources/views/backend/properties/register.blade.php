@@ -415,7 +415,10 @@
                                                 <div class="col-12">
                                                     <div id="map"></div>
                                                 </div>
-                                                <div class="col-6">
+                                                @php
+                                                    $display   = (Auth::user()->role === 'agent') ? "display:none" : "";
+                                                @endphp
+                                                <div class="col-6"  style="{{ $display }}">
                                                     <div class="form-check">
                                                         <label class="form-check-label" for="featured">
                                                             Destacado
@@ -425,7 +428,7 @@
                                                     </div>
                                                     <x-input-error :messages="$errors->get('featured')" class="mt-2"/>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-6" style="{{ $display }}">
                                                     <div class="form-check">
                                                         <label class="form-check-label" for="hot">
                                                             Hot
@@ -435,9 +438,7 @@
                                                     </div>
                                                     <x-input-error :messages="$errors->get('hot')" class="mt-2"/>
                                                 </div>
-                                                @php
-                                                    $display   = (Auth::user()->role === 'agent') ? "display:none" : "";
-                                                @endphp
+
                                                 <div class="col-12" style="{{ $display }}">
                                                     <label for="agent_id" class="form-label">Agente</label>
                                                     @php
