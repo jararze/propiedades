@@ -29,7 +29,7 @@
                 <li><a href="#">{{ $property->property_status }}</a></li>
             </ul>
             <div class="price-box pull-right">
-                <h3>{{ number_format($property->max_price, 0) }} $us</h3>
+                <h3>{{ number_format($property->max_price, 2) }} {{ $property->currency }}</h3>
             </div>
         </div>
         <ul class="other-option pull-right clearfix">

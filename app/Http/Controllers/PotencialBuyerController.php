@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Models\Validation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use App\Mail\ContactMail;
 
 class PotencialBuyerController extends Controller
 {
@@ -48,12 +50,41 @@ class PotencialBuyerController extends Controller
     }
 
 
-
     public function contact()
     {
         $contact = ContactForm::orderBy('response', 'desc')->paginate(20);
         return view('backend.users.potential.contact', [
             'values' => $contact,
+        ]);
+    }
+
+    public function sendEmail(Request $request)
+    {
+//        dd($request);
+        $contact = ContactForm::find($request->id);
+        $contact->response = "1";
+        $contact->save();
+        Mail::to($request->email)->send(new ContactMail($request->long_description));
+        toastr()->success('Mensaje enviado correctamente', '!Ok!');
+        return redirect()->back();
+    }
+
+
+    public function sendWhatsapp(Request $request)
+    {
+        $contact = ContactForm::findOrFail($request->id);
+        $contact->update(['response' => '2']);
+
+        $url = 'https://api.whatsapp.com/send/?phone=+591' . $request->phone . '&text=' . $request->long_description;
+        toastr()->success('Mensaje enviado correctamente', '!Ok!');
+        // Generate JavaScript code to open the URL in a new tab
+        $javascript = "window.open('$url', '_blank');";
+        $data = ContactForm::orderBy('response', 'desc')->paginate(20);
+
+        // Return a response with the JavaScript code
+        return response()->view('backend.users.potential.contact', [
+            'values' => $data,
+            'javascript' => $javascript
         ]);
     }
 

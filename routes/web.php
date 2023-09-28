@@ -184,6 +184,8 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
 
     Route::get('admin/posible/users/index', [PotencialBuyerController::class, 'index'])->name('admin.possible.users.index');
     Route::get('admin/posible/users/contact', [PotencialBuyerController::class, 'contact'])->name('admin.possible.users.contact');
+    Route::post('admin/posible/users/contact', [PotencialBuyerController::class, 'sendEmail']);
+    Route::post('admin/posible/users/contact/whatsapp', [PotencialBuyerController::class, 'sendWhatsapp'])->name('admin.possible.users.contact.whatsapp');
 
     Route::get('/admin/properties/inactives', [PropertyController::class, 'inactives'])->name('admin.properties.inactives');
     Route::get('/admin/properties/cancelled', [PropertyController::class, 'cancelled'])->name('admin.properties.cancelled');
