@@ -288,7 +288,7 @@ class PropertyController extends Controller
                 if ($request->nameFac[$i] != null) {
                     $namfac = $request->nameFac[$i];
                 } else {
-                    $namfac = null;
+                    $namfac = " ";
                 }
                 if ($request->distance[$i] != null) {
                     $distances = $request->distance[$i];

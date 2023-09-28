@@ -27,6 +27,16 @@
     </script>
     <script>
 
+
+        var Privileges = jQuery('#facility_name');
+        var select = this.value;
+        Privileges.change(function () {
+            if ($(this).val() != 'NH') {
+                $('#nameFac').attr("required", "required");
+            }
+            else $('#nameFac').removeAttr("required");
+        });
+
         function toggle() {
             var x = document.getElementById("map");
             if (x.style.display === "none") {
@@ -467,14 +477,6 @@
                                                     </select>
                                                     <x-input-error :messages="$errors->get('agent_id')" class="mt-2"/>
                                                 </div>
-{{--                                                <div class="col-12">--}}
-{{--                                                    <label for="status" class="form-label">Estado</label>--}}
-{{--                                                    <select id="status" name="status" class="form-select" required>--}}
-{{--                                                        <option value="1">Publicado</option>--}}
-{{--                                                        <option value="0">No activo</option>--}}
-{{--                                                    </select>--}}
-{{--                                                    <x-input-error :messages="$errors->get('status')" class="mt-2"/>--}}
-{{--                                                </div>--}}
                                                 <div class="col-12">
                                                     <h5>Amenities</h5>
                                                     <div class="category-list">
@@ -507,7 +509,7 @@
                                                         <label for="facility_name"
                                                                class="form-label">Servicio cercano </label>
                                                         <select name="facility_id[]" id="facility_name"
-                                                                class="form-select">
+                                                                class="form-select" onclick="craateUserJsObject.ShowPrivileges();">>
                                                             <option value="NH">Servicio</option>
                                                             @foreach($facilities as $facility)
                                                                 <option
@@ -529,9 +531,9 @@
                                                                class="form-control" placeholder="Distancia (Cuadras)">
                                                     </div>
                                                     <div class="form-group col-md-2" style="padding-top: 20px">
-                                                        <span class="btn btn-success btn-sm addeventmore"><i
+                                                        <span class="btn btn-success btn-sm addeventmore" style="height: 30px"><i
                                                                 class="fa fa-plus-circle"
-                                                                style="margin-left: 0 !important; float: left"></i></span>
+                                                                style="margin-left: 0 !important; float: left;line-height: 47px"></i></span>
                                                         <span class="btn btn-danger btn-sm removeeventmore"><i
                                                                 class="fa fa-minus-circle"
                                                                 style="margin-left: 0 !important;"></i></span>
