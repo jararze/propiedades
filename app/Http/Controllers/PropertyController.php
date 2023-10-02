@@ -13,12 +13,14 @@ use App\Models\Property;
 use App\Models\PropertyMessage;
 use App\Models\PropertyType;
 use App\Models\User;
+use App\Notifications\NewProperty;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
@@ -304,6 +306,10 @@ class PropertyController extends Controller
                 $facilities->save();
             }
         }
+
+        $users = User::where('role', 'admin')->where('role', 'agent')->get();
+
+        Notification::send($users, new NewProperty($property_id));
 
         toastr()->success('Propiedad creada, satisfactoriamente', '!Bien!');
         return Redirect::route('admin.properties.register')->with('status', 'created');

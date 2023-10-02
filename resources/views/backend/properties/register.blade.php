@@ -606,7 +606,7 @@
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label for="nameFac" class="form-label">
-                                                            Distancia </label>
+                                                            Nombre del lugar </label>
                                                         <input type="text" name="nameFac[]" id="nameFac"
                                                                class="form-control" placeholder="Nombre del lugar">
                                                     </div>
