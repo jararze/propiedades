@@ -34,6 +34,81 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function own(): view
+    {
+        $values = Property::where('is_project', "1")->where('created_by', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+
+        return view('backend.projects.own', [
+            'values' => $values,
+        ]);
+    }
+
+    public function sale(): view
+    {
+        $values = Property::where('is_project', "1")->where('status_for_what', "1")->orWhere('status_for_what', "2")->orderBy('created_at', 'desc')->get();
+
+        return view('backend.projects.sale', [
+            'values' => $values,
+        ]);
+    }
+
+    public function inactives(): view
+    {
+        $values = Property::where('is_project', "1")->where('status', '0')->orderBy('id', 'DESC')->get();
+
+        return view('backend.projects.inactives', [
+            'values' => $values,
+        ]);
+    }
+
+    public function cancelled(): view
+    {
+        $values = Property::where('is_project', "1")->where('status', '2')->orderBy('id', 'DESC')->get();
+
+        return view('backend.projects.cancelled', [
+            'values' => $values,
+        ]);
+    }
+
+
+    public function sold(Request $request): RedirectResponse
+    {
+//        dd($request->id);
+        $property = Property::find($request->id);
+        $property->status_for_what = "1";
+        $property->updated_at = Carbon::now();
+
+        $property->save();
+        toastr()->success('Solicitud enviada para sacar del mercado', '!Proceso!');
+        return redirect()->back()->with('status', 'updated-amenities');
+    }
+
+    public function propertieChangeStatus(Request $request): RedirectResponse
+    {
+        $var = ($request->status_for_what == "1") ? "2" : "0";
+        $property = Property::find($request->id);
+        $property->status_for_what = $var;
+        $property->updated_at = Carbon::now();
+        $property->save();
+        $msg = ($request->status_for_what == "1") ? 'Proyecto fuera de mercado, estará 3 días hábiles con el cartel de vendida/alquilada, etc' : "Proyecto activado y puesta en el mercado nuevamente";
+        toastr()->success($msg, '!Proceso!');
+        return redirect()->back()->with('status', 'updated-amenities');
+    }
+
+
+    public function activate(Request $request): RedirectResponse
+    {
+//        dd($request->inactiveid);
+        $property = Property::find($request->inactiveid);
+        $property->status = "1";
+        $property->updated_at = Carbon::now();
+
+        $property->save();
+        toastr()->success('Proyecto activado', '!Bien!');
+        return redirect()->back()->with('status', 'updated-amenities');
+    }
+
+
     /**
      * Display the page with the form to create the item.
      * @throws \Exception
@@ -44,7 +119,7 @@ class ProjectController extends Controller
         $propertyXagent = $propertyXagent->count();
 
 
-        if(Auth::user()->package_status == 'active'){
+        if (Auth::user()->package_status == 'active') {
             $package = PackagePlan::join('users', 'users.package_id', '=', 'package_plans.id')
                 ->where('users.id', Auth::user()->id)
                 ->select('package_plans.name', 'package_plans.credits', 'package_plans.amount')
@@ -55,7 +130,7 @@ class ProjectController extends Controller
                 $name = $package->name;
                 $credits = $package->credits;
                 $amount = $package->amount;
-                if($propertyXagent < $credits){
+                if ($propertyXagent < $credits) {
                     $propertyType = PropertyType::where('status', 1)->orderBy('type_name', 'asc')->get();
                     $amenities = Amenities::where('status', 1)->orderBy('name', 'asc')->get();
                     $facilities = Facility::orderBy('name', 'asc')->get();
@@ -70,7 +145,7 @@ class ProjectController extends Controller
                         'projects' => $projects,
                         'cities' => $cities,
                     ]);
-                }else{
+                } else {
                     $values = PackagePlan::orderBy('id', 'asc')->get();
                     return view('backend.properties.more.credits', [
                         'package_name' => $name,
@@ -83,7 +158,7 @@ class ProjectController extends Controller
             } else {
                 abort(403, "Acción no permitida, tienes más propiedades que creditos. Por favor compra mas creditos.");
             }
-        }else{
+        } else {
             abort(403, "Acción no permitida, el paquete no está activo.");
         }
 
@@ -111,8 +186,9 @@ class ProjectController extends Controller
         if ($request->file('thumbnail')) {
             $file = $request->file('thumbnail');
             @mkdir(public_path('upload/properties/' . $code));
+            @mkdir(public_path('upload/properties/' . $code . '/multipleImages/'));
             $filename = date('YmdHi') . $file->getClientOriginalName();
-            Image::make($file)->resize(800, 680)->save('upload/properties/' . $code . '/' . $filename);
+            Image::make($file)->resize(800, 680)->insert(public_path('watermarker.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $code . '/' . $filename);
         } else {
             $filename = NULL;
         }
@@ -120,12 +196,12 @@ class ProjectController extends Controller
         if (!isset($request->featured)) {
             $featured_var = 0;
         } else {
-            $featured_var = $request->featured;
+            $featured_var = (Auth::user()->role === 'agent') ? '0' : $request->featured;
         }
         if (!isset($request->hot)) {
             $hot_var = 0;
         } else {
-            $hot_var = $request->hot;
+            $hot_var = (Auth::user()->role === 'agent') ? '0' : $request->hot;
         }
 
         if (isset($request->amenities_id)) {
@@ -149,6 +225,7 @@ class ProjectController extends Controller
             'delivery' => $request->delivery,
             'construction_Date' => $request->construction_Date,
             'currency' => $request->currency,
+            'chosen_currency' => $request->chosen_currency,
             'lowest_price' => $request->lowest_price,
             'max_price' => $request->max_price,
             'size' => $request->size,
@@ -202,7 +279,7 @@ class ProjectController extends Controller
                 if ($request->nameFac[$i] != null) {
                     $namfac = $request->nameFac[$i];
                 } else {
-                    $namfac = null;
+                    $namfac = " ";
                 }
                 if ($request->distance[$i] != null) {
                     $distances = $request->distance[$i];
@@ -268,7 +345,7 @@ class ProjectController extends Controller
         }
 
 //        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
-
+//        dd($request);
         $property->name = $request->name;
         $property->address = $request->address;
         $property->neighborhood = $request->neighborhood;
@@ -277,8 +354,11 @@ class ProjectController extends Controller
         $property->propertytype_id = $request->propertytype_id;
         $property->property_status = $request->property_status;
         $property->currency = $request->currency;
+        $property->project_status = $request->project_status;
         $property->lowest_price = $request->lowest_price;
         $property->max_price = $request->max_price;
+        $property->delivery = $request->delivery;
+        $property->construction_Date = $request->construction_Date;
         $property->size = $request->size;
         $property->size_max = $request->size_max;
         $property->short_description = $request->short_description;
@@ -296,8 +376,12 @@ class ProjectController extends Controller
         $property->longitude = $request->longitude;
         $property->featured = $featured_var;
         $property->hot = $hot_var;
+        $property->chosen_currency = $request->chosen_currency;
 //        $property->agent_id = $age_id;
-        $property->status = $request->status;
+        if (Auth::user()->role != 'agent') {
+            $property->status = $request->status;
+        }
+//        $property->agent_id = $age_id;
         $property->updated_at = Carbon::now();
 
         $property->save();
@@ -479,17 +563,8 @@ class ProjectController extends Controller
      */
     public function propertiesFilter(): view
     {
-//        if ($filter == 'featuredProperties') {
-//            $properties = Property::where('status', 1)->where('featured', 1)->orderBy('id', 'desc')->paginate(4);
-//        } elseif ($filter == 'hotProperties') {
-//            $properties = Property::where('status', 1)->where('hot', 1)->orderBy('id', 'desc')->paginate(4);
-//        } elseif ($filter == 'allProperties') {
-//            $properties = Property::where('status', 1)->orderBy('id', 'desc')->paginate(4);
-//        } elseif ($filter == 'hotFeaturedProperties') {
-//            $properties = Property::where('status', 1)->where('hot', 1)->orWhere('featured', 1)->orderBy('id', 'desc')->paginate(4);
-//        } else {
-            $properties = Property::where('status', 1)->where("is_project", "1")->orderBy('id', 'desc')->paginate(4);
-//        }
+        $properties  = Property::where('status', 1)->where("is_project", "1")->orderBy('id', 'desc')->paginate(4);
+        $project_map = Property::where('is_project', "1")->where('status', 1)->whereNotNull('latitude')->whereNotNull('longitude')->get();
 
         $types = PropertyType::where('status', 1)->orderBy('id', 'asc')->get();
         $cities = City::orderBy('name', 'asc')->get();
@@ -554,6 +629,7 @@ class ProjectController extends Controller
             'bathrooms' => $bathrooms,
             'counts' => $counts,
             'amenities' => $amenities,
+            'projectsMap' => $project_map,
         ]);
     }
 

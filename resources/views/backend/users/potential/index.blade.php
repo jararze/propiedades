@@ -27,6 +27,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
+{{--                 @dd($values)--}}
                     <table id="example2" class="table table-striped table-bordered">
                         <thead>
                         <tr>
@@ -36,10 +37,12 @@
                             <th>Es usaurio?</th>
                             <th>Nombre usuario</th>
                             <th>Propiedad</th>
+                            <th>¿Contactado?</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($values as $posible)
+{{--                            @dd($posible)--}}
                                 <tr>
                                     <td>{{ $posible['id'] }}</td>
                                     <td>{{ $posible['email'] }}</td>
@@ -47,20 +50,19 @@
                                     <td>{{ ($posible['is_user'] > 0) ? "Si" : "No" }}</td>
                                     <td>{{ $posible['user_name'] }}</td>
                                     <td>{{ $posible['property_name'] }}</td>
+                                    <td>
+                                        @if($posible['response'] == 1)
+                                            <a href="{{ route('admin.possible.users.index.contacted', $posible['id']) }}"><span
+                                                    class="badge bg-light-success text-success w-100">Contactado </span></a>
+                                        @else
+                                            <a href="{{ route('admin.possible.users.index.contacted', $posible['id']) }}"><span class="badge bg-light-info text-info w-100">Pendiente</span></a>
+                                        @endif
+                                    </td>
                                 </tr>
                         @endforeach
 
                         </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>Id</th>
-                            <th>Correo</th>
-                            <th>Telefono</th>
-                            <th>Es usaurio?</th>
-                            <th>Nombre usuario</th>
-                            <th>Propiedad</th>
-                        </tr>
-                        </tfoot>
+
                     </table>
                 </div>
             </div>

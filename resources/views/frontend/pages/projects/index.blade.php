@@ -1,584 +1,269 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
     <link rel="stylesheet" href="{{ asset('css/color.css') }}">
+    <style>
+        .marker {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            background-color: #08abc4;
+            border-radius: 50%;
+            cursor: pointer;
+        }
 
+        .marker::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+
+        .marker:hover {
+            background-color: #08abc4;
+        }
+
+        .info-window {
+            max-width: 300px;
+            min-height: 250px;
+        }
+
+        .info-window img {
+            width: 100%;
+            height: auto;
+            pposition: absolute;
+        }
+        .info-window .rate-info{
+            display: block;
+            position: relative;
+            bottom:0;
+            background-color: rgba(255,255,255,0.8);
+        }
+
+        #map-canvas {
+            margin: 0;
+            padding: 0;
+            height: 400px;
+            max-width: none;
+        }
+        #map-canvas img {
+            max-width: none !important;
+        }
+        .gm-style-iw-d {
+            width: 350px !important;
+            top: 15px !important;
+            left: 0px !important;
+            background-color: #fff;
+            box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+            border: 1px solid rgba(72, 181, 233, 0.6);
+            border-radius: 2px 2px 10px 10px;
+        }
+        #iw-container {
+            margin-bottom: 10px;
+        }
+        #iw-container .iw-title {
+            font-size: 22px;
+            font-weight: 400;
+            padding: 10px;
+            background-color: #08abc4;
+            color: white;
+            margin: 0;
+            border-radius: 2px 2px 0 0;
+        }
+        #iw-container .iw-content {
+            font-size: 13px;
+            line-height: 18px;
+            font-weight: 400;
+            margin-right: 1px;
+            padding: 15px 5px 20px 15px;
+            max-height: 140px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .iw-content img {
+            float: right;
+            width: 100%;
+            margin: 0 5px 5px 10px;
+        }
+        .iw-subTitle {
+            font-size: 16px;
+            font-weight: 700;
+            padding: 5px 0;
+        }
+        .iw-bottom-gradient {
+            position: absolute;
+            width: 326px;
+            height: 25px;
+            bottom: 10px;
+            right: 18px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+            background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+            background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+            background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        }
+    </style>
 @endpush
 @push('script')
     <script src="{{ asset('front/assets/js/product-filter.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAX9rEY00ajicFc0JZbwK4i-3HOQMBV78"></script>
-    <script src="{{ asset('js/infobox.min.js') }}"></script>
     <script src="{{ asset('js/markerclusterer.js') }}"></script>
-    <script src="{{ asset('js/maps.js') }}"></script>
-    <script>
+    <script type="text/javascript">
+        function initMap() {
 
-        !function (e) {
-            "use strict";
+            const locations = <?php echo json_encode($projectsMap) ?>;
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 3,
+                scrollwheel: true,
+                center: {lat: -16.505749299757916, lng: -68.11958248614235},
+                mapTypeId: "roadmap",
+                zoomControl: false,
+                mapTypeControl: false,
+                scaleControl: false,
+                panControl: false,
+                navigationControl: false,
+                streetViewControl: false,
+                gestureHandling: "cooperative",
+                styles: [{
+                    featureType: "water",
+                    elementType: "geometry",
+                    stylers: [{/* color: "#e9e9e9" */}, {lightness: 17}]
+                }, {
+                    featureType: "landscape",
+                    elementType: "geometry",
+                    stylers: [{/* color: "#f5f5f5" */}, {lightness: 20}]
+                }, {
+                    featureType: "road.highway",
+                    elementType: "geometry.fill",
+                    stylers: [{/* color: "#ffffff" */}, {lightness: 17}]
+                }, {
+                    featureType: "road.highway",
+                    elementType: "geometry.stroke",
+                    stylers: [{/* color: "#ffffff" */}, {lightness: 29}, {weight: .2}]
+                }, {
+                    featureType: "road.arterial",
+                    elementType: "geometry",
+                    stylers: [{/* color: "#ffffff" */}, {lightness: 18}]
+                }, {
+                    featureType: "road.local",
+                    elementType: "geometry",
+                    stylers: [{/* color: "#ffffff" */}, {lightness: 16}]
+                }, {
+                    featureType: "poi",
+                    elementType: "geometry",
+                    stylers: [{/* color: "#f5f5f5" */}, {lightness: 21}]
+                }, {
+                    featureType: "poi.park",
+                    elementType: "geometry",
+                    stylers: [{/* color: "#dedede" */}, {lightness: 21}]
+                }, {
+                    elementType: "labels.text.stroke",
+                    stylers: [{visibility: "on"}, {/* color: "#ffffff" */}, {lightness: 16}]
+                }, {
+                    elementType: "labels.text.fill",
+                    stylers: [{saturation: 36}, {/* color: "#333333" */}, {lightness: 40}]
+                }, {elementType: "labels.icon", stylers: [{visibility: "off"}]}, {
+                    featureType: "transit",
+                    elementType: "geometry",
+                    stylers: [{/* color: "#f2f2f2" */}, {lightness: 19}]
+                }, {
+                    featureType: "administrative",
+                    elementType: "geometry.fill",
+                    stylers: [{/* color: "#fefefe" */}, {lightness: 20}]
+                }, {
+                    featureType: "administrative",
+                    elementType: "geometry.stroke",
+                    stylers: [{/* color: "#fefefe" */}, {lightness: 17}, {weight: 1.2}]
+                }]
+            });
+            const infoWindow = new google.maps.InfoWindow();
+            const bounds = new google.maps.LatLngBounds();
+            const markers = []; // Create an array to store the markers
 
-            function t() {
-                var t = new InfoBox;
+            for (const location of locations) {
+                // console.log(location)
+                // alert(location.latitude);
+                // alert(parseFloat(location.latitude) + parseFloat(0.0002));
+                const latitudeFinal = parseFloat(location.latitude) - parseFloat(0.0003);
+                const longitudeFinal = parseFloat(location.longitude) - parseFloat(0.0003);
+                const marker = new google.maps.Marker({
 
-                function o(e, t, o, l, i, s, p) {
-                    return '<a href="' + e + '" class="listing-img-container">' +
-                        '<div class="infoBox-close"><i class="fa fa-times"></i></div>' +
-                        '<img src="' + t + '" alt="">' +
-                        '<div class="rate-info"> ' +
-                        '<h5>' + i + ' ' + s + '</h5>' +
-                        '<span>' + p + '</span> ' +
-                        '</div>' +
-                        '<div class="listing-item-content">' +
-                        '<h3>' + o + "</h3>" +
-                        "<span><i class='la la-map-marker'></i>" + l + "</span>" +
-                        "</div>" +
-                        "</a>"
-                }
+                    // position: new google.maps.LatLng(location.latitude, location.longitude),
+                    position: new google.maps.LatLng(latitudeFinal, longitudeFinal),
+                    map: map,
+                    icon: {
+                        url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg width="800px" height="800px" viewBox="0 -0.5 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="si-glyph si-glyph-house">  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g transform="translate(1.000000, 1.000000)" fill="#434343"> <path d="M15.794,7.77 L11.984,3.864 L11.9839997,1.01706251 L11.0159997,1.03906251 L11.016,2.767 L8.502,0.245 C8.224,-0.031 7.776,-0.031 7.499,0.245 L0.206,7.771 C-0.069,8.048 -0.068,8.498 0.206,8.773 C0.482,9.049 0.933,9.049 1.209,8.772 L8,1.982 L14.793,8.772 C14.931,8.91 15.111,8.98 15.293,8.98 C15.474,8.98 15.654,8.912 15.794,8.773 C16.068,8.496 16.068,8.045 15.794,7.77 L15.794,7.77 Z" class="si-glyph-fill"> </path> <path d="M3.043,8.532 L3.043,14.222 C3.043,14.616 3.26102394,15.0078125 3.61002394,15.0078125 L5.88702394,15.0078125 L5.95099996,11.0147705 L10.0249632,11.0147705 L10.0230128,15.0078125 L12.3260496,15.0078125 C12.6750496,15.0078125 12.958,14.617 12.958,14.222 L12.958,8.531 L8,3.625 L3.043,8.532 L3.043,8.532 Z" class="si-glyph-fill"> </path> </g> </g> </svg>'),
+                        scaledSize: new google.maps.Size(30, 30),
+                    },
+                });
 
-                var l = [
-                            @php $var = 1 @endphp
-                            @foreach($featuredProperties as $property)
-                        [
-                            o("/properties/inner/{{ $property->id }}",
-                                "{{ (!empty($property->thumbnail)) ? url('upload/properties/' .  $property->code . "/" . $property->thumbnail) : url('upload/No_Image_Available.jpg') }}",
-                                "{{ $property->name }}",
-                                "{{ $property->address }}",
-                                "{{ $property->lowest_price }}",
-                                "{{ $property->currency }}",
-                                "{{ $property->property_status }}",
-                            ),
-                            {{ $property->latitude }},
-                            {{ $property->longitude }},
-                            {{ $var }},
-                            '<i class="{{ $property['type']['type_icon'] }}"></i>'],
-                        @php $var++ @endphp
-                        @endforeach
-                    ],
-                    i = e("#map").attr("data-map-zoom"),
-                    a = e("#map").attr("data-map-scroll");
-                if (void 0 !== i && !1 !== i) var n = parseInt(i);
-                else n = 10;
-                if (void 0 !== a && !1 !== a) var r = parseInt(a);
-                else r = !1;
-                var m = new google.maps.Map(document.getElementById("map"), {
-                        zoom: n,
-                        scrollwheel: r,
-                        center: new google.maps.LatLng(-16.505749299757916, -68.11958248614235),
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        zoomControl: !1,
-                        mapTypeControl: !1,
-                        scaleControl: !1,
-                        panControl: !1,
-                        navigationControl: !1,
-                        streetViewControl: !1,
-                        gestureHandling: "cooperative",
-                        styles: [{
-                            featureType: "water", elementType: "geometry", stylers: [{
-                                // color: "#e9e9e9"
-                            }
-                                , {
-                                    lightness: 17
-                                }
-                            ]
-                        }
-                            , {
-                                featureType: "landscape", elementType: "geometry", stylers: [{
-                                    // color: "#f5f5f5"
-                                }
-                                    , {
-                                        lightness: 20
-                                    }
-                                ]
-                            }
-                            , {
-                                featureType: "road.highway", elementType: "geometry.fill", stylers: [{
-                                    // color: "#ffffff"
-                                }
-                                    , {
-                                        lightness: 17
-                                    }
-                                ]
-                            }
-                            , {
-                                featureType: "road.highway", elementType: "geometry.stroke", stylers: [{
-                                    // color: "#ffffff"
-                                }
-                                    , {
-                                        lightness: 29
-                                    }
-                                    , {
-                                        weight: .2
-                                    }
-                                ]
-                            }
-                            , {
-                                featureType: "road.arterial", elementType: "geometry", stylers: [{
-                                    // color: "#ffffff"
-                                }
-                                    , {
-                                        lightness: 18
-                                    }
-                                ]
-                            }
-                            , {
-                                featureType: "road.local", elementType: "geometry", stylers: [{
-                                    // color: "#ffffff"
-                                }
-                                    , {
-                                        lightness: 16
-                                    }
-                                ]
-                            }
-                            , {
-                                featureType: "poi", elementType: "geometry", stylers: [{
-                                    // color: "#f5f5f5"
-                                }
-                                    , {
-                                        lightness: 21
-                                    }
-                                ]
-                            }
-                            , {
-                                featureType: "poi.park", elementType: "geometry", stylers: [{
-                                    // color: "#dedede"
-                                }
-                                    , {
-                                        lightness: 21
-                                    }
-                                ]
-                            }
-                            , {
-                                elementType: "labels.text.stroke", stylers: [{
-                                    visibility: "on"
-                                }
-                                    , {
-                                        // color: "#ffffff"
-                                    }
-                                    , {
-                                        lightness: 16
-                                    }
-                                ]
-                            }
-                            , {
-                                elementType: "labels.text.fill", stylers: [{
-                                    saturation: 36
-                                }
-                                    , {
-                                        // color: "#333333"
-                                    }
-                                    , {
-                                        lightness: 40
-                                    }
-                                ]
-                            }
-                            , {
-                                elementType: "labels.icon", stylers: [{
-                                    visibility: "off"
-                                }
-                                ]
-                            }
-                            , {
-                                featureType: "transit", elementType: "geometry", stylers: [{
-                                    // color: "#f2f2f2"
-                                }
-                                    , {
-                                        lightness: 19
-                                    }
-                                ]
-                            }
-                            , {
-                                featureType: "administrative", elementType: "geometry.fill", stylers: [{
-                                    // color: "#fefefe"
-                                }
-                                    , {
-                                        lightness: 20
-                                    }
-                                ]
-                            }
-                            , {
-                                featureType: "administrative", elementType: "geometry.stroke", stylers: [{
-                                    // color: "#fefefe"
-                                }
-                                    , {
-                                        lightness: 17
-                                    }
-                                    , {
-                                        weight: 1.2
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                );
-                e(".listing-item-container").on("mouseover", function () {
-                        if (void 0 !== e(this).data("marker-id")) {
-                            var t = e(this).data("marker-id") - 1, o = f[t].div;
-                            e(o).addClass("clicked"), e(this).on("mouseout", function () {
-                                    e(o).is(":not(.infoBox-opened)") && e(o).removeClass("clicked")
-                                }
-                            )
-                        }
-                    }
-                );
-                var g = document.createElement("div");
-                g.className = "map-box";
-                var p,
-                    c,
-                    d = {
-                        content: g,
-                        disableAutoPan: !1,
-                        alignBottom: !0,
-                        maxWidth: 0,
-                        pixelOffset: new google.maps.Size(-148, -55),
-                        zIndex: null,
-                        boxStyle: {
-                            width: "295px"
-                        }
-                        ,
-                        closeBoxMargin: "0",
-                        closeBoxURL: "",
-                        infoBoxClearance: new google.maps.Size(25, 25),
-                        isHidden: !1,
-                        pane: "floatPane",
-                        enableEventPropagation: !1
-                    }
-                    ,
-                    f = [];
-                for (p = 0;
-                     p < l.length;
-                     p++) {
-                    c = l[p][4];
-                    var y = new s(new google.maps.LatLng(l[p][1], l[p][2]), m, {
-                            marker_id: p
-                        }
-                        , c);
-                    f.push(y),
-                        google.maps.event.addDomListener(y, "click", function (o, i) {
-                            return function () {
-                                var open = false;
-                                if (typeof l[i].open != 'undefined')
-                                    open = l[i].open;
+                bounds.extend(marker.position);
+                markers.push(marker);
 
-                                jQuery.each(l, function () {
-                                    this.open = false;
-                                })
+                const content = `<div id="iw-container">
+                <a href="/properties/inner/${location.id}">
+                    <div class="iw-title">${location.name}</div>
+                    <img src="upload/properties/${location.code}/${location.thumbnail}" alt="">
+                </a>
+                <div class="iw-content">
+                    <div class="iw-subTitle">${location.property_status}</div>
+                    <h5>${location.max_price} ${location.currency}</h5>
+                    <p>${location.short_description}</p>
+                </div>
+                <div class="iw-bottom-gradient"></div>
+            </div>`;
 
-                                t.close();
-                                if (open) {
-                                    l[i].open = false;
-                                    return false;
-                                }
-                                l[i].open = true;
+                const circle = new google.maps.Circle({
+                    strokeColor: "#08abc4",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: "#08abc4",
+                    fillOpacity: 0.35,
+                    map: map,
+                    center: marker.getPosition(),
+                    radius: 150,
+                });
 
-                                t.setOptions(d), g.innerHTML = l[i][0], t.open(m, o), l[i][3], google.maps.event.addListener(t, "domready", function () {
-                                        e(".infoBox-close").click(function (o) {
-                                                o.preventDefault(), t.close(), e(".map-marker-container").removeClass("clicked infoBox-opened")
-                                            }
-                                        )
-                                    }
-                                )
-                            }
-                        }
-                        (y, p))
-                }
-                new MarkerClusterer(m, f, {
-                        imagePath: "images/", styles: [{
-                            textColor: "white", url: "", height: 50, width: 50
-                        }
-                        ], minClusterSize: 2
-                    }
-                ),
-                    google.maps.event.addDomListener(window, "resize", function () {
-                            var e = m.getCenter();
-                            google.maps.event.trigger(m, "resize"), m.setCenter(e)
-                        }
-                    );
-                var u = document.createElement("div");
-                new function (e, t) {
-                    u.index = 1,
-                        t.controls[google.maps.ControlPosition.RIGHT_CENTER].push(u),
-                        e.style.padding = "5px",
-                        e.className = "zoomControlWrapper";
-                    var o = document.createElement("div");
-                    e.appendChild(o);
-                    var l = document.createElement("div");
-                    l.className = "custom-zoom-in",
-                        o.appendChild(l);
-                    var i = document.createElement("div");
-                    i.className = "custom-zoom-out",
-                        o.appendChild(i),
-                        google.maps.event.addDomListener(l, "click", function () {
-                                t.setZoom(t.getZoom() + 1)
-                            }
-                        ),
-                        google.maps.event.addDomListener(i, "click", function () {
-                                t.setZoom(t.getZoom() - 1)
-                            }
-                        )
-                }
-                (u, m);
-                var v = e("#scrollEnabling");
-                e(v).click(function (t) {
-                        t.preventDefault(), e(this).toggleClass("enabled"), e(this).is(".enabled") ? m.setOptions({
-                                scrollwheel: !0
-                            }
-                        ) : m.setOptions({
-                                scrollwheel: !1
-                            }
-                        )
-                    }
-                ),
-                    e("#geoLocation, .input-with-icon.location a").click(function (e) {
-                            e.preventDefault(), navigator.geolocation && navigator.geolocation.getCurrentPosition(function (e) {
-                                    var t = new google.maps.LatLng(e.coords.latitude, e.coords.longitude);
-                                    m.setCenter(t), m.setZoom(12)
-                                }
-                            )
-                        }
-                    )
+                google.maps.event.addListener(marker, "click", (function (marker, location) {
+                    return function () {
+                        infoWindow.setContent(content);
+                        infoWindow.open(map, marker);
+                    };
+                })(marker, location));
             }
 
-            var o = document.getElementById("map");
-
-            function l() {
-                var t = new google.maps.LatLng({
-                            lng: e("#singleListingMap").data("longitude"), lat: e("#singleListingMap").data("latitude")
-                        }
-                    ),
-                    o = new google.maps.Map(document.getElementById("singleListingMap"), {
-                            zoom: 15,
-                            center: t,
-                            scrollwheel: !1,
-                            zoomControl: !1,
-                            mapTypeControl: !1,
-                            scaleControl: !1,
-                            panControl: !1,
-                            navigationControl: !1,
-                            streetViewControl: !1,
-                            styles: [{
-                                featureType: "poi", elementType: "labels.text.fill", stylers: [{
-                                    color: "#747474"
-                                }
-                                    , {
-                                        lightness: "23"
-                                    }
-                                ]
-                            }
-                                , {
-                                    featureType: "poi.attraction", elementType: "geometry.fill", stylers: [{
-                                        color: "#f38eb0"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "poi.government", elementType: "geometry.fill", stylers: [{
-                                        color: "#ced7db"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "poi.medical", elementType: "geometry.fill", stylers: [{
-                                        color: "#ffa5a8"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "poi.park", elementType: "geometry.fill", stylers: [{
-                                        color: "#c7e5c8"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "poi.place_of_worship", elementType: "geometry.fill", stylers: [{
-                                        color: "#d6cbc7"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "poi.school", elementType: "geometry.fill", stylers: [{
-                                        color: "#c4c9e8"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "poi.sports_complex", elementType: "geometry.fill", stylers: [{
-                                        color: "#b1eaf1"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road", elementType: "geometry", stylers: [{
-                                        lightness: "100"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road", elementType: "labels", stylers: [{
-                                        visibility: "off"
-                                    }
-                                        , {
-                                            lightness: "100"
-                                        }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road.highway", elementType: "geometry.fill", stylers: [{
-                                        color: "#ffd4a5"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road.arterial", elementType: "geometry.fill", stylers: [{
-                                        color: "#ffe9d2"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road.local", elementType: "all", stylers: [{
-                                        visibility: "simplified"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road.local", elementType: "geometry.fill", stylers: [{
-                                        weight: "3.00"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road.local", elementType: "geometry.stroke", stylers: [{
-                                        weight: "0.30"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road.local", elementType: "labels.text", stylers: [{
-                                        visibility: "on"
-                                    }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road.local", elementType: "labels.text.fill", stylers: [{
-                                        color: "#747474"
-                                    }
-                                        , {
-                                            lightness: "36"
-                                        }
-                                    ]
-                                }
-                                , {
-                                    featureType: "road.local", elementType: "labels.text.stroke", stylers: [{
-                                        color: "#e9e5dc"
-                                    }
-                                        , {
-                                            lightness: "30"
-                                        }
-                                    ]
-                                }
-                                , {
-                                    featureType: "transit.line", elementType: "geometry", stylers: [{
-                                        visibility: "on"
-                                    }
-                                        , {
-                                            lightness: "100"
-                                        }
-                                    ]
-                                }
-                                , {
-                                    featureType: "water", elementType: "all", stylers: [{
-                                        color: "#d2e7f7"
-                                    }
-                                    ]
-                                }
-                            ]
-                        }
-                    );
-                e("#streetView").click(function (e) {
-                        e.preventDefault(), o.getStreetView().setOptions({
-                                visible: !0, position: t
-                            }
-                        )
-                    }
-                );
-                var l = document.createElement("div");
-
-                new function (e, t) {
-                    l.index = 1,
-                        t.controls[google.maps.ControlPosition.RIGHT_CENTER].push(l),
-                        e.style.padding = "5px";
-                    var o = document.createElement("div");
-                    e.appendChild(o);
-                    var i = document.createElement("div");
-                    i.className = "custom-zoom-in",
-                        o.appendChild(i);
-                    var s = document.createElement("div");
-                    s.className = "custom-zoom-out",
-                        o.appendChild(s),
-                        google.maps.event.addDomListener(i, "click", function () {
-                                t.setZoom(t.getZoom() + 1)
-                            }
-                        ),
-                        google.maps.event.addDomListener(s, "click", function () {
-                                t.setZoom(t.getZoom() - 1)
-                            }
-                        )
-                }
-                (l, o);
-                var i = "<i class='" + e("#singleListingMap").data("map-icon") + "'></i>";
-                new s(t, o, {
-                        marker_id: "1"
-                    }
-                    , i)
-            }
-
-            void 0 !== o && null != o && (google.maps.event.addDomListener(window, "load", t), google.maps.event.addDomListener(window, "resize", t));
-            var i = document.getElementById("singleListingMap");
-
-            function s(e, t, o, l) {
-                this.latlng = e,
-                    this.args = o,
-                    this.markerIco = l,
-                    this.setMap(t)
-            }
-
-            void 0 !== i && null != i && (google.maps.event.addDomListener(window, "load", l), google.maps.event.addDomListener(window, "resize", l)),
-                s.prototype = new google.maps.OverlayView,
-                s.prototype.draw = function () {
-                    var t = this,
-                        o = this.div;
-                    o || ((o = this.div = document.createElement("div")).className = "map-marker-container", o.innerHTML = '<div class="marker-container"><div class="marker-card"><div class="front face">' + t.markerIco + '</div><div class="back face">' + t.markerIco + '</div><div class="marker-arrow"></div></div></div>', google.maps.event.addDomListener(o, "click", function (o) {
-                            var open = false;
-                            if (e(this).hasClass("infoBox-opened"))
-                                open = true;
-                            e(".map-marker-container").removeClass("clicked infoBox-opened"),
-                                google.maps.event.trigger(t, "click");
-                            if (!open) {
-                                e(this).addClass("clicked infoBox-opened");
-                            }
-                        }
-                    ), void 0 !== t.args.marker_id && (o.dataset.marker_id = t.args.marker_id), this.getPanes().overlayImage.appendChild(o));
-                    var l = this.getProjection().fromLatLngToDivPixel(this.latlng);
-                    l && (o.style.left = l.x + "px", o.style.top = l.y + "px")
-                }
-                ,
-                s.prototype.remove = function () {
-                    this.div && (this.div.parentNode.removeChild(this.div), this.div = null, e(this).removeClass("clicked"))
-                }
-                ,
-                s.prototype.getPosition = function () {
-                    return this.latlng
-                }
+            new MarkerClusterer(map, markers, {
+                imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+                gridSize: 60,
+                styles: [{
+                    textColor: "white",
+                    url: "",
+                    height: 50,
+                    width: 50
+                }],
+                minClusterSize: 2
+            });
+            map.fitBounds(bounds);
         }
 
-        (this.jQuery);
-
     </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAX9rEY00ajicFc0JZbwK4i-3HOQMBV78&callback=initMap"></script>
 @endpush
 
 <x-front-layout>
+{{--    @dd($featuredProperties)--}}
 
     @include('frontend.pages.projects.headerList')
 
     <section id="map-container" class="fullwidth-home-map hp3" style="height: 490px">
         <h3 class="vis-hid" style="">Visible Heading</h3>
         <div id="map" data-map-zoom="9"></div>
+
+        <div class="map height-450px" id="map-homepage" style="height: 450px"></div>
     </section>
 
 

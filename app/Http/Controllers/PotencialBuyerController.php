@@ -34,10 +34,12 @@ class PotencialBuyerController extends Controller
                 'email' => $posible->email,
                 'phone' => $posible->phone,
                 'is_user' => $isUser,
+                'response' => $posible->reponse,
                 'property_name' => $propertyNames->get($posible->property_id, ''),
                 'user_name' => $isUser ? $userName . ' ' . $userLastName : '-',
             ];
 
+//            dd($query);
             $sql = $posible->toSql();
 
             return $query;
@@ -47,6 +49,16 @@ class PotencialBuyerController extends Controller
         return view('backend.users.potential.index', [
             'values' => $matrix,
         ]);
+    }
+
+    public function contacted($id)
+    {
+        $contact = Validation::find($id);
+        $status = ($contact->reponse == "1") ? "0" : "1";
+        $contact->reponse = $status;
+        $contact->save();
+        toastr()->success('Usuario contactado', '!Ok!');
+        return redirect()->back();
     }
 
 

@@ -183,6 +183,7 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::post('/admin/packages/users/edit/info', [PackagePlanController::class, 'EditPackage'])->name('admin.packages.users.edit.info');
 
     Route::get('admin/posible/users/index', [PotencialBuyerController::class, 'index'])->name('admin.possible.users.index');
+    Route::get('admin/posible/users/index/contacted/{id}', [PotencialBuyerController::class, 'contacted'])->name('admin.possible.users.index.contacted');
     Route::get('admin/posible/users/contact', [PotencialBuyerController::class, 'contact'])->name('admin.possible.users.contact');
     Route::post('admin/posible/users/contact', [PotencialBuyerController::class, 'sendEmail']);
     Route::post('admin/posible/users/contact/whatsapp', [PotencialBuyerController::class, 'sendWhatsapp'])->name('admin.possible.users.contact.whatsapp');
@@ -195,7 +196,12 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::post('/admin/properties/sold/status', [PropertyController::class, 'propertieChangeStatus'])->name('admin.properties.sold.status');
 
 
-
+    Route::get('/admin/project/inactives', [ProjectController::class, 'inactives'])->name('admin.project.inactives');
+    Route::get('/admin/project/cancelled', [ProjectController::class, 'cancelled'])->name('admin.project.cancelled');
+    Route::post('/admin/project/activate', [ProjectController::class, 'activate'])->name('admin.project.activate');
+    Route::get('/admin/project/delete', [ProjectController::class, 'destroy'])->name('admin.project.delete');
+    Route::get('/admin/project/sale', [ProjectController::class, 'sale'])->name('admin.project.sale');
+    Route::post('/admin/project/sold/status', [ProjectController::class, 'propertieChangeStatus'])->name('admin.project.sold.status');
 
 });
 
@@ -237,9 +243,9 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function
     Route::post('/admin/project/add/facility', [ProjectController::class, 'addFacility'])->name('admin.project.add.facility');
     Route::post('/admin/project/delete/facility', [ProjectController::class, 'deleteFacility'])->name('admin.project.delete.facility');
     Route::post('/admin/project/edit/amenities', [ProjectController::class, 'editAmenities'])->name('admin.project.edit.amenities');
-    Route::get('/admin/project/delete', [ProjectController::class, 'destroy'])->name('admin.project.delete');
 
-
+    Route::get('/admin/project/own', [ProjectController::class, 'own'])->name('admin.project.own');
+    Route::get('/admin/project/sold', [ProjectController::class, 'sold'])->name('admin.project.sold');
 
 
 

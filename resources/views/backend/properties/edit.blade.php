@@ -13,7 +13,8 @@
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="{{ asset('backend/assets/js/images.js') }}"></script>
     <script src="{{ asset('backend/assets/js/map.js') }}"></script>
-    <script src="https://cdn.tiny.cloud/1/re4uruckxqfo50nmp3ncosr662wltukbdjx1o6yf5cnh6rzs/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/re4uruckxqfo50nmp3ncosr662wltukbdjx1o6yf5cnh6rzs/tinymce/6/tinymce.min.js"
+            referrerpolicy="origin"></script>
 
     <script>
         tinymce.init({
@@ -310,7 +311,7 @@
                                                                             :messages="$errors->get('property_status')"
                                                                             class="mt-2"/>
                                                                     </div>
-                                                                    <div class="col-12 col-lg-4">
+                                                                    <div class="col-12 col-lg-3">
                                                                         <label for="currency"
                                                                                class="form-label">Moneda</label>
                                                                         <div class="input-group">
@@ -330,7 +331,7 @@
                                                                                 class="mt-2"/>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-12 col-lg-4">
+                                                                    <div class="col-12 col-lg-3">
                                                                         <label for="lowest_price" class="form-label">Precio
                                                                             minimo</label>
                                                                         <div class="input-group">
@@ -348,7 +349,7 @@
                                                                                 class="mt-2"/>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-12 col-lg-4">
+                                                                    <div class="col-12 col-lg-3">
                                                                         <label for="max_price" class="form-label">Precio
                                                                             Máximo</label>
                                                                         <div class="input-group">
@@ -363,6 +364,27 @@
                                                                         <x-input-error
                                                                             :messages="$errors->get('max_price')"
                                                                             class="mt-2"/>
+                                                                    </div>
+                                                                    <div class="col-12 col-lg-3">
+                                                                        <label for="chosen_currency"
+                                                                               class="form-label">¿Precio?</label>
+                                                                        <div class="input-group">
+                                                                            <select class="form-select"
+                                                                                    id="chosen_currency"
+                                                                                    name="chosen_currency">
+                                                                                <option
+                                                                                    {{ $selectedCR = ($property->chosen_currency == '0') ? "selected='selected'" : "" }} value="0">
+                                                                                    Minimo
+                                                                                </option>
+                                                                                <option
+                                                                                    {{ $selectedCR = ($property->chosen_currency == '1') ? "selected='selected'" : "" }} value="1">
+                                                                                    Maximo
+                                                                                </option>
+                                                                            </select>
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('chosen_currency')"
+                                                                                class="mt-2"/>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <label for="bedrooms" class="form-label">#
@@ -535,30 +557,58 @@
                                                                                 class="mt-2"/>
                                                                         </div>
 
-                                                                        <div class="col-12">
-                                                                            <label for="status"
-                                                                                   class="form-label">Estado</label>
-                                                                            <select id="status" name="status"
-                                                                                    class="form-select" required>
-                                                                                <option
-                                                                                    {{ $selectedTS = ($property->status == 1) ? "selected='selected'" : "" }} value="1">
-                                                                                    Publicado
-                                                                                </option>
-                                                                                <option
-                                                                                    {{ $selectedTS = ($property->status == 0) ? "selected='selected'" : "" }} value="0">
-                                                                                    Inactivo
-                                                                                </option>
-                                                                                <option
-                                                                                    {{ $selectedTS = ($property->status == 2) ? "selected='selected'" : "" }} value="2">
-                                                                                    Cancelada
-                                                                                </option>
-                                                                            </select>
-                                                                            <x-input-error
-                                                                                :messages="$errors->get('status')"
-                                                                                class="mt-2"/>
-                                                                        </div>
-                                                                    @endif
+                                                                        @if(Auth::user()->role === 'admin')
 
+                                                                            <div class="col-12">
+                                                                                <label for="agent_id"
+                                                                                       class="form-label">Agente</label>
+                                                                                @php
+                                                                                    $blocked   = (Auth::user()->role === 'agent') ? "disabled" : "";
+                                                                                @endphp
+                                                                                <select id="agent_id" name="agent_id"
+                                                                                        class="form-select"
+                                                                                        required {{ $blocked }}>
+                                                                                    @foreach($agents as $agent)
+                                                                                        @php
+                                                                                            $selected2 = "";
+                                                                                            if($agent->id == $property->agent_id){
+                                                                                                $selected2 = "selected='selected'";
+                                                                                            }
+                                                                                        @endphp
+                                                                                        <option {{  $selected2 }}
+                                                                                                value="{{ $agent->id }}">{{ $agent->name }} {{ $agent->lastname }}</option>
+                                                                                    @endforeach
+                                                                                </select>
+                                                                                <x-input-error
+                                                                                    :messages="$errors->get('agent_id')"
+                                                                                    class="mt-2"/>
+                                                                            </div>
+
+
+                                                                            <div class="col-12">
+                                                                                <label for="status"
+                                                                                       class="form-label">Estado</label>
+                                                                                <select id="status" name="status"
+                                                                                        class="form-select" required>
+                                                                                    <option
+                                                                                        {{ $selectedTS = ($property->status == 1) ? "selected='selected'" : "" }} value="1">
+                                                                                        Publicado
+                                                                                    </option>
+                                                                                    <option
+                                                                                        {{ $selectedTS = ($property->status == 0) ? "selected='selected'" : "" }} value="0">
+                                                                                        Inactivo
+                                                                                    </option>
+                                                                                    <option
+                                                                                        {{ $selectedTS = ($property->status == 2) ? "selected='selected'" : "" }} value="2">
+                                                                                        Cancelada
+                                                                                    </option>
+                                                                                </select>
+                                                                                <x-input-error
+                                                                                    :messages="$errors->get('status')"
+                                                                                    class="mt-2"/>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endif
                                                                 </div><!--end row-->
                                                             </div>
                                                         </div>

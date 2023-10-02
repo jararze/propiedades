@@ -26,7 +26,32 @@
     <script
         src="{{ asset ('backend/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js') }}"></script>
     <script src="{{ asset ('backend/assets/js/form-date-time-pickes.js') }}"></script>
+    <script src="https://cdn.tiny.cloud/1/re4uruckxqfo50nmp3ncosr662wltukbdjx1o6yf5cnh6rzs/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
     <script>
+        tinymce.init({
+            selector: 'textarea#long_description',
+            plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons accordion',
+            menubar: 'file edit view insert format tools table help',
+            toolbar: "undo redo  | blocks fontsize | bold italic underline strikethrough | align numlist bullist | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code preview | save print",
+            // toolbar: "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl",
+            language: "es",
+            quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+            toolbar_mode: 'sliding',
+        });
+    </script>
+
+    <script>
+
+        var Privileges = jQuery('#facility_name');
+        var select = this.value;
+        Privileges.change(function () {
+            if ($(this).val() != 'NH') {
+                $('#nameFac').attr("required", "required");
+            }
+            else $('#nameFac').removeAttr("required");
+        });
+
         function toggle() {
             var x = document.getElementById("map");
             if (x.style.display === "none") {
@@ -219,7 +244,7 @@
                                                                        class="mt-2"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
                                                     <label for="currency" class="form-label">Moneda</label>
                                                     <div class="input-group">
                                                         <select class="form-select" id="currency"
@@ -231,7 +256,7 @@
                                                                        class="mt-2"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
                                                     <label for="lowest_price" class="form-label">Monto Base</label>
                                                     <div class="input-group">
                                                         <input value="{{ old('lowest_price') }}" id="lowest_price"
@@ -244,7 +269,7 @@
                                                                        class="mt-2"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
                                                     <label for="max_price" class="form-label">Monto Maximo</label>
                                                     <div class="input-group">
                                                         <input value="{{ old('max_price') }}" id="max_price"
@@ -254,6 +279,18 @@
                                                         <span class="input-group-text currency_icon">Bs</span>
                                                     </div>
                                                     <x-input-error :messages="$errors->get('max_price')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-12 col-lg-3">
+                                                    <label for="chosen_currency" class="form-label">¿Precio?</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select" id="chosen_currency"
+                                                                name="chosen_currency">
+                                                            <option value="0">Minimo</option>
+                                                            <option value="1">Maximo</option>
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('chosen_currency')"
+                                                                       class="mt-2"/>
+                                                    </div>
                                                 </div>
                                                 <div class="col-12 col-lg-12">
                                                     <label for="thumbnail" class="form-label">Imagen Principal</label>
@@ -493,7 +530,8 @@
                                                     <label for="status" class="form-label">Estado</label>
                                                     <select id="status" name="status" class="form-select" required>
                                                         <option value="1">Publicado</option>
-                                                        <option value="0">No activo</option>
+                                                        <option value="0">Inactivo</option>
+                                                        <option value="2">Cancelado</option>
                                                     </select>
                                                     <x-input-error :messages="$errors->get('status')" class="mt-2"/>
                                                 </div>

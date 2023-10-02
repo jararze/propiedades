@@ -171,7 +171,11 @@
             <div class="menu-title">Proyectos</div>
         </a>
         <ul>
-            <li><a href="{{ route('admin.project.index') }}"><i class="bi bi-circle"></i>Listado</a></li>
+            <li><a href="{{ route('admin.project.index') }}"><i class="bi bi-circle"></i>Todos</a></li>
+            <li><a href="{{ route('admin.project.own') }}"><i class="bi bi-circle"></i>Mias</a></li>
+            <li><a href="{{ route('admin.project.inactives') }}"><i class="bi bi-circle"></i>Inactivas</a></li>
+            <li><a href="{{ route('admin.project.sale') }}"><i class="bi bi-circle"></i>Vendidas/Alquiladas/Etc</a></li>
+            <li><a href="{{ route('admin.project.cancelled') }}"><i class="bi bi-circle"></i>Canceladas</a></li>
             <li><a href="{{ route('admin.project.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
         </ul>
     </li>

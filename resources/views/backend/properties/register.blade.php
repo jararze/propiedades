@@ -240,7 +240,7 @@
                                                     <x-input-error :messages="$errors->get('property_status')"
                                                                    class="mt-2"/>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
                                                     <label for="currency" class="form-label">Moneda</label>
                                                     <div class="input-group">
                                                         <select class="form-select" id="currency"
@@ -252,7 +252,7 @@
                                                                        class="mt-2"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
                                                     <label for="lowest_price" class="form-label">Precio minimo</label>
                                                     <div class="input-group">
                                                         <input value="{{ old('lowest_price') }}" id="lowest_price"
@@ -265,7 +265,7 @@
                                                                        class="mt-2"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
                                                     <label for="max_price" class="form-label">Precio Máximo</label>
                                                     <div class="input-group">
                                                         <input value="{{ old('max_price') }}" id="max_price"
@@ -275,6 +275,18 @@
                                                         <span class="input-group-text currency_icon">Bs</span>
                                                     </div>
                                                     <x-input-error :messages="$errors->get('max_price')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-12 col-lg-3">
+                                                    <label for="chosen_currency" class="form-label">¿Precio?</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select" id="chosen_currency"
+                                                                name="chosen_currency">
+                                                            <option value="0">Minimo</option>
+                                                            <option value="1">Maximo</option>
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('chosen_currency')"
+                                                                       class="mt-2"/>
+                                                    </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <label for="bedrooms" class="form-label"># Habitaciones</label>
@@ -476,6 +488,15 @@
                                                         @endforeach
                                                     </select>
                                                     <x-input-error :messages="$errors->get('agent_id')" class="mt-2"/>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for="status" class="form-label">Estado</label>
+                                                    <select id="status" name="status" class="form-select" required>
+                                                        <option value="1">Publicado</option>
+                                                        <option value="0">Inactivo</option>
+                                                        <option value="2">Cancelado</option>
+                                                    </select>
+                                                    <x-input-error :messages="$errors->get('status')" class="mt-2"/>
                                                 </div>
                                                 <div class="col-12">
                                                     <h5>Amenities</h5>

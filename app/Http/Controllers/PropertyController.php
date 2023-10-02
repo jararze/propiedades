@@ -30,7 +30,7 @@ class PropertyController extends Controller
      */
     public function index(): view
     {
-        $values = Property::where('is_project', "0")->orderBy('updated_at', 'desc')->where('status', "1")->get();
+        $values = Property::where('is_project', "0")->where('status', "1")->orderBy('updated_at', 'desc')->get();
 
         return view('backend.properties.index', [
             'values' => $values,
@@ -240,6 +240,7 @@ class PropertyController extends Controller
             'propertytype_id' => $request->propertytype_id,
             'property_status' => $request->property_status,
             'currency' => $request->currency,
+            'chosen_currency' => $request->chosen_currency,
             'lowest_price' => $request->lowest_price,
             'max_price' => $request->max_price,
             'size' => $request->size,
@@ -391,6 +392,7 @@ class PropertyController extends Controller
         $property->longitude = $request->longitude;
         $property->featured = $featured_var;
         $property->hot = $hot_var;
+        $property->chosen_currency = $request->chosen_currency;
 //        $property->agent_id = $age_id;
         if(Auth::user()->role != 'agent'){
             $property->status = $request->status;
