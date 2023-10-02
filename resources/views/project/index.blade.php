@@ -34,10 +34,6 @@
                                                 <div class="sc_promo_image_wrap">
                                                     <div class="sc_promo_image bg_image_1"
                                                          style="background-image: url('{{ (!empty($property->thumbnail)) ? url('upload/properties/' .  $property->code . "/" . $property->thumbnail) : url('upload/No_Image_Available.jpg') }}') !important;"></div>
-                                                    {{--                                                    <a class="sc_promo_link2" href="#">--}}
-                                                    {{--                                                        <span>More</span>--}}
-                                                    {{--                                                        <span>PHOTO</span>--}}
-                                                    {{--                                                    </a>--}}
                                                 </div>
                                                 <div class="sc_promo_text">
                                                     <div class="sc_promo_text_inner">
@@ -46,18 +42,8 @@
                                                         <h2 class="sc_item_title sc_promo_title sc_align_default sc_item_title_style_default">
                                                             {{ $property->short_description }}</h2>
                                                         <div class="sc_item_descr sc_promo_descr sc_align_default">
-                                                            {{ $property->long_description }}
+                                                            {!! $property->long_description !!}
                                                         </div>
-                                                        {{--                                                        <div--}}
-                                                        {{--                                                            class="sc_item_button sc_item_button_simple sc_promo_button sc_align_default sc_button_wrap">--}}
-                                                        {{--                                                            <a href="#"--}}
-                                                        {{--                                                               class="sc_button sc_button_simple sc_button_size_normal sc_button_icon_left">--}}
-                                                        {{--                                                                        <span class="sc_button_text">--}}
-                                                        {{--																			<span--}}
-                                                        {{--                                                                                class="sc_button_title">Read more</span>--}}
-                                                        {{--                                                                        </span>--}}
-                                                        {{--                                                            </a>--}}
-                                                        {{--                                                        </div>--}}
                                                     </div>
                                                 </div>
                                             </div>

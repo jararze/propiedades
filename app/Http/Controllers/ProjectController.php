@@ -646,7 +646,6 @@ class ProjectController extends Controller
             $property_aminities = explode(",", $property->amenities_id);
         }
         $units = Property::where("project_id", $id)->get();
-//dd($units);
         $multiImages = MultiImage::where('property_id', $id)->get();
         $amenities = Amenities::where('status', 1)->orderBy('name', 'asc')->get();
         $principal_facilities = Facility::orderBy('name', 'asc')->get();
@@ -655,7 +654,7 @@ class ProjectController extends Controller
         $agentPro = User::where('id', 22)->get();
         $allVideos = Property::select("id", "thumbnail", "video", "code", "name")->where('id', $id)->orWhere("project_id", $id)->get();
         $totals = Property::where('project_id', $id)
-            ->selectRaw('SUM(units) as total_units, SUM(bedrooms) as total_bedrooms, SUM(bathrooms) as total_bathrooms, SUM(size) as total_size')
+            ->selectRaw('SUM(units) as total_units, SUM(bedrooms*units) as total_bedrooms, SUM(bathrooms*units) as total_bathrooms, SUM(size) as total_size')
             ->first();
 
         return view('project.index', [

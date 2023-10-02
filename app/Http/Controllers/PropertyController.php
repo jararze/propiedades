@@ -367,7 +367,7 @@ class PropertyController extends Controller
 
 //        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
 
-        $property->is_project = $request->is_project;
+        $property->is_project = 0;
         $property->units = $request->units;
         $property->project_id = $request->project_id;
         $property->name = $request->name;

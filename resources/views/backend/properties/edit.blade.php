@@ -130,11 +130,11 @@
                                                                             <select class="form-select" id="is_project"
                                                                                     name="is_project">
                                                                                 <option
-                                                                                    {{ $selectedTS = ($property->is_project == 0) ? "selected='selected'" : "" }} value="0">
+                                                                                    {{ $selectedTS = ($property->project_id == NULL) ? "selected='selected'" : "" }} value="0">
                                                                                     No
                                                                                 </option>
                                                                                 <option
-                                                                                    {{ $selectedTS = ($property->is_project != 0) ? "selected='selected'" : "" }} value="1">
+                                                                                    {{ $selectedTS = ($property->project_id != 0) ? "selected='selected'" : "" }} value="1">
                                                                                     Si
                                                                                 </option>
                                                                             </select>
@@ -149,7 +149,7 @@
                                                                             <input value="{{ $property->units }}"
                                                                                    id="units" name="units" type="text"
                                                                                    class="form-control"
-                                                                                   placeholder="Unidades" {{ $selectedTS = ($property->is_project == 0) ? "disabled='disabled'" : "" }}>
+                                                                                   placeholder="Unidades" {{ $selectedTS = ($property->project_id == NULL) ? "disabled='disabled'" : "" }}>
                                                                             <x-input-error
                                                                                 :messages="$errors->get('units')"
                                                                                 class="mt-2"/>
@@ -158,7 +158,7 @@
                                                                             <label for="project_id" class="form-label">Proyecto
                                                                                 asociado</label>
                                                                             <select class="form-select" id="project_id"
-                                                                                    name="project_id" {{ $selectedTS = ($property->is_project == 0) ? "disabled='disabled'" : "" }}>
+                                                                                    name="project_id" {{ $selectedTS = ($property->project_id == NULL) ? "disabled='disabled'" : "" }}>
                                                                                 @foreach($projects as $project)
                                                                                     @php
                                                                                         $selected = "";

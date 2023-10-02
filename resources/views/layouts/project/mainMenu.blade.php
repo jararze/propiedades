@@ -31,13 +31,8 @@
                     </a>
                 </li>
                 <li class="menu-item ">
-                    <a href="gallery.html">
+                    <a href="{{ route('about') }}">
                         Nosotros
-                    </a>
-                </li>
-                <li class="menu-item ">
-                    <a href="rent.html">
-                        Agentes
                     </a>
                 </li>
                 <li class="menu-item ">
@@ -51,34 +46,29 @@
                     </a>
                 </li>
                 <li class="menu-item ">
-                    <a href="contacts.html">
-                        Blog
-                    </a>
-                </li>
-                <li class="menu-item ">
-                    <a href="contacts.html">
+                    <a href="/contact">
                         Contacto
                     </a>
                 </li>
             </ul>
         </nav>
 
-        <div class="socials_mobile">
-                        <span class="social_item">
-							<a href="#" target="_blank" class="social_icons social_twitter">
-								<span class="trx_addons_icon-twitter"></span>
-                        </a>
-                        </span>
-            <span class="social_item">
-							<a href="#" target="_blank" class="social_icons social_facebook">
-								<span class="trx_addons_icon-facebook"></span>
-                        </a>
-                        </span>
-            <span class="social_item">
-							<a href="#" target="_blank" class="social_icons social_instagram">
-								<span class="trx_addons_icon-instagram"></span>
-                        </a>
-                        </span>
-        </div>
+{{--        <div class="socials_mobile">--}}
+{{--                        <span class="social_item">--}}
+{{--							<a href="#" target="_blank" class="social_icons social_twitter">--}}
+{{--								<span class="trx_addons_icon-twitter"></span>--}}
+{{--                        </a>--}}
+{{--                        </span>--}}
+{{--            <span class="social_item">--}}
+{{--							<a href="#" target="_blank" class="social_icons social_facebook">--}}
+{{--								<span class="trx_addons_icon-facebook"></span>--}}
+{{--                        </a>--}}
+{{--                        </span>--}}
+{{--            <span class="social_item">--}}
+{{--							<a href="#" target="_blank" class="social_icons social_instagram">--}}
+{{--								<span class="trx_addons_icon-instagram"></span>--}}
+{{--                        </a>--}}
+{{--                        </span>--}}
+{{--        </div>--}}
     </div>
 </div>
