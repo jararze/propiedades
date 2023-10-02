@@ -1,4 +1,6 @@
 <ul class="metismenu" id="menu">
+
+
     <li>
         <a href="{{ route('dashboard') }}">
             <div class="parent-icon"><i class="bi bi-house-fill"></i>
@@ -7,6 +9,13 @@
         </a>
     </li>
 
+    <li>
+        <a href="/" target="_blank">
+            <div class="parent-icon"><i class="bi bi-house-fill"></i>
+            </div>
+            <div class="menu-title">FrontPage</div>
+        </a>
+    </li>
 
 
     <li class="menu-label">Diseño Principal</li>
