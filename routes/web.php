@@ -176,6 +176,7 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::post('/admin/packages/register', [PackagePlanController::class, 'store']);
     Route::get('/admin/packages/edit/{id}', [PackagePlanController::class, 'EditView'])->name('admin.packages.edit');
     Route::post('/admin/packages/edit', [PackagePlanController::class, 'Edit'])->name('admin.packages.edit.info');
+
     Route::get('/admin/packages/delete', [PackagePlanController::class, 'destroy'])->name('admin.packages.delete');
     Route::get('/admin/packages/users/approval', [PackagePlanController::class, 'indexApproval'])->name('admin.packages.users.approval');
     Route::get('/admin/packages/users/activate/{id}', [PackagePlanController::class, 'activate'])->name('admin.packages.activate');
@@ -199,9 +200,18 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::get('/admin/project/inactives', [ProjectController::class, 'inactives'])->name('admin.project.inactives');
     Route::get('/admin/project/cancelled', [ProjectController::class, 'cancelled'])->name('admin.project.cancelled');
     Route::post('/admin/project/activate', [ProjectController::class, 'activate'])->name('admin.project.activate');
+    Route::get('/admin/project/units', [ProjectController::class, 'units'])->name('admin.project.units');
+    Route::get('/admin/project/units/edit/{id}', [ProjectController::class, 'unitsEdit'])->name('admin.project.units.edit');
+    Route::post('/admin/project/units/edit/info', [ProjectController::class, 'unitsEditInfo'])->name('admin.project.units.edit.info');
     Route::get('/admin/project/delete', [ProjectController::class, 'destroy'])->name('admin.project.delete');
     Route::get('/admin/project/sale', [ProjectController::class, 'sale'])->name('admin.project.sale');
     Route::post('/admin/project/sold/status', [ProjectController::class, 'propertieChangeStatus'])->name('admin.project.sold.status');
+
+
+    Route::post('/admin/project/validate', [ProjectController::class, 'validateProject'])->name('admin.project.validate');
+
+
+
 
 });
 

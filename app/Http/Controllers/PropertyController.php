@@ -349,7 +349,7 @@ class PropertyController extends Controller
      * Update the property firt block information.
      * @throws \Exception
      */
-    public function Edit(Request $request): RedirectResponse
+    public function Edit(Request $request): view
     {
 //        dd($request->request);
         $property = Property::find($request->id);
@@ -381,6 +381,7 @@ class PropertyController extends Controller
         $property->lowest_price = $request->lowest_price;
         $property->max_price = $request->max_price;
         $property->size = $request->size;
+        $property->size_max = $request->size_max;
         $property->short_description = $request->short_description;
         $property->long_description = $request->long_description;
         $property->bedrooms = $request->bedrooms;
@@ -401,7 +402,11 @@ class PropertyController extends Controller
 
         $property->save();
         toastr()->success('Propiedad modificada, satisfactoriamente', '!Bien!');
-        return redirect()->back()->with('status', 'updated');
+
+        $values = Property::where('is_project', "0")->where('status', "1")->orderBy('updated_at', 'desc')->get();
+        return view('backend.properties.index', [
+            'values' => $values,
+        ]);
     }
 
     /**

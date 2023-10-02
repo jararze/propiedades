@@ -671,4 +671,40 @@ class ProjectController extends Controller
             'totals' => $totals,
         ]);
     }
+
+
+    public function validateProject(Request $request)
+    {
+        $property = Property::find($request->project_id);
+        return response()->json(['success' => "bien", 'id' => $property]);
+    }
+
+    public function units()
+    {
+        $values = Property::where('is_project', "0")->whereNotNull('project_id')->orderBy("id", "desc")->get();
+        return view('backend.projects.units', [
+            'values' => $values,
+        ]);
+    }
+
+    public function unitsEdit(Request $request)
+    {
+        $values = Property::find($request->id);
+        return view('backend.projects.units.edit', [
+            'package' => $values,
+        ]);
+    }
+    public function unitsEditInfo(Request $request)
+    {
+
+        $property = Property::find($request->id);
+        $property->sold_units = $request->sold_units;
+        $property->updated_at = Carbon::now();
+        $property->save();
+        toastr()->success("Unidades vendidas actualizadas", '!Proceso!');
+
+        return redirect()->back()->with('status', 'updated');
+    }
+
+
 }

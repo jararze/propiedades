@@ -27,9 +27,85 @@
     </script>
     <script>
 
+        $(document).ready(function () {
 
-        var Privileges = jQuery('#facility_name');
-        var select = this.value;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $(document).on("change", "#currency", function (event) {
+                $(".currency_icon").text(this.value);
+            });
+
+            $(document).on("change", "#is_project", function (event) {
+                if (this.value == 0) {
+                    $("#project_id").attr("disabled", true);
+                    $("#units").attr("disabled", true);
+                    $("#address").removeAttr("disabled")
+                    $("#neighborhood").removeAttr("disabled")
+                    $("#size").removeAttr("disabled")
+                    $("#city").removeAttr("disabled")
+                    $("#country").removeAttr("disabled")
+                    $("#latitude").removeAttr("disabled")
+                    $("#longitude").removeAttr("disabled")
+                } else {
+                    $("#project_id").removeAttr("disabled");
+                    $("#units").removeAttr("disabled");
+                    $("#address").attr("disabled","disabled")
+                    $("#neighborhood").attr("disabled","disabled")
+                    $("#size").attr("disabled","disabled")
+                    $("#city").attr("disabled","disabled")
+                    $("#country").attr("disabled","disabled")
+                    $("#latitude").attr("disabled","disabled")
+                    $("#longitude").attr("disabled","disabled")
+                }
+            });
+
+            $(document).on("change", "#project_id", function(event){
+                const project_id = this.value
+
+                $.ajax({
+                    url: '/admin/project/validate',
+                    type: 'POST',
+                    data: {
+                        "project_id": project_id,
+                    },
+                    dataType: 'JSON',
+                    success: function (response) {
+                        $("#address").val(response.id.address)
+                        $("#address").attr("disabled","disabled")
+                        $("#neighborhood").val(response.id.neighborhood)
+                        $("#neighborhood").attr("disabled","disabled")
+                        $("#size").val(response.id.size)
+                        $("#size").attr("disabled","disabled")
+                        $("#city").val(response.id.city)
+                        $("#city").attr("disabled","disabled")
+                        $("#country").val(response.id.country)
+                        $("#country").attr("disabled","disabled")
+                        $("#latitude").val(response.id.latitude)
+                        $("#latitude").attr("disabled","disabled")
+                        $("#longitude").val(response.id.longitude)
+                        $("#longitude").attr("disabled","disabled")
+                    },
+
+                    error: function (xhr, status, error) {
+                        const err = eval("(" + xhr.responseText + ")");
+                        if (error === "Unauthorized" || err.message === "Unauthenticated.") {
+                            alert("mal")
+                        }
+                    }
+                })
+            });
+
+
+
+        });
+
+
+        const Privileges = jQuery('#facility_name');
+        const select = this.value;
         Privileges.change(function () {
             if ($(this).val() != 'NH') {
                 $('#nameFac').attr("required", "required");
@@ -46,19 +122,7 @@
             }
         }
 
-        $(document).on("change", "#currency", function (event) {
-            // alert(this.value);
-            $(".currency_icon").text(this.value);
-        });
-        $(document).on("change", "#is_project", function (event) {
-            if (this.value == 0) {
-                $("#project_id").attr("disabled", true);
-                $("#units").attr("disabled", true);
-            } else {
-                $("#project_id").removeAttr("disabled");
-                $("#units").removeAttr("disabled");
-            }
-        });
+
     </script>
 @endpush
 <x-app-layout>
@@ -240,7 +304,7 @@
                                                     <x-input-error :messages="$errors->get('property_status')"
                                                                    class="mt-2"/>
                                                 </div>
-                                                <div class="col-12 col-lg-3">
+                                                <div class="col-12 col-lg-6">
                                                     <label for="currency" class="form-label">Moneda</label>
                                                     <div class="input-group">
                                                         <select class="form-select" id="currency"
@@ -252,7 +316,19 @@
                                                                        class="mt-2"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-3">
+                                                <div class="col-12 col-lg-6">
+                                                    <label for="chosen_currency" class="form-label">¿Precio a mostrar?</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select" id="chosen_currency"
+                                                                name="chosen_currency">
+                                                            <option value="0">Minimo</option>
+                                                            <option value="1">Maximo</option>
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('chosen_currency')"
+                                                                       class="mt-2"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-6">
                                                     <label for="lowest_price" class="form-label">Precio minimo</label>
                                                     <div class="input-group">
                                                         <input value="{{ old('lowest_price') }}" id="lowest_price"
@@ -265,7 +341,7 @@
                                                                        class="mt-2"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-3">
+                                                <div class="col-12 col-lg-6">
                                                     <label for="max_price" class="form-label">Precio Máximo</label>
                                                     <div class="input-group">
                                                         <input value="{{ old('max_price') }}" id="max_price"
@@ -276,18 +352,7 @@
                                                     </div>
                                                     <x-input-error :messages="$errors->get('max_price')" class="mt-2"/>
                                                 </div>
-                                                <div class="col-12 col-lg-3">
-                                                    <label for="chosen_currency" class="form-label">¿Precio?</label>
-                                                    <div class="input-group">
-                                                        <select class="form-select" id="chosen_currency"
-                                                                name="chosen_currency">
-                                                            <option value="0">Minimo</option>
-                                                            <option value="1">Maximo</option>
-                                                        </select>
-                                                        <x-input-error :messages="$errors->get('chosen_currency')"
-                                                                       class="mt-2"/>
-                                                    </div>
-                                                </div>
+
                                                 <div class="col-6">
                                                     <label for="bedrooms" class="form-label"># Habitaciones</label>
                                                     <input value="{{ old('bedrooms') }}" id="bedrooms" name="bedrooms"

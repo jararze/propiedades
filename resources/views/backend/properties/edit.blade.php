@@ -30,6 +30,84 @@
     </script>
 
     <script>
+
+        $(document).ready(function () {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $(document).on("change", "#currency", function (event) {
+                $(".currency_icon").text(this.value);
+            });
+
+
+            $(document).on("change", "#is_project", function (event) {
+                if (this.value == 0) {
+                    $("#project_id").attr("disabled", true);
+                    $("#units").attr("disabled", true);
+                    $("#address").removeAttr("readonly")
+                    $("#neighborhood").removeAttr("readonly")
+                    $("#size").removeAttr("readonly")
+                    $("#city").removeAttr("readonly")
+                    $("#country").removeAttr("readonly")
+                    $("#latitude").removeAttr("readonly")
+                    $("#longitude").removeAttr("readonly")
+                } else {
+                    $("#project_id").removeAttr("readonly");
+                    $("#units").removeAttr("readonly");
+                    $("#address").attr("readonly","readonly")
+                    $("#neighborhood").attr("readonly","readonly")
+                    $("#size").attr("readonly","readonly")
+                    $("#city").attr("readonly","readonly")
+                    $("#country").attr("readonly","readonly")
+                    $("#latitude").attr("readonly","readonly")
+                    $("#longitude").attr("readonly","readonly")
+                }
+            });
+
+
+            $(document).on("change", "#project_id", function(event){
+                const project_id = this.value
+
+                $.ajax({
+                    url: '/admin/project/validate',
+                    type: 'POST',
+                    data: {
+                        "project_id": project_id,
+                    },
+                    dataType: 'JSON',
+                    success: function (response) {
+                        $("#address").val(response.id.address)
+                        $("#address").attr("readonly","readonly")
+                        $("#neighborhood").val(response.id.neighborhood)
+                        $("#neighborhood").attr("readonly","readonly")
+                        $("#size").val(response.id.size)
+                        $("#size").attr("readonly","readonly")
+                        $("#city").val(response.id.city)
+                        $("#city").attr("readonly","readonly")
+                        $("#country").val(response.id.country)
+                        $("#country").attr("readonly","readonly")
+                        $("#latitude").val(response.id.latitude)
+                        $("#latitude").attr("readonly","readonly")
+                        $("#longitude").val(response.id.longitude)
+                        $("#longitude").attr("readonly","readonly")
+                    },
+
+                    error: function (xhr, status, error) {
+                        const err = eval("(" + xhr.responseText + ")");
+                        if (error === "Unauthorized" || err.message === "Unauthenticated.") {
+                            alert("mal")
+                        }
+                    }
+                })
+            });
+
+
+        });
+
         function toggle() {
             var x = document.getElementById("map");
             if (x.style.display === "none") {
@@ -39,19 +117,7 @@
             }
         }
 
-        $(document).on("change", "#currency", function (event) {
-            // alert(this.value);
-            $(".currency_icon").text(this.value);
-        });
-        $(document).on("change", "#is_project", function (event) {
-            if (this.value == 0) {
-                $("#project_id").attr("disabled", true);
-                $("#units").attr("disabled", true);
-            } else {
-                $("#project_id").removeAttr("disabled");
-                $("#units").removeAttr("disabled");
-            }
-        });
+
     </script>
 @endpush
 
@@ -72,14 +138,7 @@
             </div>
             <div class="ms-auto">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Acciones</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-                            data-bs-toggle="dropdown"><span class="visually-hidden">Menu</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-                        <a class="dropdown-item" href="{{ route('admin.properties.register') }}">Añadir</a>
-                        <a class="dropdown-item" href="{{ route('admin.properties.index') }}">Lista</a>
-                    </div>
+                        <a class="btn btn-primary" href="{{ route('admin.properties.register') }}">Añadir</a>
                 </div>
             </div>
         </div>
@@ -216,7 +275,7 @@
                                                                             :messages="$errors->get('address')"
                                                                             class="mt-2"/>
                                                                     </div>
-                                                                    <div class="col-8">
+                                                                    <div class="col-4">
                                                                         <label for="neighborhood" class="form-label">Zona </label>
                                                                         <input id="neighborhood" name="neighborhood"
                                                                                type="text"
@@ -237,6 +296,16 @@
                                                                                value="{{ $property->size }}">
                                                                         <x-input-error :messages="$errors->get('size')"
                                                                                        class="mt-2"/>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <label for="size_max" class="form-label">Tamaño contruido
+                                                                            (mt2)</label>
+                                                                        <input value="{{ $property->size_max }}" id="size_max" name="size_max"
+                                                                               type="number"
+                                                                               step="any"
+                                                                               class="form-control"
+                                                                               placeholder="Tamaño Proyecto">
+                                                                        <x-input-error :messages="$errors->get('size_max')" class="mt-2"/>
                                                                     </div>
                                                                     <div class="col-12 col-lg-3">
                                                                         <label for="city"
@@ -311,7 +380,7 @@
                                                                             :messages="$errors->get('property_status')"
                                                                             class="mt-2"/>
                                                                     </div>
-                                                                    <div class="col-12 col-lg-3">
+                                                                    <div class="col-12 col-lg-6">
                                                                         <label for="currency"
                                                                                class="form-label">Moneda</label>
                                                                         <div class="input-group">
@@ -331,41 +400,7 @@
                                                                                 class="mt-2"/>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-12 col-lg-3">
-                                                                        <label for="lowest_price" class="form-label">Precio
-                                                                            minimo</label>
-                                                                        <div class="input-group">
-                                                                            <input id="lowest_price" name="lowest_price"
-                                                                                   type="number"
-                                                                                   step="any"
-                                                                                   class="form-control"
-                                                                                   placeholder="Precio minimo"
-                                                                                   required
-                                                                                   value="{{ $property->lowest_price }}">
-                                                                            <span
-                                                                                class="input-group-text currency_icon">{{ $Moneda = ($property->currency == 'Bs') ? "Bs" : '$us' }}</span>
-                                                                            <x-input-error
-                                                                                :messages="$errors->get('lowest_price')"
-                                                                                class="mt-2"/>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-12 col-lg-3">
-                                                                        <label for="max_price" class="form-label">Precio
-                                                                            Máximo</label>
-                                                                        <div class="input-group">
-                                                                            <input id="max_price" name="max_price"
-                                                                                   type="number" step="any"
-                                                                                   class="form-control"
-                                                                                   placeholder="Precio Máximo" required
-                                                                                   value="{{ $property->max_price }}">
-                                                                            <span
-                                                                                class="input-group-text currency_icon">{{ $Moneda = ($property->currency == 'Bs') ? "Bs" : '$us' }}</span>
-                                                                        </div>
-                                                                        <x-input-error
-                                                                            :messages="$errors->get('max_price')"
-                                                                            class="mt-2"/>
-                                                                    </div>
-                                                                    <div class="col-12 col-lg-3">
+                                                                    <div class="col-12 col-lg-6">
                                                                         <label for="chosen_currency"
                                                                                class="form-label">¿Precio?</label>
                                                                         <div class="input-group">
@@ -386,6 +421,41 @@
                                                                                 class="mt-2"/>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-12 col-lg-6">
+                                                                        <label for="lowest_price" class="form-label">Precio
+                                                                            minimo</label>
+                                                                        <div class="input-group">
+                                                                            <input id="lowest_price" name="lowest_price"
+                                                                                   type="number"
+                                                                                   step="any"
+                                                                                   class="form-control"
+                                                                                   placeholder="Precio minimo"
+                                                                                   required
+                                                                                   value="{{ $property->lowest_price }}">
+                                                                            <span
+                                                                                class="input-group-text currency_icon">{{ $Moneda = ($property->currency == 'Bs') ? "Bs" : '$us' }}</span>
+                                                                            <x-input-error
+                                                                                :messages="$errors->get('lowest_price')"
+                                                                                class="mt-2"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12 col-lg-6">
+                                                                        <label for="max_price" class="form-label">Precio
+                                                                            Máximo</label>
+                                                                        <div class="input-group">
+                                                                            <input id="max_price" name="max_price"
+                                                                                   type="number" step="any"
+                                                                                   class="form-control"
+                                                                                   placeholder="Precio Máximo" required
+                                                                                   value="{{ $property->max_price }}">
+                                                                            <span
+                                                                                class="input-group-text currency_icon">{{ $Moneda = ($property->currency == 'Bs') ? "Bs" : '$us' }}</span>
+                                                                        </div>
+                                                                        <x-input-error
+                                                                            :messages="$errors->get('max_price')"
+                                                                            class="mt-2"/>
+                                                                    </div>
+
                                                                     <div class="col-6">
                                                                         <label for="bedrooms" class="form-label">#
                                                                             Habitaciones</label>

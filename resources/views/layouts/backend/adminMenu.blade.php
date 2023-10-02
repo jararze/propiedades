@@ -176,6 +176,7 @@
             <li><a href="{{ route('admin.project.inactives') }}"><i class="bi bi-circle"></i>Inactivas</a></li>
             <li><a href="{{ route('admin.project.sale') }}"><i class="bi bi-circle"></i>Vendidas/Alquiladas/Etc</a></li>
             <li><a href="{{ route('admin.project.cancelled') }}"><i class="bi bi-circle"></i>Canceladas</a></li>
+            <li><a href="{{ route('admin.project.units') }}"><i class="bi bi-circle"></i>Unidades</a></li>
             <li><a href="{{ route('admin.project.register') }}"><i class="bi bi-circle"></i>Agregar</a></li>
         </ul>
     </li>
