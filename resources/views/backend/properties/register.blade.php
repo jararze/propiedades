@@ -23,6 +23,21 @@
             language: "es",
             quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
             toolbar_mode: 'sliding',
+            init_instance_callback : function(editor) {
+                let editorH = editor.editorContainer.offsetHeight;
+                $('#long_description')
+                    .css({
+                        'position':'absolute',
+                        'height':editorH,
+                        'width':'95%'
+                    })
+                    .show();
+            },
+            setup: function (editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave();
+                });
+            }
         });
     </script>
     <script>
@@ -428,7 +443,7 @@
                                                     <label for="long_description" class="form-label">Descripcion</label>
                                                     <textarea id="long_description" name="long_description" type="text"
                                                               class="form-control"
-                                                              placeholder="Descripcion">{{ old('long_description') }}</textarea>
+                                                              placeholder="Descripcion" required >{{ old('long_description') }}</textarea>
                                                     <x-input-error :messages="$errors->get('long_description')"
                                                                    class="mt-2"/>
                                                 </div>
