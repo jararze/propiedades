@@ -38,6 +38,21 @@
             language: "es",
             quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
             toolbar_mode: 'sliding',
+            init_instance_callback : function(editor) {
+                let editorH = editor.editorContainer.offsetHeight;
+                $('#long_description')
+                    .css({
+                        'position':'absolute',
+                        'height':editorH,
+                        'width':'95%'
+                    })
+                    .show();
+            },
+            setup: function (editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave();
+                });
+            }
         });
     </script>
 
