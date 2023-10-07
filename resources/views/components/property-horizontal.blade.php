@@ -73,8 +73,8 @@
                 @endif
             </div>
             <ul class="other-option pull-right clearfix">
-                <li>{!! Share::page(Request::url(), 'Your share text can be placed here')->facebook() !!}</li>
-                <li>{!! Share::page(url()->current(), 'Your share text can be placed here')->whatsapp() !!}</li>
+                <li>{!! Share::page(route('front.properties.inner', $property->id), $property->short_description)->facebook() !!}</li>
+                <li>{!! Share::page(route('front.properties.inner', $property->id), $property->short_description)->whatsapp() !!}</li>
                 {{--                        <li>{!! Share::page(url()->current(), 'Your share text can be placed here')->telegram() !!}</li>--}}
                 <input type="hidden" id="CSRF" value="{{csrf_token()}}">
                 <li>

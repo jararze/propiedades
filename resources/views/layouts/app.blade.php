@@ -34,7 +34,7 @@
 
     <title>{{ config('app.name', 'ProPropiedades') }}</title>
     <style>
-        #loader {
+        .wrapLoader {
             display: none;
             position: fixed;
             top: 0;
@@ -42,14 +42,36 @@
             right: 0;
             bottom: 0;
             width: 100%;
-            background: rgba(0,0,0,0.75) url("{{ asset('front/images/Gear-0.4s-357px.gif') }}") no-repeat center center;
+            background: rgba(0,0,0,0.75);
             z-index: 99999;
+            /*display: flex;*/
+            justify-content: center;
+            align-items: center;
         }
+        /* HTML: <div class="loader"></div> */
+        .loader {
+            width: 40px;
+            height: 40px;
+            --c:no-repeat linear-gradient(orange 0 0);
+            background: var(--c),var(--c),var(--c),var(--c);
+            background-size: 21px 21px;
+            animation: l5 1.5s infinite cubic-bezier(0.3,1,0,1);
+        }
+        @keyframes l5 {
+            0%   {background-position: 0    0,100% 0   ,100% 100%,0 100%}
+            33%  {background-position: 0    0,100% 0   ,100% 100%,0 100%;width:60px;height: 60px}
+            66%  {background-position: 100% 0,100% 100%,0    100%,0 0   ;width:60px;height: 60px}
+            100% {background-position: 100% 0,100% 100%,0    100%,0 0   }
+        }
+
     </style>
 </head>
 
 <body>
-<div id='loader'></div>
+<div class="wrapLoader">
+    <div class="loader"></div>
+</div>
+{{--<div id='loader'></div>--}}
 
 <!--start wrapper-->
 <div class="wrapper">
@@ -101,7 +123,7 @@
 <script>
     $(function() {
         $( "form" ).submit(function() {
-            $('#loader').show();
+            $('.wrapLoader').css('display', 'flex');
         });
     });
 </script>

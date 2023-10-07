@@ -32,7 +32,6 @@
     </script>
 </head>
 <body>
-<div class="map-canvas">
-</div>
+{{ route('front.properties.inner', "2") }}
 </body>
 </html>
