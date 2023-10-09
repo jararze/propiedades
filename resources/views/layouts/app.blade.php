@@ -88,7 +88,6 @@
     {{--    <main class="page-content">--}}
     {{ $slot }}
     {{--    </main>--}}
-
     <!--start overlay-->
     <div class="overlay nav-toggle-icon"></div>
     <!--end overlay-->

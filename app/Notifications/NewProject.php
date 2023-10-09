@@ -10,7 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
-class NewProperty extends Notification
+class NewProject extends Notification
 {
     use Queueable;
 
@@ -38,9 +38,9 @@ class NewProperty extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -55,9 +55,9 @@ class NewProperty extends Notification
             'name' => $this->property->name,
             'created_by_id' => $this->property->created_by,
             'created_by' => Auth::user()->name . " " . Auth::user()->lastname,
-            'type' => "Property",
-            'icon' => "bi bi-building-add",
-            'color' => "bg-light-primary text-primary",
+            'type' => "Project",
+            'icon' => "fa-solid fa-building-shield",
+            'color' => "bg-light-success text-success",
             'created_at' => Carbon::now(),
         ];
     }

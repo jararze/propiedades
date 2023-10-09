@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProjectEvent;
 use App\Http\Requests\PropertyRequest;
 use App\Models\Amenities;
 use App\Models\City;
@@ -210,7 +211,7 @@ class ProjectController extends Controller
             $amenities_list = NULL;
         }
 
-        $property_id = Property::insertGetId([
+        $property_id = Property::create([
             'name' => $request->name,
             'address' => $request->address,
             'slug' => strtolower(str_replace(' ', '-', $request->name)),
@@ -263,7 +264,7 @@ class ProjectController extends Controller
                 Image::make($image)->resize(770, 520)->save('upload/properties/' . $code . '/multipleImages/' . $filenames);
 
                 MultiImage::insert([
-                    'property_id' => $property_id,
+                    'property_id' => $property_id->id,
                     'name' => $filenames,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
@@ -287,13 +288,16 @@ class ProjectController extends Controller
                     $distances = 0;
                 }
                 $facilities = new FacilityProperty();
-                $facilities->property_id = $property_id;
+                $facilities->property_id = $property_id->id;
                 $facilities->facility_id = $request->facility_id[$i];
                 $facilities->name = $namfac;
                 $facilities->distance = $distances;
                 $facilities->save();
             }
         }
+
+        event(new ProjectEvent($property_id));
+
         toastr()->success('Proyecto creado, satisfactoriamente', '!Bien!');
 
         return Redirect::route('admin.project.register')->with('status', 'created');
@@ -706,5 +710,14 @@ class ProjectController extends Controller
         return redirect()->back()->with('status', 'updated');
     }
 
+
+    public function notificaction(){
+        $rNotificactions = Auth::user()->readNotifications;
+        $urNotificactions = Auth::user()->unreadNotifications;
+        return view('backend.notifications.index', [
+            'rNotificactions' => $rNotificactions,
+            'urNotificactions' => $urNotificactions,
+        ]);
+    }
 
 }

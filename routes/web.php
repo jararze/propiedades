@@ -215,7 +215,7 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
 
 });
 
-Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function () {
+Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(callback: function () {
 
     Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::patch('admin/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
@@ -238,10 +238,6 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function
     Route::get('/admin/properties/own', [PropertyController::class, 'own'])->name('admin.properties.own');
     Route::get('/admin/properties/sold', [PropertyController::class, 'sold'])->name('admin.properties.sold');
 
-
-
-
-
     Route::get('/admin/project/all', [ProjectController::class, 'index'])->name('admin.project.index');
     Route::get('/admin/project/register', [ProjectController::class, 'create'])->name('admin.project.register');
     Route::post('/admin/project/register', [ProjectController::class, 'store']);
@@ -257,8 +253,12 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(function
     Route::get('/admin/project/own', [ProjectController::class, 'own'])->name('admin.project.own');
     Route::get('/admin/project/sold', [ProjectController::class, 'sold'])->name('admin.project.sold');
 
+    Route::get('/admin/markAsRead', function(){
+            Auth::user()->unreadNotifications->markAsRead();
+            return redirect()->back();
+    })->name('admin.markAsRead');
 
-
+    Route::get('/admin/markAsRead/index', [ProjectController::class, 'notificaction'])->name('admin.markAsRead.index');
 
 });
 

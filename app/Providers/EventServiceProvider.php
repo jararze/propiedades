@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ProjectEvent;
+use App\Events\PropertyEvent;
+use App\Listeners\ProjectListener;
+use App\Listeners\PropertyListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        PropertyEvent::class => [
+            PropertyListener::class,
+        ],
+        ProjectEvent::class => [
+            ProjectListener::class,
         ],
     ];
 

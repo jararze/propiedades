@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PropertyEvent;
 use App\Http\Requests\PropertyRequest;
 use App\Models\Amenities;
 use App\Models\City;
@@ -14,6 +15,7 @@ use App\Models\PropertyMessage;
 use App\Models\PropertyType;
 use App\Models\User;
 use App\Notifications\NewProperty;
+use App\Notifications\NewPropertyNotification;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\RedirectResponse;
@@ -47,6 +49,7 @@ class PropertyController extends Controller
             'values' => $values,
         ]);
     }
+
     public function sale(): view
     {
         $values = Property::where('is_project', "0")->where('status_for_what', "1")->orWhere('status_for_what', "2")->orderBy('created_at', 'desc')->get();
@@ -64,6 +67,7 @@ class PropertyController extends Controller
             'values' => $values,
         ]);
     }
+
     public function cancelled(): view
     {
         $values = Property::where('is_project', "0")->where('status', '2')->orderBy('id', 'DESC')->get();
@@ -84,6 +88,7 @@ class PropertyController extends Controller
         toastr()->success('Solicitud enviada para sacar del mercado', '!Proceso!');
         return redirect()->back()->with('status', 'updated-amenities');
     }
+
     public function propertieChangeStatus(Request $request): RedirectResponse
     {
         $var = ($request->status_for_what == "1") ? "2" : "0";
@@ -228,7 +233,7 @@ class PropertyController extends Controller
             $amenities_list = NULL;
         }
 
-        $property_id = Property::insertGetId([
+        $property_id = Property::create([
             'name' => $request->name,
             'address' => $request->address,
             'slug' => strtolower(str_replace(' ', '-', $request->name)),
@@ -275,7 +280,7 @@ class PropertyController extends Controller
                 Image::make($image)->resize(770, 520)->insert(public_path('watermarker.png'), 'bottom-right', 10, 10)->save('upload/properties/' . $code . '/multipleImages/' . $filenames);
 
                 MultiImage::insert([
-                    'property_id' => $property_id,
+                    'property_id' => $property_id->id,
                     'name' => $filenames,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
@@ -299,7 +304,7 @@ class PropertyController extends Controller
                     $distances = 0;
                 }
                 $facilities = new FacilityProperty();
-                $facilities->property_id = $property_id;
+                $facilities->property_id = $property_id->id;
                 $facilities->facility_id = $request->facility_id[$i];
                 $facilities->name = $namfac;
                 $facilities->distance = $distances;
@@ -307,9 +312,20 @@ class PropertyController extends Controller
             }
         }
 
-        $users = User::where('role', 'admin')->where('role', 'agent')->get();
+//        User::whereNotIn('id', function ($query) use ($property_id) {
+//            $query->select('created_by')
+//                ->from('properties')
+//                ->where('id', $property_id->id);
+//        })
+//            ->where(function ($query) {
+//                $query->where('role', 'admin')
+//                    ->orWhere('role', 'agent');
+//            })
+//            ->each(function (User $user) use ($property_id) {
+//                $user->notify(new NewProperty($property_id));
+//            });
 
-        Notification::send($users, new NewProperty($property_id));
+        event(new PropertyEvent($property_id));
 
         toastr()->success('Propiedad creada, satisfactoriamente', '!Bien!');
         return Redirect::route('admin.properties.register')->with('status', 'created');
@@ -401,7 +417,7 @@ class PropertyController extends Controller
         $property->hot = $hot_var;
         $property->chosen_currency = $request->chosen_currency;
 //        $property->agent_id = $age_id;
-        if(Auth::user()->role != 'agent'){
+        if (Auth::user()->role != 'agent') {
             $property->status = $request->status;
         }
         $property->updated_at = Carbon::now();
