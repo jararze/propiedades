@@ -4,6 +4,7 @@ use App\Http\Controllers\AmenitiesController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ConfigurationController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\MapController;
@@ -78,9 +79,7 @@ Route::controller(PropertyMessageController::class)->group(function () {
 
 // Vistas usuario admin y agente
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified', 'CheckRoles:admin,agent'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified', 'CheckRoles:admin,agent'])->name('dashboard');
 
 // Vistas usuario cualquier rol
 

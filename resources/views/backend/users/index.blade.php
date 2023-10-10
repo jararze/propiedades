@@ -59,7 +59,7 @@
                                         <th>Correo</th>
                                         <th>Telefono</th>
                                         <th>Rol</th>
-                                        <th>Propiedades</th>
+                                        <th>Propiedades <br/> Cargadas</th>
                                         <th>Estatus</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -82,7 +82,7 @@
                                                     Usuario
                                                 @endif
                                             </td>
-                                            <td><span class="badge bg-light-info text-info w-100">{{ $user->property_count }}</span></td>
+                                            <td><span class="badge bg-light-info text-info w-100">{{ $user->property_count }}</span> <br /> / <span class="badge bg-light-success text-success w-100">{{ $user->amount }}</span></td>
                                             <td>
                                                 @if($user->status == 'active')
                                                     <span class="badge bg-light-success text-success w-100">Activo</span>
