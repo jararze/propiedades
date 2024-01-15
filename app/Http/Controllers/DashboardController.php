@@ -109,7 +109,7 @@ class DashboardController extends Controller
         $typeProperties = DB::table('properties as a')
             ->join('property_types as b', 'a.propertytype_id', '=', 'b.id')
             ->where('a.status', 1)
-            ->groupBy('a.propertytype_id')
+            ->groupBy('a.propertytype_id', 'b.type_name', 'b.type_icon')
             ->selectRaw('COUNT(a.id) as count, b.type_name, b.type_icon')
             ->get();
 

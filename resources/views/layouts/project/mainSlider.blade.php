@@ -46,28 +46,29 @@
                                         Encuentra lo mejor
                                     </div>
 
-                                    <h1 class="tp-caption   tp-resizeme  slide_title" id="slide-1-layer-1"
+                                    <h1 style="font-size: 20px" class="tp-caption   tp-resizeme  slide_title" id="slide-1-layer-1"
                                         data-x="center" data-hoffset="" data-y="center" data-voffset="-20"
                                         data-width="['1024']" data-height="['auto']" data-transform_idle="o:1;"
                                         data-transform_in="y:50px;opacity:0;s:500;e:Power2.easeOut;"
                                         data-transform_out="opacity:0;s:300;" data-start="2400"
                                         data-splitin="none" data-splitout="none" data-responsive_offset="on">
-                                        @if(count($title) == 1)
-                                            {{ $title[0] }}
-                                            <br>
-                                        @endif
-                                        @if(count($title) == 2)
-                                            {{ $title[0] }} {{ $title[1] }}
-                                            <br>
-                                        @endif
-                                        @if(count($title) > 2)
-                                            @for($i = 2; $i < count($title) ; $i++)
-                                                @if($i == 5)
-                                                    <br/>
-                                                @endif
-                                                {{ $title[$i] }}
-                                            @endfor
-                                        @endif
+                                        {{ $property->name }}
+{{--                                        @if(count($title) == 1)--}}
+{{--                                            {{ $title[0] }}--}}
+{{--                                            <br>--}}
+{{--                                        @endif--}}
+{{--                                        @if(count($title) == 2)--}}
+{{--                                            {{ $title[0] }} {{ $title[1] }}--}}
+{{--                                            <br>--}}
+{{--                                        @endif--}}
+{{--                                        @if(count($title) > 2)--}}
+{{--                                            @for($i = 2; $i < count($title) ; $i++)--}}
+{{--                                                @if($i == 5)--}}
+{{--                                                    <br/>--}}
+{{--                                                @endif--}}
+{{--                                                {{ $title[$i] }}--}}
+{{--                                            @endfor--}}
+{{--                                        @endif--}}
                                     </h1>
 
                                     {{--                                    <div class="tp-caption rev-btn  tp-resizeme  theme_button slide_button"--}}

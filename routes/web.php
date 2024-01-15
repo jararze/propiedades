@@ -207,7 +207,7 @@ Route::middleware(['auth','verified', 'CheckRoles:admin'])->group(function () {
     Route::post('/admin/project/sold/status', [ProjectController::class, 'propertieChangeStatus'])->name('admin.project.sold.status');
 
 
-    Route::post('/admin/project/validate', [ProjectController::class, 'validateProject'])->name('admin.project.validate');
+
 
 
 
@@ -221,6 +221,7 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(callback
     Route::patch('admin/profile/image', [ProfileController::class, 'imageUpdate'])->name('admin.profile.imageUpdate');
     Route::delete('admin/profile', [ProfileController::class, 'destroy'])->name('admin.profile.destroy');
 
+    Route::post('/admin/project/validate', [ProjectController::class, 'validateProject'])->name('admin.project.validate');
 
     Route::get('/admin/properties/all', [PropertyController::class, 'index'])->name('admin.properties.index');
     Route::get('/admin/properties/register', [PropertyController::class, 'create'])->name('admin.properties.register');
@@ -251,6 +252,11 @@ Route::middleware(['auth','verified', 'CheckRoles:admin,agent'])->group(callback
 
     Route::get('/admin/project/own', [ProjectController::class, 'own'])->name('admin.project.own');
     Route::get('/admin/project/sold', [ProjectController::class, 'sold'])->name('admin.project.sold');
+
+
+    Route::get('/admin/project/units', [ProjectController::class, 'units'])->name('admin.project.units');
+    Route::get('/admin/project/units/edit/{id}', [ProjectController::class, 'unitsEdit'])->name('admin.project.units.edit');
+    Route::post('/admin/project/units/edit/info', [ProjectController::class, 'unitsEditInfo'])->name('admin.project.units.edit.info');
 
     Route::get('/admin/markAsRead', function(){
             Auth::user()->unreadNotifications->markAsRead();

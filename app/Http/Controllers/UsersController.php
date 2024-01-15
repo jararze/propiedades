@@ -27,7 +27,7 @@ class UsersController extends Controller
         $values =  User::join('package_plans', 'users.package_id', '=', 'package_plans.id')
             ->leftJoin('properties', 'properties.created_by', '=', 'users.id')
             ->select('users.*', DB::raw('COUNT(properties.id) AS property_count'), 'package_plans.amount')
-            ->groupBy('users.id', 'users.name', 'users.lastname', 'users.jobtitle', 'users.username', 'users.email', 'users.email_verified_at', 'users.password', 'users.photo', 'users.phone', 'users.address', 'users.city', 'users.country', 'users.aboutme', 'users.package_id', 'users.package_status', 'users.role', 'users.status', 'users.role', 'users.remember_token', 'users.created_at', 'users.updated_at')
+            ->groupBy('users.id', 'users.name', 'users.lastname', 'users.jobtitle', 'users.username', 'users.email', 'users.email_verified_at', 'users.password', 'users.photo', 'users.phone', 'users.address', 'users.city', 'users.country', 'users.aboutme', 'users.package_id', 'users.package_status', 'users.role', 'users.status', 'users.role', 'users.remember_token', 'users.created_at', 'users.updated_at', 'package_plans.amount')
             ->get();
         return view('backend.users.index', [
             'values' => $values,
