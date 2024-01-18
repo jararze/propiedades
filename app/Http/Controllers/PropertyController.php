@@ -34,7 +34,13 @@ class PropertyController extends Controller
      */
     public function index(): view
     {
-        $values = Property::where('is_project', "0")->where('status', "1")->orderBy('updated_at', 'desc')->get();
+//        $values = Property::where('is_project', "0")->where('status', "1")->orderBy('updated_at', 'desc')->get();
+        $values = $properties = Property::select('properties.*', \DB::raw('COALESCE(p.name, "") as project_name'))
+            ->leftJoin('properties as p', 'properties.project_id', '=', 'p.id')
+            ->where('properties.is_project', '0')
+            ->where('properties.status', '1')
+            ->orderBy('properties.updated_at', 'desc')
+            ->get();
 
         return view('backend.properties.index', [
             'values' => $values,
@@ -233,6 +239,7 @@ class PropertyController extends Controller
             $amenities_list = NULL;
         }
 
+
         $property_id = Property::create([
             'name' => $request->name,
             'address' => $request->address,
@@ -387,7 +394,7 @@ class PropertyController extends Controller
             $hot_var = $request->hot;
         }
 
-//        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
+        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
 
         $property->is_project = 0;
         $property->units = $request->units;
@@ -416,7 +423,7 @@ class PropertyController extends Controller
         $property->featured = $featured_var;
         $property->hot = $hot_var;
         $property->chosen_currency = $request->chosen_currency;
-//        $property->agent_id = $age_id;
+        $property->agent_id = $age_id;
         if (Auth::user()->role != 'agent') {
             $property->status = $request->status;
         }

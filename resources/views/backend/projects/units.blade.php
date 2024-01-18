@@ -21,11 +21,11 @@
                     </ol>
                 </nav>
             </div>
-            <div class="ms-auto">
-                <div class="btn-group">
-                    <a class="btn btn-primary" href="{{ route('admin.project.register') }}">Añadir</a>
-                </div>
-            </div>
+{{--            <div class="ms-auto">--}}
+{{--                <div class="btn-group">--}}
+{{--                    <a class="btn btn-primary" href="{{ route('admin.project.register') }}">Añadir</a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
         <!--end breadcrumb-->
 
@@ -67,7 +67,7 @@
                                             <td><img
                                                     src="{{ (!empty($item->thumbnail)) ? url('upload/properties/'.$item->code.'/'.$item->thumbnail) : url('upload/No_Image_Available.jpg') }}"
                                                     class="product-img-2" alt="product img"></td>
-                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->project_name }} - {{ $item->name }}</td>
                                             <td>{{ $item->units }}</td>
                                             <td>{{ $item->sold_units }}</td>
                                             <td>

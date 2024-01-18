@@ -348,7 +348,7 @@ class ProjectController extends Controller
             $hot_var = $request->hot;
         }
 
-//        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
+        $age_id = (Auth::user()->role === 'agent') ? Auth::user()->id : $request->agent_id;
 //        dd($request);
         $property->name = $request->name;
         $property->address = $request->address;
@@ -381,7 +381,7 @@ class ProjectController extends Controller
         $property->featured = $featured_var;
         $property->hot = $hot_var;
         $property->chosen_currency = $request->chosen_currency;
-//        $property->agent_id = $age_id;
+        $property->agent_id = $age_id;
         if (Auth::user()->role != 'agent') {
             $property->status = $request->status;
         }
@@ -685,7 +685,12 @@ class ProjectController extends Controller
 
     public function units()
     {
-        $values = Property::where('is_project', "0")->whereNotNull('project_id')->orderBy("id", "desc")->get();
+        $values = Property::select('properties.*', 'p.name as project_name')
+            ->leftJoin('properties as p', 'properties.project_id', '=', 'p.id')
+            ->where('properties.is_project', '0')
+            ->whereNotNull('properties.project_id')
+            ->orderBy('properties.id', 'desc')
+            ->get();
         return view('backend.projects.units', [
             'values' => $values,
         ]);

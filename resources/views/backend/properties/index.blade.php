@@ -69,7 +69,7 @@
                                             <td><img
                                                     src="{{ (!empty($item->thumbnail)) ? url('upload/properties/'.$item->code.'/'.$item->thumbnail) : url('upload/No_Image_Available.jpg') }}"
                                                     class="product-img-2" alt="product img"></td>
-                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->project_name }} - {{ $item->name }}</td>
                                             <td>{{ $item['type']['type_name'] }}</td>
                                             <td>{{ $item->property_status }}</td>
                                             <td>{{ $item->city }}</td>
