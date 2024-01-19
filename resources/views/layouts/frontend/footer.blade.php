@@ -20,7 +20,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 footer-column">
                     <div class="footer-widget links-widget ml-70">
                         <div class="widget-title">
-                            <h3>Services</h3>
+                            <h3>Servicios</h3>
                         </div>
                         <div class="widget-content">
                             <ul class="links-list class">
@@ -35,7 +35,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 footer-column">
                     <div class="footer-widget contact-widget">
                         <div class="widget-title">
-                            <h3>Contacts</h3>
+                            <h3>Contáctanos</h3>
                         </div>
                         <div class="widget-content">
                             <ul class="info-list clearfix">

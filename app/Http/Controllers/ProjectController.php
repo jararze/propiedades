@@ -382,7 +382,7 @@ class ProjectController extends Controller
         $property->hot = $hot_var;
         $property->chosen_currency = $request->chosen_currency;
         $property->agent_id = $age_id;
-        if (Auth::user()->role != 'agent') {
+        if (Auth::user()->role != 'age-nt') {
             $property->status = $request->status;
         }
 //        $property->agent_id = $age_id;
