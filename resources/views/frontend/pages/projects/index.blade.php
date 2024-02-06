@@ -308,7 +308,8 @@
                                                 <div class="price-box clearfix">
                                                     <div class="price-info pull-left">
                                                         <h6>Empieza desde</h6>
-                                                        <h4>{{ number_format($featured_propery->max_price, 0) }}$us</h4>
+                                                        <h4>{{ number_format($featured_propery->max_price, 0) }} {{
+                                                            $featured_propery->currency }} </h4>
                                                     </div>
                                                     <div class="author-box pull-right">
                                                         <figure class="author-thumb">
@@ -390,7 +391,7 @@
                                                             <div class="price-info pull-left">
                                                                 <h6>Empieza desde</h6>
                                                                 <h4>{{ number_format($featured_propery->max_price, 0) }}
-                                                                    $us</h4>
+                                                                    {{ $featured_propery->currency }} </h4>
                                                             </div>
                                                             <ul class="other-option pull-right clearfix">
                                                                 <li>

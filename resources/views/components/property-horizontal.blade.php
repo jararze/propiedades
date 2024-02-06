@@ -50,7 +50,7 @@
         <div class="price-box clearfix">
             <div class="price-info pull-left">
                 <h6>Empieza desde</h6>
-                <h4>{{ number_format($property->max_price, 0) }}$us</h4>
+                <h4>{{ number_format($property->max_price, 0) }} {{ $property->currency }}</h4>
             </div>
             <div class="author-box pull-right">
                 <span class="category" style="margin-right: 50px; padding: 10px; position: relative; background-color: #08abc4; border-radius: 5px; line-height: 20px">{{ $property['type']['type_name'] }}</span>
