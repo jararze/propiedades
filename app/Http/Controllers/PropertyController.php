@@ -589,24 +589,34 @@ class PropertyController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+
         $property = Property::find($request->id);
+
+        if (!$property) {
+            toastr()->error('Propiedad no encontrada.', '¡Error!');
+            return redirect()->route('admin.properties.index');
+        }
 
         MultiImage::where('property_id', $request->id)->delete();
         FacilityProperty::where('property_id', $request->id)->delete();
-        Property::where('id', $request->id)->delete();
+        $property->delete();
+
         $dirname = public_path('upload/properties/' . $property->code);
         $dirname2 = public_path('upload/properties/' . $property->code . '/multipleImages/');
 
-        if (is_dir($dirname)) {
-            array_map('unlink', glob("$dirname/*.*"));
-            array_map('unlink', glob("$dirname2/*.*"));
-            rmdir($dirname2);
-            rmdir($dirname);
+        // Check if directories exist before attempting to delete
+        if (is_dir($dirname2)) {
+            array_map('unlink', glob("$dirname2/*.*")); // Delete all files inside multipleImages directory
+            rmdir($dirname2); // Remove the multipleImages directory
         }
+
+        if (is_dir($dirname)) {
+            array_map('unlink', glob("$dirname/*.*")); // Delete all files inside properties directory
+            rmdir($dirname); // Remove the properties directory
+        }
+
         toastr()->success('Propiedad eliminada, satisfactoriamente', '!Bien!');
-
-
-        return redirect()->back()->with('status', 'eliminated');
+        return redirect()->route('admin.properties.index')->with('status', 'eliminated');
 
     }
 

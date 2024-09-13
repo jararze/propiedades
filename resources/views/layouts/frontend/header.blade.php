@@ -79,7 +79,7 @@
                             <ul class="navigation clearfix">
                                 <li class="@if($currenturl == '/'){{ 'current' }} @endif"><a href="{{ route('index') }}"><span>Inicio</span></a></li>
                                 <li class="@if($currenturl == 'about'){{ 'current' }} @endif"><a href="{{ route('about') }}"><span>Nosotros</span></a></li>
-{{--                                <li class="@if($currenturl == ''){{ 'current' }} @endif"><a href=""><span>Agentes</span></a></li>--}}
+                                <li class="@if($currenturl == 'blog'){{ 'current' }} @endif"><a href="https://blog.propropiedades.com.bo/" target="_blank"><span>Blog</span></a></li>
                                 <li class="@if($currenturl == route("front.project.index")){{ 'current' }} @endif"><a href="{{ route("front.project.index") }}"><span>Proyectos</span></a></li>
                                 <li class="dropdown"><a href="{{ route("front.properties.index", 'allProperties') }}"><span>Propiedades</span></a>
                                     <ul>
