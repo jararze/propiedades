@@ -32,12 +32,10 @@
                         <div class="download-btn">
                             <a class="app-store" href="{{ $advertising[0]->button1_link }}">
                                 <i class="{{ $advertising[0]->button1_icon }}"></i>
-                                <p>dsajhdsakjdhajsk</p>
                                 <h4>{{ $advertising[0]->button1 }}</h4>
                             </a>
                             <a class="google-play" href="{{ $advertising[0]->button2_link }}">
                                 <i class="{{ $advertising[0]->button2_icon }}"></i>
-                                <p>dsajhdsakjdhajsk</p>
                                 <h4>{{ $advertising[0]->button2 }}</h4>
                             </a>
                         </div>
