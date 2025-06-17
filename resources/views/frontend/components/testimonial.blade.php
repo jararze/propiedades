@@ -1,10 +1,10 @@
 <!-- testimonial-section end -->
 <section class="testimonial-section bg-color-1 centred">
-    <div class="pattern-layer" style="background-image: url({{asset('front/assets/images/shape/shape-1.png')}});"></div>
+    <div class="pattern-layer" style="background-image: url({{asset('front/assets/images/background/Nuestro-Equipo.png')}});"></div>
     <div class="auto-container">
         <div class="sec-title">
             <h5>Testimonios</h5>
-            <h2>Lo que dicen de nosotros</h2>
+            <h2>❝Somos un equipo unido❞</h2>
         </div>
         <div class="single-item-carousel owl-carousel owl-theme owl-dots-none nav-style-one">
             @foreach($testimonies as $testimony)

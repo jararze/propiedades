@@ -6,8 +6,8 @@
     <div class="auto-container">
         <div class="inner-container">
             <div class="content-box centred">
-                <h2>ProPropiedades</h2>
-                <p>Un paso mas cerca al lugar que te mereces.</p>
+                <h2>PRO Propiedades</h2>
+                <p>Profesionales en el mercado inmobiliario.</p>
             </div>
             <div class="search-field">
                 <div class="tabs-box">

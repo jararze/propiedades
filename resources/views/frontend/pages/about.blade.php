@@ -1,7 +1,7 @@
 <x-front-layout>
 
     <!--Page Title-->
-    <section class="page-title centred" style="background-image: url({{ asset('front/assets/images/background/page-title-3.jpg')}});">
+    <section class="page-title centred" style="background-image: url({{ asset('front/assets/images/background/Nuestro-Equipo.png')}});">
         <div class="auto-container">
             <div class="content-box clearfix">
                 <h1>Sobre nosotros</h1>
@@ -23,10 +23,10 @@
                     <div class="col-lg-6 col-md-12 col-sm-12 image-column">
                         <div class="image_block_2">
                             <div class="image-box">
-                                <figure class="image"><img src="{{ asset('front/assets/images/resource/about-1.jpg')}}" alt=""></figure>
+                                <figure class="image"><img src="{{ asset('front/assets/images/resource/ProPropiedades-about1.jpg')}}" alt=""></figure>
                                 <div class="text wow fadeInLeft animated" data-wow-delay="00ms" data-wow-duration="1500ms">
-                                    <h2>20</h2>
-                                    <h4>Años de <br />Experiencia</h4>
+                                    <h2>Expertos <br />en asesoría <br />inmobiliaria</h2>
+                                    <!--<h4>Años de <br />Experiencia</h4>-->
                                 </div>
                             </div>
                         </div>
@@ -36,18 +36,18 @@
                             <div class="content-box">
                                 <div class="sec-title">
                                     <h5>Sobre nosotros</h5>
-                                    <h2>Hola, soy Karen Alvarez</h2>
+                                    <h2>¡HOLA!, Somos PRO Propiedades</h2>
                                 </div>
                                 <div class="text">
-                                    <p>Dolor sit amet consectetur elit sed do eiusmod tempor incididunt labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris aliquip ex ea commodo consequat duis aute irure.</p>
-                                    <p>dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat.</p>
+                                    <p>Misión:</p>
+                                    <p>En Pro Propiedades, nuestra misión es ser el puente confiable entre la oferta y la demanda de bienes inmuebles en La Paz y El Alto, Bolivia. Nos esforzamos por ofrecer un servicio integral y profesional que se caracteriza por nuestra transparencia y dedicación. Trabajamos incansablemente para garantizar la satisfacción de nuestros clientes y asesores de venta ayudándoles a mejorar y completar todas sus metas</p>
                                 </div>
-                                <ul class="list clearfix">
+                            <!--<ul class="list clearfix">
                                     <li>consectetur elit sed do eius</li>
                                     <li>consectetur elit sed</li>
-                                </ul>
+                                </ul> -->
                                 <div class="btn-box">
-                                    <a href="contact.html" class="theme-btn btn-one">Contáctame</a>
+                                    <a href="contact.html" class="theme-btn btn-one">Comunícate con nosotros</a>
                                 </div>
                             </div>
                         </div>
@@ -64,31 +64,31 @@
         <div class="auto-container">
             <div class="sec-title">
                 <h5>Nuestros Servicios</h5>
-                <h2>ProPropiedades</h2>
+                <h2>PRO Propiedades</h2>
             </div>
             <div class="three-item-carousel owl-carousel owl-theme owl-nav-none dots-style-one">
                 <div class="feature-block-two">
                     <div class="inner-box">
                         <div class="icon-box"><i class="icon-1"></i></div>
-                        <h4>Excellent Reputation</h4>
-                        <p>Lorem ipsum dolor sit consectetur sed eiusm tempor incididunt dolore magna.</p>
+                        <h4>Los mejores asesores</h4>
+                        <p>Tenemos a un equipo entregado a su trabajo y al cual siempre ayudamos para brindar el mejor servicio</p>
                     </div>
                 </div>
                 <div class="feature-block-two">
                     <div class="inner-box">
                         <div class="icon-box"><i class="icon-26"></i></div>
-                        <h4>Best Local Agents</h4>
-                        <p>Lorem ipsum dolor sit consectetur sed eiusm tempor incididunt dolore magna.</p>
+                        <h4>Somos tu socio confiable</h4>
+                        <p> Cuidamos cada movimiento y detalles para siempre tener la mejor oferta segura en el mercado</p>
                     </div>
                 </div>
                 <div class="feature-block-two">
                     <div class="inner-box">
                         <div class="icon-box"><i class="icon-21"></i></div>
-                        <h4>Personalized Service</h4>
-                        <p>Lorem ipsum dolor sit consectetur sed eiusm tempor incididunt dolore magna.</p>
+                        <h4>Servicio Profesional</h4>
+                        <p>Estamos en toda la ciudad de La Paz y El Alto, venderemos tu propiedad o conseguiremos el mejor lugar para que puedas vivir</p>
                     </div>
                 </div>
-                <div class="feature-block-two">
+<!--            <div class="feature-block-two">
                     <div class="inner-box">
                         <div class="icon-box"><i class="icon-1"></i></div>
                         <h4>Excellent Reputation</h4>
@@ -129,7 +129,7 @@
                         <h4>Personalized Service</h4>
                         <p>Lorem ipsum dolor sit consectetur sed eiusm tempor incididunt dolore magna.</p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -212,7 +212,7 @@
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-12 col-sm-12 title-column">
                     <div class="sec-title">
-                        <h5>Nuestros socios</h5>
+                        <h5>Nuestras Redes Sociales</h5>
                         <h2>Nos convertiremos en socios a largo plazo.</h2>
                     </div>
                 </div>
@@ -220,20 +220,20 @@
                     <div class="clients-logo">
                         <ul class="logo-list clearfix">
                             <li>
-                                <figure class="logo"><a href="index-2.html"><img src="{{ asset('front/assets/images/clients/clients-1.png')}}" alt=""></a></figure>
+                                <figure class="logo"><a href="https://www.facebook.com/propiedadesventaalquileranticretico"><img src="{{ asset('front/assets/images/clients/facebook.png')}}" alt=""></a></figure>
                             </li>
                             <li>
-                                <figure class="logo"><a href="index-2.html"><img src="{{ asset('front/assets/images/clients/clients-2.png')}}" alt=""></a></figure>
+                                <figure class="logo"><a href="https://www.instagram.com/propropiedades_oficial"><img src="{{ asset('front/assets/images/clients/instagram.png')}}" alt=""></a></figure>
                             </li>
                             <li>
-                                <figure class="logo"><a href="index-2.html"><img src="{{ asset('front/assets/images/clients/clients-3.png')}}" alt=""></a></figure>
+                                <figure class="logo"><a href="https://www.tiktok.com/@propropiedades_oficial"><img src="{{ asset('front/assets/images/clients/tiktok.png')}}" alt=""></a></figure>
                             </li>
-                            <li>
+<!--                             <li>
                                 <figure class="logo"><a href="index-2.html"><img src="{{ asset('front/assets/images/clients/clients-4.png')}}" alt=""></a></figure>
                             </li>
                             <li>
                                 <figure class="logo"><a href="index-2.html"><img src="{{ asset('front/assets/images/clients/clients-5.png')}}" alt=""></a></figure>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
