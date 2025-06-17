@@ -17,7 +17,7 @@
                         <div class="chooseus-block-one">
                             <div class="inner-box">
                                 <div class="icon-box"><i class="icon-19"></i></div>
-                                <h4>Excelente reputación</h4>
+                                <h4>Somos tu socio confiable</h4>
                                 <p>{{  $configuration[7]->value }}</p>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                         <div class="chooseus-block-one">
                             <div class="inner-box">
                                 <div class="icon-box"><i class="icon-26"></i></div>
-                                <h4>Los mejores agentes</h4>
+                                <h4>Los mejores asesores</h4>
                                 <p>{{  $configuration[8]->value }}</p>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                         <div class="chooseus-block-one">
                             <div class="inner-box">
                                 <div class="icon-box"><i class="icon-21"></i></div>
-                                <h4>Servicio personalizado</h4>
+                                <h4>Servicio profecional</h4>
                                 <p>{{  $configuration[9]->value }}</p>
                             </div>
                         </div>

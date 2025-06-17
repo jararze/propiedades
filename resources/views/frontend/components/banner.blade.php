@@ -6,7 +6,7 @@
     <div class="auto-container">
         <div class="inner-container">
             <div class="content-box centred">
-                <h2>PRO Propiedades</h2>
+                <h2><span style="color:#ffb300;">PRO</span> Propiedades</h2>
                 <p>Profesionales en el mercado inmobiliario.</p>
             </div>
             <div class="search-field">
