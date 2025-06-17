@@ -24,8 +24,8 @@
                         <div class="image_block_2">
                             <div class="image-box">
                                 <figure class="image"><img src="{{ asset('front/assets/images/resource/ProPropiedades-about1.jpg')}}" alt=""></figure>
-                                <div class="text wow fadeInLeft animated" data-wow-delay="00ms" data-wow-duration="1500ms">
-                                    <h2>Expertos <br />en asesoría <br />inmobiliaria</h2>
+                                <div class="text wow fadeInLeft animated" data-wow-delay="00ms" data-wow-duration="1500ms" style="padding: 27px 0px !important; width: 185px">
+                                    <h4>Expertos <br />en asesoría <br />inmobiliaria</h4>
                                     <!--<h4>Años de <br />Experiencia</h4>-->
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                             <div class="content-box">
                                 <div class="sec-title">
                                     <h5>Sobre nosotros</h5>
-                                    <h2>¡HOLA!, Somos PRO Propiedades</h2>
+                                    <h2>¡HOLA! <br> Somos PRO Propiedades</h2>
                                 </div>
                                 <div class="text">
                                     <p>Misión:</p>
@@ -220,13 +220,13 @@
                     <div class="clients-logo">
                         <ul class="logo-list clearfix">
                             <li>
-                                <figure class="logo"><a href="https://www.facebook.com/propiedadesventaalquileranticretico"><img src="{{ asset('front/assets/images/clients/facebook.png')}}" alt=""></a></figure>
+                                <figure class="logo"><a target="_blank" href="https://www.facebook.com/propiedadesventaalquileranticretico"><img src="{{ asset('front/assets/images/clients/facebook.png')}}" alt=""></a></figure>
                             </li>
                             <li>
-                                <figure class="logo"><a href="https://www.instagram.com/propropiedades_oficial"><img src="{{ asset('front/assets/images/clients/instagram.png')}}" alt=""></a></figure>
+                                <figure class="logo"><a target="_blank" href="https://www.instagram.com/propropiedades_oficial"><img src="{{ asset('front/assets/images/clients/instagram.png')}}" alt=""></a></figure>
                             </li>
                             <li>
-                                <figure class="logo"><a href="https://www.tiktok.com/@propropiedades_oficial"><img src="{{ asset('front/assets/images/clients/tiktok.png')}}" alt=""></a></figure>
+                                <figure class="logo"><a target="_blank" href="https://www.tiktok.com/@propropiedades_oficial"><img src="{{ asset('front/assets/images/clients/tiktok.png')}}" alt=""></a></figure>
                             </li>
 <!--                             <li>
                                 <figure class="logo"><a href="index-2.html"><img src="{{ asset('front/assets/images/clients/clients-4.png')}}" alt=""></a></figure>
